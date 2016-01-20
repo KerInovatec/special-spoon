@@ -2,13 +2,21 @@ package Abiturklassen.main;
 
 public class MatchBoxClient extends Abiturklassen.Client
 {
+    public ClientState state;
 
-    public MatchBoxClient(String pIPAdresse, int pPortNr) {
+    public MatchBoxClient(String pIPAdresse, int pPortNr)
+    {
         super(pIPAdresse, pPortNr);
+        state = ClientState.EMPTY;
     }
-     public void processMessage(String pMessage)
-     {
-         
-     }
-    
+
+    @Override
+    public void processMessage(String pMessage)
+    {
+        switch(state)
+        {
+
+        }
+    }
+
 }
