@@ -17,6 +17,10 @@ public class Zahl {
     public Zahl(int zahl) {
         setZahl(zahl);
     }
+    public Zahl()
+    {
+        
+    }
 
     public void setZahlCode(boolean[] zahlCode) {
         this.zahlCode = zahlCode;

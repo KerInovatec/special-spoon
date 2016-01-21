@@ -4,24 +4,41 @@ import Abiturklassen.List;
 import Abiturklassen.BinaryTree;
 
 public class Control {
-    
+
     BinaryTree zahlenBaum;
+
     public Control() {
+
+        zahlenBaum = new BinaryTree("ich bin nicht leer");
+        Zahl hZahl = new Zahl();
         
-        zahlenBaum =  new BinaryTree();
-        
+        for(int i = 0;i < 9;i++)
+        {
+            hZahl.setZahl(i);
+            this.erstelleBaum(zahlenBaum, hZahl.getZahlCode(), 0);
+        }
+
     }
-    private void erstelleBaum(BinaryTree pBaum,boolean pBol,int pInt)
-    {      
-        
+
+    private void erstelleBaum(BinaryTree pBaum, boolean[] pBol, int pInt) {
+        if (pInt <= 6) {
+            if (pBol[pInt]) {
+                pBaum.setLeftTree(new BinaryTree(pBol[pInt]));
+                 this.erstelleBaum(pBaum.getLeftTree(), pBol, pInt+1);
+            } else {
+                pBaum.setRightTree(new BinaryTree(pBol[pInt]));
+                 this.erstelleBaum(pBaum.getRightTree(), pBol, pInt+1);
+            }
+        }else{
+            pBaum.setObject(pInt+1);
+        }
+       
     }
-    
 
     public boolean isNumber(boolean[] pZahlcode) {
-        
-       return true;
-    }
 
+        return true;
+    }
 
     public void moveMatch(List pEquasion, int pZahlIndex1, int pZahlIndex2, int pIndex1, int pIndex2) {
 
