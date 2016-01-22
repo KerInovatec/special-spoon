@@ -1,4 +1,4 @@
-package de.streichholzprojekt.server;
+package de.streichholzprojekt.server.abiturklassen;
 
 /**
  * <p>
