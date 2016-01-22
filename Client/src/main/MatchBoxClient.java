@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 
 public class MatchBoxClient extends main.abi.Client
 {
@@ -23,14 +24,16 @@ public class MatchBoxClient extends main.abi.Client
         switch(state)
         {
             case LIST:
-                //JSON auflösen
+                ArrayList<Integer> rooms;
+                rooms = new ArrayList<Integer>();
                 Gson gson = new Gson();
                 JsonObject lObject = gson.fromJson(pMessage, JsonObject.class);
                 JsonArray array = lObject.getAsJsonArray();
                 for(JsonElement curObject : array)
                 {
-                    curObject.getAsJsonObject().get("id").getAsInt();
+                    rooms.add(curObject.getAsJsonObject().get("id").getAsInt());
                 }
+                con.setRooms(rooms);
                 break;
 
             default:

@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import main.abi.BinaryTree;
 import main.abi.List;
 
@@ -15,8 +16,11 @@ public class Control
 
         zahlenBaum = new BinaryTree("ich bin nicht leer");
         this.main = main;
-        client = new MatchBoxClient(this, "10.16.12.1", 1234);
+        //client = new MatchBoxClient(this, "10.16.12.1", 1234);
         Zahl hZahl = new Zahl();
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        a.add(Integer.SIZE);
+        this.setRooms(a);
 
         for(int i = 0; i < 9; i++)
         {
@@ -130,5 +134,10 @@ public class Control
             }
         }
         return ausgabe;
+    }
+
+    void setRooms(ArrayList<Integer> rooms)
+    {
+        main.setRooms(rooms);
     }
 }
