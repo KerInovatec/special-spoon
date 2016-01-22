@@ -1,6 +1,6 @@
-package Abiturklassen.main;
+package main;
 
-public class MatchBoxClient extends Abiturklassen.Client
+public class MatchBoxClient extends main.abi.Client
 {
     public ClientState state;
 
@@ -15,7 +15,12 @@ public class MatchBoxClient extends Abiturklassen.Client
     {
         switch(state)
         {
+            case LIST:
+                //JSON auflösen
+                break;
 
+            default:
+                break;
         }
     }
 

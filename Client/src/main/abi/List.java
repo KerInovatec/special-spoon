@@ -1,4 +1,4 @@
-package Abiturklassen;
+package main.abi;
 
 /**
  * <p>

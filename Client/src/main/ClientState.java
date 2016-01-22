@@ -1,4 +1,4 @@
-package Abiturklassen.main;
+package main;
 
 public enum ClientState
 {

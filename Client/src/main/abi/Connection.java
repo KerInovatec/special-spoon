@@ -1,4 +1,4 @@
-package Abiturklassen;
+package main.abi;
 
 import java.io.BufferedReader;
 import java.io.IOException;

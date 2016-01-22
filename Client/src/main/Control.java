@@ -1,7 +1,7 @@
-package Abiturklassen.main;
+package main;
 
-import Abiturklassen.List;
-import Abiturklassen.BinaryTree;
+import main.abi.List;
+import main.abi.BinaryTree;
 
 public class Control {
 
