@@ -1,16 +1,27 @@
 package main;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import main.abi.BinaryTree;
+>>>>>>> origin/master
 import main.abi.List;
 
 public class Control
 {
 
+<<<<<<< HEAD
     MatchBoxClient client;
+=======
+    BinaryTree zahlenBaum;
+    private MatchBoxClient client;
+>>>>>>> origin/master
     private FrmMain main;
 
     public Control(FrmMain main)
     {
 
+<<<<<<< HEAD
         Zahl hZahl = new Zahl();
         this.main = main;
         client = new MatchBoxClient(this, "10.16.12.1", 1234);
@@ -49,6 +60,50 @@ public class Control
             }
         }
         return ausgabe;
+=======
+        zahlenBaum = new BinaryTree("ich bin nicht leer");
+        this.main = main;
+        //client = new MatchBoxClient(this, "10.16.12.1", 1234);
+        Zahl hZahl = new Zahl();
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        a.add(Integer.SIZE);
+        this.setRooms(a);
+
+        for(int i = 0; i < 9; i++)
+        {
+            hZahl.setZahl(i);
+            this.erstelleBaum(zahlenBaum, hZahl.getZahlCode(), 0);
+        }
+
+    }
+
+    private void erstelleBaum(BinaryTree pBaum, boolean[] pBol, int pInt)
+    {
+        if(pInt <= 6)
+        {
+            if(pBol[pInt])
+            {
+                pBaum.setLeftTree(new BinaryTree(pBol[pInt]));
+                this.erstelleBaum(pBaum.getLeftTree(), pBol, pInt + 1);
+            }
+            else
+            {
+                pBaum.setRightTree(new BinaryTree(pBol[pInt]));
+                this.erstelleBaum(pBaum.getRightTree(), pBol, pInt + 1);
+            }
+        }
+        else
+        {
+            pBaum.setObject(pInt + 1);
+        }
+
+    }
+
+    public boolean isNumber(boolean[] pZahlcode)
+    {
+
+        return true;
+>>>>>>> origin/master
     }
 
     public void moveMatch(List pEquasion, int pZahlIndex1, int pZahlIndex2, int pIndex1, int pIndex2)
@@ -127,5 +182,10 @@ public class Control
             }
         }
         return ausgabe;
+    }
+
+    void setRooms(ArrayList<Integer> rooms)
+    {
+        main.setRooms(rooms);
     }
 }
