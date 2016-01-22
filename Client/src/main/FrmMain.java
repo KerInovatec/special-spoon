@@ -155,8 +155,8 @@ public class FrmMain extends javax.swing.JFrame
     private javax.swing.JMenuItem mnuQuit;
     // End of variables declaration//GEN-END:variables
 
-    void setRooms(ArrayList<Integer> rooms)
+    void setRooms(ArrayList rooms)
     {
-        jList1.setListData(rooms.toArray(new Integer[rooms.size()]));
+        jList1.setListData(rooms.toArray(new String[rooms.size()]));
     }
 }
