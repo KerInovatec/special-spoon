@@ -4,7 +4,7 @@ public class MatchBoxClient extends main.abi.Client
 {
     public ClientState state;
 
-    public MatchBoxClient(String pIPAdresse, int pPortNr)
+    public MatchBoxClient(Control con, String pIPAdresse, int pPortNr)
     {
         super(pIPAdresse, pPortNr);
         state = ClientState.EMPTY;
