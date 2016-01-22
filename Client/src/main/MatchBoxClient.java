@@ -24,14 +24,14 @@ public class MatchBoxClient extends main.abi.Client
         switch(state)
         {
             case LIST:
-                ArrayList<Integer> rooms;
-                rooms = new ArrayList<Integer>();
+                ArrayList<String> rooms;
+                rooms = new ArrayList<String>();
                 Gson gson = new Gson();
-                JsonObject lObject = gson.fromJson(pMessage, JsonObject.class);
+                JsonObject lObject = gson.fromJson(pMessage.substring(4), JsonObject.class);
                 JsonArray array = lObject.getAsJsonArray();
                 for(JsonElement curObject : array)
                 {
-                    rooms.add(curObject.getAsJsonObject().get("id").getAsInt());
+                    rooms.add(curObject.getAsJsonObject().get("name").getAsString());
                 }
                 con.setRooms(rooms);
                 break;

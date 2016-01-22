@@ -132,7 +132,7 @@ public class Control
         return ausgabe;
     }
 
-    void setRooms(ArrayList<Integer> rooms)
+    void setRooms(ArrayList rooms)
     {
         main.setRooms(rooms);
     }
