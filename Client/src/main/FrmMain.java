@@ -5,6 +5,7 @@ public class FrmMain extends javax.swing.JFrame
     private static final long serialVersionUID = 1L;
 
     Control c;
+
     public FrmMain()
     {
         initComponents();
@@ -49,7 +50,7 @@ public class FrmMain extends javax.swing.JFrame
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        c = new Control();
+        c = new Control(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[])
