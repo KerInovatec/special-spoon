@@ -9,12 +9,12 @@ package de.streichholzprojekt.server.enumeration;
  *
  * @author pascal.wiedenbeck
  */
-public enum MessageType
-{
+public enum MessageType {
     LOGIN,
     LOGOUT,
     CREATE_ROOM,
     JOIN_ROOM,
     LEAVE_ROOM,
-    LIST_ROOMS
+    LIST_ROOMS,
+    UNKOWN
 }
