@@ -8,6 +8,7 @@ public class FrmMain extends javax.swing.JFrame
 
     private static final long serialVersionUID = 1L;
     private Control control;
+    private Streichholzpanel shp;
 
     public FrmMain()
     {
@@ -15,7 +16,8 @@ public class FrmMain extends javax.swing.JFrame
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jMenu1 = new javax.swing.JMenu();
         jButton1 = new javax.swing.JButton();
@@ -46,54 +48,60 @@ public class FrmMain extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("DoStuff!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
 
         jButton2.setText("Beenden");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
 
         jScrollPane1.setViewportView(jList1);
 
-        jMatch1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
-        jMatch1_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch1_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch1_3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch1_3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch1_4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch1_4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
-        jMatch1_5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch1_5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch1_6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch1_6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch1_7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch1_7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
-        jMatch2_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch2_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
-        jMatch2_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch2_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch2_3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch2_3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch2_4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch2_4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
-        jMatch2_5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch2_5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch2_6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Vertical.png"))); // NOI18N
+        jMatch2_6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Vertical.png"))); // NOI18N
 
-        jMatch2_7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resorses/Horizontal.png"))); // NOI18N
+        jMatch2_7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
 
         mnuFile.setText("Datei");
 
         mnuQuit.setText("Beenden");
-        mnuQuit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        mnuQuit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 mnuQuitActionPerformed(evt);
             }
         });
