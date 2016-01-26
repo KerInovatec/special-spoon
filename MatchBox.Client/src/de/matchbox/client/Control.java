@@ -3,13 +3,15 @@ package de.matchbox.client;
 import com.google.gson.Gson;
 import de.matchbox.client.forms.FrmMain;
 import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.StandardGsonBuilder;
+import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
+import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.enumeration.MessageType;
-import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class Control {
-
     private final MatchBoxClient client;
     private final FrmMain main;
 
@@ -22,10 +24,10 @@ public class Control {
     public void process(MessageObject pMessageObject) {
         switch (pMessageObject.getNachrichtenTyp()) {
             case LIST_ROOMS:
-                if (!(pMessageObject.getContentObject().containsKey("rooms"))) {
+                if (!(pMessageObject.getContentObject() instanceof ListRoomsContentObject)) {
                     return;
                 }
-                this.main.setRooms(new Gson().fromJson(pMessageObject.getContentObject().get("rooms"), Map.class));
+                this.main.setRooms(((ListRoomsContentObject)pMessageObject.getContentObject()).getRooms());
                 break;
             case LOGIN:
                 JOptionPane.showMessageDialog(null, new Gson().toJson(pMessageObject));

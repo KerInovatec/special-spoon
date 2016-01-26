@@ -2,6 +2,7 @@ package de.matchbox.client;
 
 import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.StandardGsonBuilder;
 
 public class MatchBoxClient extends de.matchbox.client.abiturklassen.Client
 {
@@ -16,7 +17,7 @@ public class MatchBoxClient extends de.matchbox.client.abiturklassen.Client
     @Override
     public void processMessage(String pMessage)
     {
-        Gson lGsonObject = new Gson();
+        Gson lGsonObject = new StandardGsonBuilder().create();
         try{
             MessageObject lMessageObject = lGsonObject.fromJson(pMessage, MessageObject.class);
             this.control.process(lMessageObject);

@@ -6,8 +6,8 @@
 package de.matchbox.communication;
 
 import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.IMessageContentObject;
 import de.matchbox.communication.enumeration.MessageType;
-import java.util.Map;
 
 /**
  *
@@ -16,9 +16,9 @@ import java.util.Map;
 public class MessageObject {
 
     private final MessageType nachrichtenTyp;
-    private final Map<String, String> contentObject;
+    private final IMessageContentObject contentObject;
 
-    public MessageObject(MessageType pNachrichtenTyp, Map<String, String> pContentObject) {
+    public MessageObject(MessageType pNachrichtenTyp, IMessageContentObject pContentObject) {
         this.nachrichtenTyp = pNachrichtenTyp;
         this.contentObject = pContentObject;
     }
@@ -37,7 +37,7 @@ public class MessageObject {
         return nachrichtenTyp;
     }
 
-    public Map<String, String> getContentObject() {
+    public IMessageContentObject getContentObject() {
         return contentObject;
     }
 }

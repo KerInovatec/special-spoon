@@ -2,6 +2,7 @@ package de.matchbox.server;
 
 import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.ErrorContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.server.abiturklassen.List;
@@ -30,7 +31,7 @@ public class StreichholzServer extends Server {
 
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
-        Gson lGsonObject = new Gson();
+        Gson lGsonObject = new StandardGsonBuilder().create();
         try {
             MessageObject lMessageObject = lGsonObject.fromJson(pMessage, MessageObject.class);
             this.control.process(lMessageObject, this.getClient(pClientIP, pClientPort), this);
