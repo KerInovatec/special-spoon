@@ -13,11 +13,13 @@ public class StreichholzServer extends Server {
 
     private final Control control;
     private final List clientList;
+    private final List roomList;
 
     public StreichholzServer(int pPortNr, Control pControl) {
         super(pPortNr);
         this.control = pControl;
         this.clientList = new List();
+        this.roomList = new List();
     }
 
     @Override
@@ -93,5 +95,31 @@ public class StreichholzServer extends Server {
 
     private void addClient(String pIp, int pPort) {
         this.clientList.append(new Client(pIp, pPort, this));
+    }
+    
+    public boolean logoutClient(Client pClient){
+        if(pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort())) return false;
+        this.deleteClient(pClient.getIp(), pClient.getPort());
+        return true;
+    }
+    
+    public boolean createRoom(Room pRoom){
+        if(pRoom == null || this.containsRoom(pRoom)) return false;
+        this.roomList.append(pRoom);
+        return true;
+    }
+    
+    private boolean containsRoom(Room pRoom){
+        this.clientList.toFirst();
+        while (this.clientList.hasAccess()) {
+            if (this.clientList.getObject().getClass() == Client.class) {
+                Room lRoom = (Room) this.clientList.getObject();
+                if (pRoom.getName().equals(lRoom.getName())) {
+                    return true;
+                }
+            }
+            this.clientList.next();
+        }
+        return false;
     }
 }

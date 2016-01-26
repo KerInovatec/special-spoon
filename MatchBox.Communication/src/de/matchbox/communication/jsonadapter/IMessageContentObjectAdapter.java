@@ -22,8 +22,8 @@ import java.lang.reflect.Type;
  */
 public class IMessageContentObjectAdapter implements JsonSerializer<IMessageContentObject>, JsonDeserializer<IMessageContentObject> {
 
-    private static final String CLASSNAME = "CLASSNAME";
-    private static final String INSTANCE = "INSTANCE";
+    private static final String CLASSNAME = "classname";
+    private static final String INSTANCE = "instance";
 
     @Override
     public JsonElement serialize(IMessageContentObject t, Type type, JsonSerializationContext jsc) {

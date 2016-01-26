@@ -5,12 +5,12 @@
  */
 package de.matchbox.communication.contentobjects.client;
 
-import java.util.HashMap;
+import de.matchbox.communication.contentobjects.IMessageContentObject;
 
 /**
  *
  * @author Pascal
  */
-public class JoinRoomContentObject extends HashMap<String, String>{
+public class JoinRoomContentObject implements IMessageContentObject{
     
 }
