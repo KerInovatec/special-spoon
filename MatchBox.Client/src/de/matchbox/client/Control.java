@@ -3,14 +3,15 @@ package de.matchbox.client;
 import com.google.gson.Gson;
 import de.matchbox.client.forms.FrmMain;
 import de.matchbox.communication.MessageObject;
-import de.matchbox.communication.contentobjects.client.ListRoomsContentObject;
+import de.matchbox.communication.StandardGsonBuilder;
+import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
+import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.enumeration.MessageType;
-import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class Control {
-
     private final MatchBoxClient client;
     private final FrmMain main;
 

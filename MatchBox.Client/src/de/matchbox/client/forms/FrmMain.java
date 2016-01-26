@@ -1,5 +1,6 @@
 package de.matchbox.client.forms;
 
+import de.matchbox.client.Control;
 import de.matchbox.client.abiturklassen.List;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
@@ -11,15 +12,16 @@ public class FrmMain extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
     private final JLabel jMatchArr[][];
     private final JLabel jSpaceArr[][];
+    private final Control control;
 
     public FrmMain() {
+        this.control = new Control(this);
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
