@@ -82,7 +82,7 @@ public class MatchUtility
         List ausgabe = new List();
         for(int i = 0; i < pEquation.length(); i++)
         {
-            if(!(pEquation.charAt(i) == '+' || pEquation.charAt(i) == '-' || pEquation.charAt(i) == '='))
+            if(!(pEquation.charAt(i) == '+' || pEquation.charAt(i) == '-' || pEquation.charAt(i) == '=' || pEquation.charAt(i) == '*'))
             {
                 ausgabe.append(new Zahl(Integer.parseInt(pEquation.charAt(i) + "")));
             }

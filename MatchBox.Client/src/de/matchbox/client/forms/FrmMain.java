@@ -14,8 +14,9 @@ public class FrmMain extends javax.swing.JFrame {
 
     public FrmMain() {
         initComponents();
-        jMatchArr = new JLabel[7][9];
-        jSpaceArr = new JLabel[7][9];
+        jMatchArr = new JLabel[8][10];
+        jSpaceArr = new JLabel[8][10];
+        this.createArr();
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -175,7 +176,7 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
 
         jButton1.setText("DoStuff!");
@@ -776,23 +777,24 @@ public class FrmMain extends javax.swing.JFrame {
         lGleichung.toFirst();
         while (lGleichung.hasAccess()) {
 
-            if (!(lGleichung.getObject() instanceof Zahl)) {
+            if ((lGleichung.getObject() instanceof Zahl)) {
                 lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
                 for (int i = 1; i <= 7; i++) {
                     jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
                 }
                 ZahlIndex++;
-            } else if (lGleichung.getObject().equals("*")) {
+            } else if ((char) lGleichung.getObject() == '*') {
                 ZahlIndex++;
+                
             } else {
                 if ((char) lGleichung.getObject() == '+') {
                     jMinus.setVisible(false);
                 } else if ((char) lGleichung.getObject() == '-') {
                     jPlus.setVisible(false);
-                } else {
-
-                    ZahlIndex++;
                 }
+
+                
+
             }
             lGleichung.next();
         }
