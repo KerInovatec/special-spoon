@@ -5,17 +5,21 @@
  */
 package de.matchbox.communication.contentobjects.client;
 
-import com.google.gson.Gson;
-import java.util.HashMap;
+import de.matchbox.communication.contentobjects.IMessageContentObject;
 import java.util.Map;
 
 /**
  *
  * @author Pascal
  */
-public class ListRoomsContentObject extends HashMap<String, String> {
-
+public class ListRoomsContentObject implements IMessageContentObject{
+    private final Map<Integer, String> rooms;
+            
     public ListRoomsContentObject(Map<Integer, String> pRoomList) {
-        this.put("rooms", new Gson().toJson(pRoomList));
+        this.rooms = pRoomList;
+    }
+
+    public Map<Integer, String> getRooms() {
+        return rooms;
     }
 }

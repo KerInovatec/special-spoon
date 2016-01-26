@@ -5,15 +5,20 @@
  */
 package de.matchbox.communication.contentobjects.client;
 
-import java.util.HashMap;
+import de.matchbox.communication.contentobjects.IMessageContentObject;
 
 /**
  *
  * @author Pascal
  */
-public class LoginContentObject extends HashMap<String, String>{
+public class LoginContentObject implements IMessageContentObject{
+    private final String username;
     
     public LoginContentObject(String pUsername){
-        this.put("username", pUsername);
+        this.username = pUsername;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

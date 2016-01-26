@@ -6,20 +6,29 @@
 package de.matchbox.communication.contentobjects;
 
 import de.matchbox.communication.enumeration.ErrorType;
-import java.util.HashMap;
 
 /**
  *
  * @author Pascal
  */
-public class ErrorContentObject extends HashMap<String,String>{
+public class ErrorContentObject implements IMessageContentObject{
+    private final ErrorType errorType;
+    private String errorText;
     
     public ErrorContentObject(ErrorType pErrorType, String pErrorText){
-        this.put("error_type", pErrorType.name());
-        this.put("error_text", pErrorText);
+        this.errorType = pErrorType;
+        this.errorText = pErrorText;
     }
     
     public ErrorContentObject(ErrorType pErrorType){
-        this.put("error_type", pErrorType.name());
+        this.errorType = pErrorType;
+    }
+
+    public ErrorType getErrorType() {
+        return errorType;
+    }
+
+    public String getErrorText() {
+        return errorText;
     }
 }

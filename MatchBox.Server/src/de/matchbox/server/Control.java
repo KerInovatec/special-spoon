@@ -17,8 +17,8 @@ public class Control {
     public void process(MessageObject pMessageObject, Client pClient, Server pServer) {
         switch (pMessageObject.getNachrichtenTyp()) {
             case LOGIN:
-                if (pMessageObject.getContentObject().containsKey("username")) {
-                    pClient.setUsername(pMessageObject.getContentObject().get("username"));
+                if (pMessageObject.getContentObject() instanceof LoginContentObject) {
+                    pClient.setUsername(((LoginContentObject) pMessageObject.getContentObject()).getUsername());
                     pServer.send(pClient, new Gson().toJson(new MessageObject(MessageType.LOGIN)));
                 } else {
                     pServer.send(pClient, new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));

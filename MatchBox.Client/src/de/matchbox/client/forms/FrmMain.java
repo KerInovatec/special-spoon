@@ -9,16 +9,16 @@ import javax.swing.JLabel;
 public class FrmMain extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
-    private JLabel jMatchArr[][];
-    private JLabel jSpaceArr[][];
+    private final JLabel jMatchArr[][];
+    private final JLabel jSpaceArr[][];
 
     public FrmMain() {
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
-        setResizable(false);
-        setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
 
     }
 
@@ -976,7 +976,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuQuit;
     // End of variables declaration//GEN-END:variables
 
-    public void setRooms(Map<String, String> rooms) {
+    public void setRooms(Map<Integer, String> rooms) {
         jList1.setListData(rooms.entrySet().toArray());
     }
 
