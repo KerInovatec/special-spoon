@@ -14,6 +14,10 @@ import de.matchbox.client.abiturklassen.List;
  */
 public class MatchUtility
 {
+
+    public MatchUtility() {
+    }
+    
     public static void moveMatch(List pEquasion, int pZahlIndex1, int pZahlIndex2, int pIndex1, int pIndex2)
     {
 
