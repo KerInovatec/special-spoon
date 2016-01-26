@@ -3,7 +3,7 @@ package de.matchbox.server;
 import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
-import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.server.abiturklassen.List;
 import de.matchbox.server.abiturklassen.Server;

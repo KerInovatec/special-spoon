@@ -7,7 +7,7 @@ package de.matchbox.communication;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.IMessageContentObject;
 import de.matchbox.communication.instancecreators.ErrorContentObjectInstanceCreator;
 import de.matchbox.communication.jsonadapter.IMessageContentObjectAdapter;

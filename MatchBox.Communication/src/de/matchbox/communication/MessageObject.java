@@ -5,7 +5,7 @@
  */
 package de.matchbox.communication;
 
-import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.IMessageContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 

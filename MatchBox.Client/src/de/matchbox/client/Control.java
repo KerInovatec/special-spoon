@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import de.matchbox.client.forms.FrmMain;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
-import de.matchbox.communication.contentobjects.ErrorContentObject;
+import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
