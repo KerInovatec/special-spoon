@@ -17,6 +17,7 @@ public class FrmMain extends javax.swing.JFrame {
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
+        this.resetView();
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -174,6 +175,7 @@ public class FrmMain extends javax.swing.JFrame {
         setTitle("MatchBox");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1500, 650));
+        setPreferredSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -771,6 +773,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        resetView();
         List lGleichung = MatchUtility.equationToMatch(jTextFieldTest.getText());
         boolean[] lCode;
         int ZahlIndex = 1;
@@ -785,20 +788,18 @@ public class FrmMain extends javax.swing.JFrame {
                 ZahlIndex++;
             } else if ((char) lGleichung.getObject() == '*') {
                 ZahlIndex++;
-                
-            } else {
-                if ((char) lGleichung.getObject() == '+') {
-                    jMinus.setVisible(false);
-                } else if ((char) lGleichung.getObject() == '-') {
-                    jPlus.setVisible(false);
-                }
 
-                
+            } else {
+                if ((char) lGleichung.getObject() == '-') {
+                    jMinus.setVisible(true);
+                } else if ((char) lGleichung.getObject() == '+') {
+                    jPlus.setVisible(true);
+                }
 
             }
             lGleichung.next();
         }
-
+        jEaquals.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
@@ -1147,5 +1148,18 @@ public class FrmMain extends javax.swing.JFrame {
         jMatchArr[7][x] = jMatch7_9;
         //**************************
 
+    }
+
+    public void resetView() {
+        jPlus.setVisible(false);
+        jMinus.setVisible(false);
+        jEaquals.setVisible(false);
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
+                jSpaceArr[y][i].setVisible(true);
+                //jMatchArr[y][i].setVisible(true); 
+            }
+        }
+        
     }
 }
