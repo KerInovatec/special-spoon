@@ -15,6 +15,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     public FrmMain() {
         this.control = new Control(this);
+        new login(this);
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
@@ -24,7 +25,12 @@ public class FrmMain extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
     }
-
+    
+    public void doLogin(String ip, int port,String username)
+    {
+        this.control.connect(ip, port);
+        this.control.login(username);
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -184,6 +190,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         jButton1.setText("DoStuff!");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1);
         jButton1.setBounds(1230, 560, 73, 23);
 
@@ -803,6 +814,10 @@ public class FrmMain extends javax.swing.JFrame {
         }
         jEaquals.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         try {

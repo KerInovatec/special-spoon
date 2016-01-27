@@ -31,5 +31,8 @@ public class Client {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
+    public boolean equals(Client pClient) {
+        return this.ip==pClient.getIp() && this.port==pClient.getPort();
+    }
 }

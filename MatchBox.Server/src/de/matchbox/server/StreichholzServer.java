@@ -13,22 +13,20 @@ import de.matchbox.server.net.Client;
 public class StreichholzServer extends Server {
 
     private final Control control;
-    private final List clientList;
     private final List roomList;
-
+    private final List clientList;
     public StreichholzServer(int pPortNr, Control pControl) {
         super(pPortNr);
         this.control = pControl;
-        this.clientList = new List();
         this.roomList = new List();
+        this.clientList = new List();
     }
 
     @Override
     public void processNewConnection(String pClientIP, int pClientPort) {
         if (this.containsClient(pClientIP, pClientPort)) {
-            this.deleteClient(pClientIP, pClientPort);
+            this.deleteClient(getClient(pClientIP, pClientPort));
         }
-
         this.addClient(pClientIP, pClientPort);
     }
 
@@ -46,7 +44,7 @@ public class StreichholzServer extends Server {
     @Override
     public void processClosedConnection(String pClientIP, int pClientPort) {
         if (this.containsClient(pClientIP, pClientPort)) {
-            this.deleteClient(pClientIP, pClientPort);
+            this.deleteClient(getClient(pClientIP, pClientPort));
         }
     }
 
@@ -71,7 +69,7 @@ public class StreichholzServer extends Server {
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject().getClass() == Client.class) {
                 Client lClient = (Client) this.clientList.getObject();
-                if (lClient.getIp().equals(pIp) && lClient.getPort() == pPort) {
+                if (lClient.equals(new Client(pIp, pPort, this))) {
                     return true;
                 }
             }
@@ -80,12 +78,12 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    private void deleteClient(String pIp, int pPort) {
+    private void deleteClient(Client pClient) {
         this.clientList.toFirst();
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject().getClass() == Client.class) {
                 Client lClient = (Client) this.clientList.getObject();
-                if (lClient.getIp().equals(pIp) && lClient.getPort() == pPort) {
+                if (lClient.equals(pClient)) {
                     this.clientList.remove();
                     return;
                 }
@@ -100,26 +98,26 @@ public class StreichholzServer extends Server {
     
     public boolean logoutClient(Client pClient){
         if(pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort())) return false;
-        this.deleteClient(pClient.getIp(), pClient.getPort());
+        this.deleteClient(pClient);
         return true;
     }
     
     public boolean createRoom(String pRoomName){
         if(pRoomName == null || this.containsRoom(pRoomName)) return false;
-        this.roomList.append(pRoomName);
+        this.roomList.append(new Room(pRoomName));
         return true;
     }
     
     private boolean containsRoom(String pRoomName){
-        this.clientList.toFirst();
-        while (this.clientList.hasAccess()) {
-            if (this.clientList.getObject().getClass() == Client.class) {
-                Room lRoom = (Room) this.clientList.getObject();
+        this.roomList.toFirst();
+        while (this.roomList.hasAccess()) {
+            if (this.roomList.getObject().getClass() == Room.class) {
+                Room lRoom = (Room) this.roomList.getObject();
                 if (pRoomName.equals(lRoom.getName())) {
                     return true;
                 }
             }
-            this.clientList.next();
+            this.roomList.next();
         }
         return false;
     }
