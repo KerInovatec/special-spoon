@@ -26,9 +26,8 @@ public class StreichholzServer extends Server {
     @Override
     public void processNewConnection(String pClientIP, int pClientPort) {
         if (this.containsClient(pClientIP, pClientPort)) {
-            this.deleteClient(pClientIP, pClientPort);
+            this.deleteClient(getClient(pClientIP, pClientPort));
         }
-
         this.addClient(pClientIP, pClientPort);
     }
 
@@ -46,7 +45,7 @@ public class StreichholzServer extends Server {
     @Override
     public void processClosedConnection(String pClientIP, int pClientPort) {
         if (this.containsClient(pClientIP, pClientPort)) {
-            this.deleteClient(pClientIP, pClientPort);
+            this.deleteClient(getClient(pClientIP, pClientPort));
         }
     }
 
@@ -62,7 +61,7 @@ public class StreichholzServer extends Server {
             this.clientList.next();
         }
 
-        this.addClient(pIp, pPort);
+        this.addClient(new Client(pIp, pPort, this));
         return this.getClient(pIp, pPort);
     }
 
@@ -80,7 +79,7 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    private void deleteClient(String pIp, int pPort) {
+    private void deleteClient(Client pClient) {
         this.clientList.toFirst();
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject().getClass() == Client.class) {
@@ -100,7 +99,7 @@ public class StreichholzServer extends Server {
     
     public boolean logoutClient(Client pClient){
         if(pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort())) return false;
-        this.deleteClient(pClient.getIp(), pClient.getPort());
+        this.deleteClient(pClient);
         return true;
     }
     
