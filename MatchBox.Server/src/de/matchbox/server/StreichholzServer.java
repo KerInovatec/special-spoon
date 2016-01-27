@@ -14,11 +14,12 @@ public class StreichholzServer extends Server {
 
     private final Control control;
     private final List roomList;
-
+    private final List clientList;
     public StreichholzServer(int pPortNr, Control pControl) {
         super(pPortNr);
         this.control = pControl;
         this.roomList = new List();
+        this.clientList = new List();
     }
 
     @Override
@@ -48,15 +49,15 @@ public class StreichholzServer extends Server {
     }
 
     private Client getClient(String pIp, int pPort) {
-        this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.roomList.getObject();
+        this.clientList.toFirst();
+        while (this.clientList.hasAccess()) {
+            if (this.clientList.getObject().getClass() == Client.class) {
+                Client lClient = (Client) this.clientList.getObject();
                 if (lClient.getIp().equals(pIp) && lClient.getPort() == pPort) {
                     return lClient;
                 }
             }
-            this.roomList.next();
+            this.clientList.next();
         }
 
         this.addClient(pIp, pPort);
@@ -64,35 +65,35 @@ public class StreichholzServer extends Server {
     }
 
     private boolean containsClient(String pIp, int pPort) {
-        this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.roomList.getObject();
+        this.clientList.toFirst();
+        while (this.clientList.hasAccess()) {
+            if (this.clientList.getObject().getClass() == Client.class) {
+                Client lClient = (Client) this.clientList.getObject();
                 if (lClient.equals(new Client(pIp, pPort, this))) {
                     return true;
                 }
             }
-            this.roomList.next();
+            this.clientList.next();
         }
         return false;
     }
 
     private void deleteClient(Client pClient) {
-        this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.roomList.getObject();
+        this.clientList.toFirst();
+        while (this.clientList.hasAccess()) {
+            if (this.clientList.getObject().getClass() == Client.class) {
+                Client lClient = (Client) this.clientList.getObject();
                 if (lClient.equals(pClient)) {
-                    this.roomList.remove();
+                    this.clientList.remove();
                     return;
                 }
             }
-            this.roomList.next();
+            this.clientList.next();
         }
     }
 
     private void addClient(String pIp, int pPort) {
-        this.roomList.append(new Client(pIp, pPort, this));
+        this.clientList.append(new Client(pIp, pPort, this));
     }
     
     public boolean logoutClient(Client pClient){
