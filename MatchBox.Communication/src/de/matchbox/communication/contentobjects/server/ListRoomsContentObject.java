@@ -6,20 +6,20 @@
 package de.matchbox.communication.contentobjects.server;
 
 import de.matchbox.communication.contentobjects.IMessageContentObject;
-import java.util.Map;
+import de.matchbox.communication.shared.abiturklassen.List;
 
 /**
  *
  * @author Pascal
  */
 public class ListRoomsContentObject implements IMessageContentObject{
-    private final Map<Integer, String> rooms;
+    private final List rooms;
             
-    public ListRoomsContentObject(Map<Integer, String> pRoomList) {
+    public ListRoomsContentObject(List pRoomList) {
         this.rooms = pRoomList;
     }
 
-    public Map<Integer, String> getRooms() {
+    public List getRooms() {
         return rooms;
     }
 }

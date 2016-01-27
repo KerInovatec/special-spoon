@@ -977,8 +977,9 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuQuit;
     // End of variables declaration//GEN-END:variables
 
-    public void setRooms(Map<Integer, String> rooms) {
-        jList1.setListData(rooms.entrySet().toArray());
+    public void setRooms(List rooms) {
+        //List voller Raeume. Muss hier noch geaendert werden
+        //jList1.setListData(rooms.entrySet().toArray());
     }
 
     private void createArr() {

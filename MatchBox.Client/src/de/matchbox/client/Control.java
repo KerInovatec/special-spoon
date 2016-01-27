@@ -24,7 +24,7 @@ public class Control {
                 if (!(pMessageObject.getContentObject() instanceof ListRoomsContentObject)) {
                     return;
                 }
-                this.main.setRooms(((ListRoomsContentObject)pMessageObject.getContentObject()).getRooms());//mach bitte kein fehler pls
+                this.main.setRooms(((ListRoomsContentObject)pMessageObject.getContentObject()).getRooms());
                 break;
             case LOGIN:
                 JOptionPane.showMessageDialog(null, new Gson().toJson(pMessageObject));
