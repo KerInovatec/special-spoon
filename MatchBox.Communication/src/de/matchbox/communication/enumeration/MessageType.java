@@ -16,6 +16,7 @@ public enum MessageType {
     JOIN_ROOM,
     LEAVE_ROOM,
     LIST_ROOMS,
+    ROOM_CMD,
     ERROR,
     UNKOWN
 }

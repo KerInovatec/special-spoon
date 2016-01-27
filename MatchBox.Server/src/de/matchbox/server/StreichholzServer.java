@@ -1,11 +1,12 @@
 package de.matchbox.server;
 
+import de.matchbox.communication.shared.Room;
 import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
-import de.matchbox.server.abiturklassen.List;
+import de.matchbox.communication.shared.abiturklassen.List;
 import de.matchbox.server.abiturklassen.Server;
 import de.matchbox.server.net.Client;
 
@@ -103,18 +104,18 @@ public class StreichholzServer extends Server {
         return true;
     }
     
-    public boolean createRoom(Room pRoom){
-        if(pRoom == null || this.containsRoom(pRoom)) return false;
-        this.roomList.append(pRoom);
+    public boolean createRoom(String pRoomName){
+        if(pRoomName == null || this.containsRoom(pRoomName)) return false;
+        this.roomList.append(pRoomName);
         return true;
     }
     
-    private boolean containsRoom(Room pRoom){
+    private boolean containsRoom(String pRoomName){
         this.clientList.toFirst();
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject().getClass() == Client.class) {
                 Room lRoom = (Room) this.clientList.getObject();
-                if (pRoom.getName().equals(lRoom.getName())) {
+                if (pRoomName.equals(lRoom.getName())) {
                     return true;
                 }
             }

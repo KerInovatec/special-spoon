@@ -1,5 +1,7 @@
 package de.matchbox.server.abiturklassen;
 
+import de.matchbox.communication.shared.abiturklassen.Connection;
+import de.matchbox.communication.shared.abiturklassen.List;
 import de.matchbox.server.net.Client;
 import java.net.ServerSocket;
 import java.net.Socket;

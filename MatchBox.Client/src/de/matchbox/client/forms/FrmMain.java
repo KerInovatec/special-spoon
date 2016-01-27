@@ -1,8 +1,8 @@
 package de.matchbox.client.forms;
 
-import de.matchbox.client.abiturklassen.List;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
+import de.matchbox.communication.shared.abiturklassen.List;
 import java.util.Map;
 import javax.swing.JLabel;
 

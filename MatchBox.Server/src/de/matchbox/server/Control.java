@@ -37,10 +37,10 @@ public class Control {
                     pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
                 }
 
-                if (pServer.createRoom(new Room(((CreateRoomContentObject) pMessageObject.getContentObject()).getName()))) {
+                if (pServer.createRoom(((CreateRoomContentObject) pMessageObject.getContentObject()).getName())) {
                     pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.CREATE_ROOM)));
                 } else {
-                    pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN))));
+                    pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_EXISTS))));
                 }
                 break;
             case JOIN_ROOM:

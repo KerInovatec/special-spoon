@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 
-public class MatchBoxClient extends de.matchbox.client.abiturklassen.Client
+public class MatchBoxClient extends de.matchbox.communication.shared.abiturklassen.Client
 {
     private final Control control;
 

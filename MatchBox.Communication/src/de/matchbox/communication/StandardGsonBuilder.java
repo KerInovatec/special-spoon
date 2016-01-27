@@ -25,6 +25,10 @@ public final class StandardGsonBuilder {
         this.gsonBuilder.registerTypeAdapter(ErrorContentObject.class, new ErrorContentObjectInstanceCreator());
     }
     
+    public GsonBuilder createBuilder(){
+        return this.gsonBuilder;
+    }
+    
     public Gson create(){
         return this.gsonBuilder.create();
     }

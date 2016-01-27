@@ -1,4 +1,4 @@
-package de.matchbox.server.abiturklassen;
+package de.matchbox.communication.shared.abiturklassen;
 
 /**
  * <p>

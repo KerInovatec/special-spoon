@@ -6,7 +6,7 @@
 package de.matchbox.client.utility;
 
 import de.matchbox.client.Zahl;
-import de.matchbox.client.abiturklassen.List;
+import de.matchbox.communication.shared.abiturklassen.List;
 
 /**
  *
