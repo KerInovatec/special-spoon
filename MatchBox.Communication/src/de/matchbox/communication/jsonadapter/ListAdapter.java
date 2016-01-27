@@ -5,6 +5,7 @@
  */
 package de.matchbox.communication.jsonadapter;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -30,7 +31,7 @@ public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List>
         ArrayList<ListContainerObject> lContainerObjects = new ArrayList<>();
         t.toFirst();
         while (t.hasAccess()) {
-            lContainerObjects.add(new ListContainerObject(t.getObject().getClass().getCanonicalName(), jsc.serialize(t.getObject()).getAsString()));
+            lContainerObjects.add(new ListContainerObject(t.getObject().getClass().getCanonicalName(), new Gson().toJson(jsc.serialize(t.getObject()))));
             t.next();
         }
         return jsc.serialize(lContainerObjects);
@@ -39,7 +40,7 @@ public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List>
     @Override
     public List deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         List lReturn = new List();
-        
+
         Type fooType = new TypeToken<ArrayList<ListContainerObject>>() {
         }.getType();
         ArrayList<ListContainerObject> lContainerObjects = jdc.deserialize(je, fooType);
@@ -59,6 +60,11 @@ public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List>
 
         private final String classname;
         private final String instance;
+
+        private ListContainerObject() {
+            this.classname = "";
+            this.instance = "";
+        }
 
         private ListContainerObject(String pClassname, String pInstance) {
             this.classname = pClassname;
