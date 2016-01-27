@@ -6,6 +6,7 @@ import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
+import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.server.net.Client;
@@ -48,6 +49,7 @@ public class Control {
             case LEAVE_ROOM:
                 break;
             case LIST_ROOMS:
+                pServer.send(pClient, new StandardGsonBuilder().createBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(new MessageObject(MessageType.LIST_ROOMS, new ListRoomsContentObject(pServer.getRoomList()))));
                 break;
             default:
                 pServer.send(pClient.getIp(), pClient.getPort(), new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND))));
