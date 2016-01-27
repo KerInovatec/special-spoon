@@ -15,8 +15,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     public FrmMain() {
         this.control = new Control(this);
-        new login(this).setVisible(true);
-        
+        new login(this);
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
