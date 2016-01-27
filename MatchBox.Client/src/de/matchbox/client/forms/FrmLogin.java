@@ -9,15 +9,18 @@ package de.matchbox.client.forms;
  *
  * @author Jakob
  */
-public class login extends javax.swing.JFrame {
-    FrmMain mainW;
+public class FrmLogin extends javax.swing.JFrame {
+
+    private final FrmMain mainForm;
+
     /**
      * Creates new form login
+     *
+     * @param pMainForm
      */
-    public login(FrmMain mainW) {
+    public FrmLogin(FrmMain pMainForm) {
         initComponents();
-        this.mainW=mainW;
-        this.setVisible(true);
+        this.mainForm = pMainForm;
     }
 
     /**
@@ -117,10 +120,10 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String ip = jTextFieldIp.getText();
-        int port = Integer.parseInt(jTextFieldPort.getText());
-        String username = jTextFieldUsername.getText();
-        mainW.doLogin(ip, port,username);
+        String ip = this.jTextFieldIp.getText();
+        int port = Integer.parseInt(this.jTextFieldPort.getText());
+        String username = this.jTextFieldUsername.getText();
+        this.mainForm.doLogin(ip, port, username);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 

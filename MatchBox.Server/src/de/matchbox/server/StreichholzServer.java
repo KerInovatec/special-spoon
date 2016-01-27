@@ -121,4 +121,8 @@ public class StreichholzServer extends Server {
         }
         return false;
     }
+
+    public List getRoomList() {
+        return roomList;
+    }
 }

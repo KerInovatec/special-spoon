@@ -15,14 +15,14 @@ public class FrmMain extends javax.swing.JFrame {
 
     public FrmMain() {
         this.control = new Control(this);
-        new login(this);
+        new FrmLogin(this).setVisible(true);
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
         this.resetView();
-        setResizable(false);
-        setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
 
     }
     
