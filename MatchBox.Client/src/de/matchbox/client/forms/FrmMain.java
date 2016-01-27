@@ -1,9 +1,9 @@
 package de.matchbox.client.forms;
 
+import de.matchbox.client.Control;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
 import de.matchbox.communication.shared.abiturklassen.List;
-import java.util.Map;
 import javax.swing.JLabel;
 
 public class FrmMain extends javax.swing.JFrame {
@@ -11,8 +11,10 @@ public class FrmMain extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
     private JLabel jMatchArr[][];
     private JLabel jSpaceArr[][];
+    private final Control control;
 
     public FrmMain() {
+        this.control = new Control(this);
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
