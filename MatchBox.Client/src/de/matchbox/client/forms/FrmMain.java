@@ -5,6 +5,7 @@ import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class FrmMain extends javax.swing.JFrame {
 
@@ -24,11 +25,31 @@ public class FrmMain extends javax.swing.JFrame {
         this.resetView();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        this.initEvents();
         hasMatch = false;
     }
-    
-    public void doLogin(String ip, int port,String username)
-    {
+
+    private void initEvents() {
+        for (JLabel[] curLabelArray : this.jMatchArr) {
+            for (JLabel curLabel : curLabelArray) {
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            matchClicked(evt);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private void matchClicked(java.awt.event.MouseEvent evt) {
+        //Test, wenn auf ein Streichholz geklickt wird
+        JOptionPane.showMessageDialog(this, "Match Clicked!");
+    }
+
+    public void doLogin(String ip, int port, String username) {
         this.control.connect(ip, port);
         this.control.login(username);
     }
@@ -1152,11 +1173,11 @@ public class FrmMain extends javax.swing.JFrame {
                 //jMatchArr[y][i].setVisible(true); 
             }
         }
-        
+
     }
-    private void setMatches(String pEaquasion)
-    {
-         resetView();
+
+    private void setMatches(String pEaquasion) {
+        resetView();
         List lGleichung = MatchUtility.equationToMatch(pEaquasion);
         boolean[] lCode;
         int ZahlIndex = 1;
@@ -1172,13 +1193,10 @@ public class FrmMain extends javax.swing.JFrame {
             } else if ((char) lGleichung.getObject() == '*') {
                 ZahlIndex++;
 
-            } else {
-                if ((char) lGleichung.getObject() == '-') {
-                    jMinus.setVisible(true);
-                } else if ((char) lGleichung.getObject() == '+') {
-                    jPlus.setVisible(true);
-                }
-
+            } else if ((char) lGleichung.getObject() == '-') {
+                jMinus.setVisible(true);
+            } else if ((char) lGleichung.getObject() == '+') {
+                jPlus.setVisible(true);
             }
             lGleichung.next();
         }
