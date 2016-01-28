@@ -3,9 +3,12 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Control;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
+import de.matchbox.communication.classmodels.RoomModel;
 import de.matchbox.communication.shared.abiturklassen.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 public class FrmMain extends javax.swing.JFrame {
 
@@ -14,6 +17,8 @@ public class FrmMain extends javax.swing.JFrame {
     private JLabel jSpaceArr[][];
     private final Control control;
     private boolean hasMatch;
+    private DefaultListModel lobby;
+    private RoomModel[] rm;
 
     public FrmMain() {
         this.control = new Control(this);
@@ -28,26 +33,7 @@ public class FrmMain extends javax.swing.JFrame {
         this.initEvents();
         this.initEvents2();
         hasMatch = false;
-    }
-
-    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (!hasMatch) {
-            jSpaceArr[y][x].setVisible(true);
-            
-            hasMatch = true;
-
-            jLabel1.setText("HasMatch true");
-        }
-    }
-
-    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (hasMatch) {
-            jSpaceArr[y][x].setVisible(false);
-            
-            hasMatch = false;
-
-            jLabel1.setText("HasMatch false");
-        }
+        lobby = new DefaultListModel();
 
     }
 
@@ -59,11 +45,11 @@ public class FrmMain extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jPanelIntro = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jRoomList = new javax.swing.JList();
+        jConnectRoom = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jSpace1_1 = new javax.swing.JLabel();
         jSpace2_1 = new javax.swing.JLabel();
         jSpace3_1 = new javax.swing.JLabel();
@@ -196,7 +182,6 @@ public class FrmMain extends javax.swing.JFrame {
         jTextFieldTest = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jPanelIntro = new javax.swing.JPanel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -210,31 +195,41 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
+        jScrollPane3.setViewportView(jRoomList);
+
+        jConnectRoom.setText("Connect");
+        jConnectRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConnectRoomActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelIntroLayout = new javax.swing.GroupLayout(jPanelIntro);
+        jPanelIntro.setLayout(jPanelIntroLayout);
+        jPanelIntroLayout.setHorizontalGroup(
+            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
+                .addContainerGap(1227, Short.MAX_VALUE)
+                .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jConnectRoom)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanelIntroLayout.setVerticalGroup(
+            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIntroLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jConnectRoom)
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanelIntro);
+        jPanelIntro.setBounds(0, 0, 1500, 620);
+
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(null);
-
-        jButton1.setText("DoStuff!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(1230, 560, 73, 23);
-
-        jButton2.setText("Beenden");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(1320, 560, 75, 23);
-
-        jScrollPane1.setViewportView(jList1);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(1400, 20, 92, 585);
 
         jSpace1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Empty_H.png"))); // NOI18N
         jPanel1.add(jSpace1_1);
@@ -770,20 +765,6 @@ public class FrmMain extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
 
-        javax.swing.GroupLayout jPanelIntroLayout = new javax.swing.GroupLayout(jPanelIntro);
-        jPanelIntro.setLayout(jPanelIntroLayout);
-        jPanelIntroLayout.setHorizontalGroup(
-            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1500, Short.MAX_VALUE)
-        );
-        jPanelIntroLayout.setVerticalGroup(
-            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanelIntro);
-        jPanelIntro.setBounds(0, 0, 1500, 620);
-
         mnuFile.setText("Datei");
 
         mnuQuit.setText("Beenden");
@@ -809,17 +790,17 @@ public class FrmMain extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_mnuQuitActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setMatches(jTextFieldTest.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jConnectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConnectRoomActionPerformed
+       if(!jRoomList.isSelectionEmpty())
+       {
+           //conect.rm[jRoomList.getSelectedIndex()].getIP; ka auf jeden fall sollte er hier connecten
+       }
+       
+    }//GEN-LAST:event_jConnectRoomActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -851,155 +832,18 @@ public class FrmMain extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jEaquals;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
-    private javax.swing.JLabel jMatch1_1;
-    private javax.swing.JLabel jMatch1_2;
-    private javax.swing.JLabel jMatch1_3;
-    private javax.swing.JLabel jMatch1_4;
-    private javax.swing.JLabel jMatch1_5;
-    private javax.swing.JLabel jMatch1_6;
-    private javax.swing.JLabel jMatch1_7;
-    private javax.swing.JLabel jMatch1_8;
-    private javax.swing.JLabel jMatch1_9;
-    private javax.swing.JLabel jMatch2_1;
-    private javax.swing.JLabel jMatch2_2;
-    private javax.swing.JLabel jMatch2_3;
-    private javax.swing.JLabel jMatch2_4;
-    private javax.swing.JLabel jMatch2_5;
-    private javax.swing.JLabel jMatch2_6;
-    private javax.swing.JLabel jMatch2_7;
-    private javax.swing.JLabel jMatch2_8;
-    private javax.swing.JLabel jMatch2_9;
-    private javax.swing.JLabel jMatch3_1;
-    private javax.swing.JLabel jMatch3_2;
-    private javax.swing.JLabel jMatch3_3;
-    private javax.swing.JLabel jMatch3_4;
-    private javax.swing.JLabel jMatch3_5;
-    private javax.swing.JLabel jMatch3_6;
-    private javax.swing.JLabel jMatch3_7;
-    private javax.swing.JLabel jMatch3_8;
-    private javax.swing.JLabel jMatch3_9;
-    private javax.swing.JLabel jMatch4_1;
-    private javax.swing.JLabel jMatch4_2;
-    private javax.swing.JLabel jMatch4_3;
-    private javax.swing.JLabel jMatch4_4;
-    private javax.swing.JLabel jMatch4_5;
-    private javax.swing.JLabel jMatch4_6;
-    private javax.swing.JLabel jMatch4_7;
-    private javax.swing.JLabel jMatch4_8;
-    private javax.swing.JLabel jMatch4_9;
-    private javax.swing.JLabel jMatch5_1;
-    private javax.swing.JLabel jMatch5_2;
-    private javax.swing.JLabel jMatch5_3;
-    private javax.swing.JLabel jMatch5_4;
-    private javax.swing.JLabel jMatch5_5;
-    private javax.swing.JLabel jMatch5_6;
-    private javax.swing.JLabel jMatch5_7;
-    private javax.swing.JLabel jMatch5_8;
-    private javax.swing.JLabel jMatch5_9;
-    private javax.swing.JLabel jMatch6_1;
-    private javax.swing.JLabel jMatch6_2;
-    private javax.swing.JLabel jMatch6_3;
-    private javax.swing.JLabel jMatch6_4;
-    private javax.swing.JLabel jMatch6_5;
-    private javax.swing.JLabel jMatch6_6;
-    private javax.swing.JLabel jMatch6_7;
-    private javax.swing.JLabel jMatch6_8;
-    private javax.swing.JLabel jMatch6_9;
-    private javax.swing.JLabel jMatch7_1;
-    private javax.swing.JLabel jMatch7_2;
-    private javax.swing.JLabel jMatch7_3;
-    private javax.swing.JLabel jMatch7_4;
-    private javax.swing.JLabel jMatch7_5;
-    private javax.swing.JLabel jMatch7_6;
-    private javax.swing.JLabel jMatch7_7;
-    private javax.swing.JLabel jMatch7_8;
-    private javax.swing.JLabel jMatch7_9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JLabel jMinus;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanelIntro;
-    private javax.swing.JLabel jPlus;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel jSpace1_1;
-    private javax.swing.JLabel jSpace1_2;
-    private javax.swing.JLabel jSpace1_3;
-    private javax.swing.JLabel jSpace1_4;
-    private javax.swing.JLabel jSpace1_5;
-    private javax.swing.JLabel jSpace1_6;
-    private javax.swing.JLabel jSpace1_7;
-    private javax.swing.JLabel jSpace1_8;
-    private javax.swing.JLabel jSpace1_9;
-    private javax.swing.JLabel jSpace2_1;
-    private javax.swing.JLabel jSpace2_2;
-    private javax.swing.JLabel jSpace2_3;
-    private javax.swing.JLabel jSpace2_4;
-    private javax.swing.JLabel jSpace2_5;
-    private javax.swing.JLabel jSpace2_6;
-    private javax.swing.JLabel jSpace2_7;
-    private javax.swing.JLabel jSpace2_8;
-    private javax.swing.JLabel jSpace2_9;
-    private javax.swing.JLabel jSpace3_1;
-    private javax.swing.JLabel jSpace3_2;
-    private javax.swing.JLabel jSpace3_3;
-    private javax.swing.JLabel jSpace3_4;
-    private javax.swing.JLabel jSpace3_5;
-    private javax.swing.JLabel jSpace3_6;
-    private javax.swing.JLabel jSpace3_7;
-    private javax.swing.JLabel jSpace3_8;
-    private javax.swing.JLabel jSpace3_9;
-    private javax.swing.JLabel jSpace4_1;
-    private javax.swing.JLabel jSpace4_2;
-    private javax.swing.JLabel jSpace4_3;
-    private javax.swing.JLabel jSpace4_4;
-    private javax.swing.JLabel jSpace4_5;
-    private javax.swing.JLabel jSpace4_6;
-    private javax.swing.JLabel jSpace4_7;
-    private javax.swing.JLabel jSpace4_8;
-    private javax.swing.JLabel jSpace4_9;
-    private javax.swing.JLabel jSpace5_1;
-    private javax.swing.JLabel jSpace5_2;
-    private javax.swing.JLabel jSpace5_3;
-    private javax.swing.JLabel jSpace5_4;
-    private javax.swing.JLabel jSpace5_5;
-    private javax.swing.JLabel jSpace5_6;
-    private javax.swing.JLabel jSpace5_7;
-    private javax.swing.JLabel jSpace5_8;
-    private javax.swing.JLabel jSpace5_9;
-    private javax.swing.JLabel jSpace6_1;
-    private javax.swing.JLabel jSpace6_2;
-    private javax.swing.JLabel jSpace6_3;
-    private javax.swing.JLabel jSpace6_4;
-    private javax.swing.JLabel jSpace6_5;
-    private javax.swing.JLabel jSpace6_6;
-    private javax.swing.JLabel jSpace6_7;
-    private javax.swing.JLabel jSpace6_8;
-    private javax.swing.JLabel jSpace6_9;
-    private javax.swing.JLabel jSpace7_1;
-    private javax.swing.JLabel jSpace7_2;
-    private javax.swing.JLabel jSpace7_3;
-    private javax.swing.JLabel jSpace7_4;
-    private javax.swing.JLabel jSpace7_5;
-    private javax.swing.JLabel jSpace7_6;
-    private javax.swing.JLabel jSpace7_7;
-    private javax.swing.JLabel jSpace7_8;
-    private javax.swing.JLabel jSpace7_9;
-    private javax.swing.JTextField jTextFieldTest;
-    private javax.swing.JMenu mnuCon;
-    private javax.swing.JMenu mnuFile;
-    private javax.swing.JMenuBar mnuMain;
-    private javax.swing.JMenuItem mnuQuit;
-    // End of variables declaration//GEN-END:variables
-
     public void setRooms(List rooms) {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
+        rooms.toFirst();
+        while (rooms.hasAccess()) {
+            lobby.addElement(((RoomModel) rooms.getObject()).getName());
+            rooms.next();
+        }
+        rm = (RoomModel[])lobby.toArray();
+        jRoomList.setModel(lobby);
+       
+
     }
 
     private void createArr() {
@@ -1246,4 +1090,172 @@ public class FrmMain extends javax.swing.JFrame {
             }
         }
     }
+
+    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (!hasMatch) {
+            jSpaceArr[y][x].setVisible(true);
+
+            hasMatch = true;
+
+            jLabel1.setText("HasMatch true");
+        }
+    }
+
+    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (hasMatch) {
+            jSpaceArr[y][x].setVisible(false);
+
+            hasMatch = false;
+
+            jLabel1.setText("HasMatch false");
+        }
+
+    }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jConnectRoom;
+    private javax.swing.JLabel jEaquals;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jMatch1_1;
+    private javax.swing.JLabel jMatch1_2;
+    private javax.swing.JLabel jMatch1_3;
+    private javax.swing.JLabel jMatch1_4;
+    private javax.swing.JLabel jMatch1_5;
+    private javax.swing.JLabel jMatch1_6;
+    private javax.swing.JLabel jMatch1_7;
+    private javax.swing.JLabel jMatch1_8;
+    private javax.swing.JLabel jMatch1_9;
+    private javax.swing.JLabel jMatch2_1;
+    private javax.swing.JLabel jMatch2_2;
+    private javax.swing.JLabel jMatch2_3;
+    private javax.swing.JLabel jMatch2_4;
+    private javax.swing.JLabel jMatch2_5;
+    private javax.swing.JLabel jMatch2_6;
+    private javax.swing.JLabel jMatch2_7;
+    private javax.swing.JLabel jMatch2_8;
+    private javax.swing.JLabel jMatch2_9;
+    private javax.swing.JLabel jMatch3_1;
+    private javax.swing.JLabel jMatch3_2;
+    private javax.swing.JLabel jMatch3_3;
+    private javax.swing.JLabel jMatch3_4;
+    private javax.swing.JLabel jMatch3_5;
+    private javax.swing.JLabel jMatch3_6;
+    private javax.swing.JLabel jMatch3_7;
+    private javax.swing.JLabel jMatch3_8;
+    private javax.swing.JLabel jMatch3_9;
+    private javax.swing.JLabel jMatch4_1;
+    private javax.swing.JLabel jMatch4_2;
+    private javax.swing.JLabel jMatch4_3;
+    private javax.swing.JLabel jMatch4_4;
+    private javax.swing.JLabel jMatch4_5;
+    private javax.swing.JLabel jMatch4_6;
+    private javax.swing.JLabel jMatch4_7;
+    private javax.swing.JLabel jMatch4_8;
+    private javax.swing.JLabel jMatch4_9;
+    private javax.swing.JLabel jMatch5_1;
+    private javax.swing.JLabel jMatch5_2;
+    private javax.swing.JLabel jMatch5_3;
+    private javax.swing.JLabel jMatch5_4;
+    private javax.swing.JLabel jMatch5_5;
+    private javax.swing.JLabel jMatch5_6;
+    private javax.swing.JLabel jMatch5_7;
+    private javax.swing.JLabel jMatch5_8;
+    private javax.swing.JLabel jMatch5_9;
+    private javax.swing.JLabel jMatch6_1;
+    private javax.swing.JLabel jMatch6_2;
+    private javax.swing.JLabel jMatch6_3;
+    private javax.swing.JLabel jMatch6_4;
+    private javax.swing.JLabel jMatch6_5;
+    private javax.swing.JLabel jMatch6_6;
+    private javax.swing.JLabel jMatch6_7;
+    private javax.swing.JLabel jMatch6_8;
+    private javax.swing.JLabel jMatch6_9;
+    private javax.swing.JLabel jMatch7_1;
+    private javax.swing.JLabel jMatch7_2;
+    private javax.swing.JLabel jMatch7_3;
+    private javax.swing.JLabel jMatch7_4;
+    private javax.swing.JLabel jMatch7_5;
+    private javax.swing.JLabel jMatch7_6;
+    private javax.swing.JLabel jMatch7_7;
+    private javax.swing.JLabel jMatch7_8;
+    private javax.swing.JLabel jMatch7_9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JLabel jMinus;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelIntro;
+    private javax.swing.JLabel jPlus;
+    private javax.swing.JList jRoomList;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel jSpace1_1;
+    private javax.swing.JLabel jSpace1_2;
+    private javax.swing.JLabel jSpace1_3;
+    private javax.swing.JLabel jSpace1_4;
+    private javax.swing.JLabel jSpace1_5;
+    private javax.swing.JLabel jSpace1_6;
+    private javax.swing.JLabel jSpace1_7;
+    private javax.swing.JLabel jSpace1_8;
+    private javax.swing.JLabel jSpace1_9;
+    private javax.swing.JLabel jSpace2_1;
+    private javax.swing.JLabel jSpace2_2;
+    private javax.swing.JLabel jSpace2_3;
+    private javax.swing.JLabel jSpace2_4;
+    private javax.swing.JLabel jSpace2_5;
+    private javax.swing.JLabel jSpace2_6;
+    private javax.swing.JLabel jSpace2_7;
+    private javax.swing.JLabel jSpace2_8;
+    private javax.swing.JLabel jSpace2_9;
+    private javax.swing.JLabel jSpace3_1;
+    private javax.swing.JLabel jSpace3_2;
+    private javax.swing.JLabel jSpace3_3;
+    private javax.swing.JLabel jSpace3_4;
+    private javax.swing.JLabel jSpace3_5;
+    private javax.swing.JLabel jSpace3_6;
+    private javax.swing.JLabel jSpace3_7;
+    private javax.swing.JLabel jSpace3_8;
+    private javax.swing.JLabel jSpace3_9;
+    private javax.swing.JLabel jSpace4_1;
+    private javax.swing.JLabel jSpace4_2;
+    private javax.swing.JLabel jSpace4_3;
+    private javax.swing.JLabel jSpace4_4;
+    private javax.swing.JLabel jSpace4_5;
+    private javax.swing.JLabel jSpace4_6;
+    private javax.swing.JLabel jSpace4_7;
+    private javax.swing.JLabel jSpace4_8;
+    private javax.swing.JLabel jSpace4_9;
+    private javax.swing.JLabel jSpace5_1;
+    private javax.swing.JLabel jSpace5_2;
+    private javax.swing.JLabel jSpace5_3;
+    private javax.swing.JLabel jSpace5_4;
+    private javax.swing.JLabel jSpace5_5;
+    private javax.swing.JLabel jSpace5_6;
+    private javax.swing.JLabel jSpace5_7;
+    private javax.swing.JLabel jSpace5_8;
+    private javax.swing.JLabel jSpace5_9;
+    private javax.swing.JLabel jSpace6_1;
+    private javax.swing.JLabel jSpace6_2;
+    private javax.swing.JLabel jSpace6_3;
+    private javax.swing.JLabel jSpace6_4;
+    private javax.swing.JLabel jSpace6_5;
+    private javax.swing.JLabel jSpace6_6;
+    private javax.swing.JLabel jSpace6_7;
+    private javax.swing.JLabel jSpace6_8;
+    private javax.swing.JLabel jSpace6_9;
+    private javax.swing.JLabel jSpace7_1;
+    private javax.swing.JLabel jSpace7_2;
+    private javax.swing.JLabel jSpace7_3;
+    private javax.swing.JLabel jSpace7_4;
+    private javax.swing.JLabel jSpace7_5;
+    private javax.swing.JLabel jSpace7_6;
+    private javax.swing.JLabel jSpace7_7;
+    private javax.swing.JLabel jSpace7_8;
+    private javax.swing.JLabel jSpace7_9;
+    private javax.swing.JTextField jTextFieldTest;
+    private javax.swing.JMenu mnuCon;
+    private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenuBar mnuMain;
+    private javax.swing.JMenuItem mnuQuit;
+    // End of variables declaration//GEN-END:variables
+
 }
