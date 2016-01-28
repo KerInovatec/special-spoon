@@ -36,7 +36,7 @@ public class FrmMain extends javax.swing.JFrame {
                     curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
-                            matchClicked(evt);
+                            matchClicked(evt, curLabel);
                         }
                     });
                 }
@@ -44,7 +44,7 @@ public class FrmMain extends javax.swing.JFrame {
         }
     }
 
-    private void matchClicked(java.awt.event.MouseEvent evt) {
+    private void matchClicked(java.awt.event.MouseEvent evt, JLabel pLabel) {
         //Test, wenn auf ein Streichholz geklickt wird
         JOptionPane.showMessageDialog(this, "Match Clicked!");
     }
