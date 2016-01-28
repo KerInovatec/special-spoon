@@ -26,27 +26,29 @@ public class FrmMain extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.initEvents();
+        this.initEvents2();
         hasMatch = false;
     }
 
-    private void initEvents() {
-        for (JLabel[] curLabelArray : this.jMatchArr) {
-            for (JLabel curLabel : curLabelArray) {
-                if (curLabel != null) {
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-                        @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt) {
-                            matchClicked(evt, curLabel);
-                        }
-                    });
-                }
-            }
+    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (!hasMatch) {
+            jSpaceArr[y][x].setVisible(true);
+            
+            hasMatch = true;
+
+            jLabel1.setText("HasMatch true");
         }
     }
 
-    private void matchClicked(java.awt.event.MouseEvent evt, JLabel pLabel) {
-        //Test, wenn auf ein Streichholz geklickt wird
-        JOptionPane.showMessageDialog(this, "Match Clicked!");
+    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (hasMatch) {
+            jSpaceArr[y][x].setVisible(false);
+            
+            hasMatch = false;
+
+            jLabel1.setText("HasMatch false");
+        }
+
     }
 
     public void doLogin(String ip, int port, String username) {
@@ -193,6 +195,7 @@ public class FrmMain extends javax.swing.JFrame {
         jMinus = new javax.swing.JLabel();
         jTextFieldTest = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanelIntro = new javax.swing.JPanel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
@@ -207,7 +210,7 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(null);
 
         jButton1.setText("DoStuff!");
@@ -760,6 +763,10 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel1.add(jButton3);
         jButton3.setBounds(240, 450, 53, 23);
 
+        jLabel1.setText("HasMatch");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(620, 370, 130, 14);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
 
@@ -849,6 +856,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jEaquals;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JLabel jMatch1_1;
     private javax.swing.JLabel jMatch1_2;
@@ -1201,5 +1209,41 @@ public class FrmMain extends javax.swing.JFrame {
             lGleichung.next();
         }
         jEaquals.setVisible(true);
+    }
+
+    private void initEvents() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
+                JLabel curLabel = this.jMatchArr[y][i];
+                int x = i;
+                int z = y;
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            matchClicked(evt, x, z);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private void initEvents2() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
+                JLabel curLabel = this.jSpaceArr[y][i];
+                int x = i;
+                int z = y;
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            spaceClicked(evt, x, z);
+                        }
+                    });
+                }
+            }
+        }
     }
 }
