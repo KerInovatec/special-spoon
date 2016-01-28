@@ -11,6 +11,14 @@ import de.matchbox.communication.contentobjects.IMessageContentObject;
  *
  * @author Pascal
  */
-public class JoinRoomContentObject implements IMessageContentObject{
-    
+public class JoinRoomContentObject implements IMessageContentObject {
+
+    private int roomId;
+
+    public JoinRoomContentObject() {
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
 }
