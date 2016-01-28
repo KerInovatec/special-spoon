@@ -12,6 +12,7 @@ public class FrmMain extends javax.swing.JFrame {
     private JLabel jMatchArr[][];
     private JLabel jSpaceArr[][];
     private final Control control;
+    private boolean hasMatch;
 
     public FrmMain() {
         this.control = new Control(this);
@@ -23,7 +24,7 @@ public class FrmMain extends javax.swing.JFrame {
         this.resetView();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-
+        hasMatch = false;
     }
     
     public void doLogin(String ip, int port,String username)
@@ -183,10 +184,9 @@ public class FrmMain extends javax.swing.JFrame {
         setTitle("MatchBox");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1500, 650));
-        setPreferredSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setLayout(null);
 
         jButton1.setText("DoStuff!");
@@ -786,33 +786,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        resetView();
-        List lGleichung = MatchUtility.equationToMatch(jTextFieldTest.getText());
-        boolean[] lCode;
-        int ZahlIndex = 1;
-        lGleichung.toFirst();
-        while (lGleichung.hasAccess()) {
-
-            if ((lGleichung.getObject() instanceof Zahl)) {
-                lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
-                for (int i = 1; i <= 7; i++) {
-                    jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
-                }
-                ZahlIndex++;
-            } else if ((char) lGleichung.getObject() == '*') {
-                ZahlIndex++;
-
-            } else {
-                if ((char) lGleichung.getObject() == '-') {
-                    jMinus.setVisible(true);
-                } else if ((char) lGleichung.getObject() == '+') {
-                    jPlus.setVisible(true);
-                }
-
-            }
-            lGleichung.next();
-        }
-        jEaquals.setVisible(true);
+        this.setMatches(jTextFieldTest.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1168,7 +1142,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     }
 
-    public void resetView() {
+    private void resetView() {
         jPlus.setVisible(false);
         jMinus.setVisible(false);
         jEaquals.setVisible(false);
@@ -1179,5 +1153,35 @@ public class FrmMain extends javax.swing.JFrame {
             }
         }
         
+    }
+    private void setMatches(String pEaquasion)
+    {
+         resetView();
+        List lGleichung = MatchUtility.equationToMatch(pEaquasion);
+        boolean[] lCode;
+        int ZahlIndex = 1;
+        lGleichung.toFirst();
+        while (lGleichung.hasAccess()) {
+
+            if ((lGleichung.getObject() instanceof Zahl)) {
+                lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
+                for (int i = 1; i <= 7; i++) {
+                    jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
+                }
+                ZahlIndex++;
+            } else if ((char) lGleichung.getObject() == '*') {
+                ZahlIndex++;
+
+            } else {
+                if ((char) lGleichung.getObject() == '-') {
+                    jMinus.setVisible(true);
+                } else if ((char) lGleichung.getObject() == '+') {
+                    jPlus.setVisible(true);
+                }
+
+            }
+            lGleichung.next();
+        }
+        jEaquals.setVisible(true);
     }
 }
