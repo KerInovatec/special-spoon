@@ -38,6 +38,8 @@ public class Control {
             case LIST_ROOMS:
                 pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LIST_ROOMS, new ListRoomsContentObject(pServer.getRoomModelList()))));
                 break;
+            case ROOM_CMD:
+                break;
             default:
                 pServer.send(pClient.getIp(), pClient.getPort(), new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND))));
                 break;

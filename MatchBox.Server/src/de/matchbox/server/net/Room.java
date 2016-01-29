@@ -1,6 +1,8 @@
 package de.matchbox.server.net;
 
+import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.shared.abiturklassen.List;
+import de.matchbox.server.StreichholzServer;
 
 public class Room {
 
@@ -24,6 +26,10 @@ public class Room {
 
     public int getId() {
         return id;
+    }
+    
+    public void process(MessageObject pMessageObject, Client pClient, StreichholzServer pServer){
+        
     }
 
     public boolean containsClient(Client pClient) {

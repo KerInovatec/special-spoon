@@ -15,7 +15,7 @@ import de.matchbox.communication.enumeration.MessageType;
  */
 public class MessageObject {
 
-    private final MessageType nachrichtenTyp;
+    private MessageType nachrichtenTyp = MessageType.UNKOWN;
     private final IMessageContentObject contentObject;
 
     public MessageObject(MessageType pNachrichtenTyp, IMessageContentObject pContentObject) {

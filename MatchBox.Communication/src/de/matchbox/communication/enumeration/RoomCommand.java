@@ -9,8 +9,8 @@ package de.matchbox.communication.enumeration;
  *
  * @author Pascal
  */
-public enum RoomCommands {
-    SEND_EQUASION,
+public enum RoomCommand {
     CHECK_EQUASION,
-    REQUEST_EQUASION
+    REQUEST_EQUASION,
+    UNKOWN
 }
