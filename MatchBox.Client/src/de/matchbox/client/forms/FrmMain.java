@@ -18,7 +18,6 @@ public class FrmMain extends javax.swing.JFrame {
     private final Control control;
     private boolean hasMatch;
     private DefaultListModel lobby;
-    private RoomModel[] rm;
 
     public FrmMain() {
         this.control = new Control(this);
@@ -195,6 +194,12 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
+        jRoomList.setToolTipText("");
+        jRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRoomListMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jRoomList);
 
         jConnectRoom.setText("Connect");
@@ -795,12 +800,22 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jConnectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConnectRoomActionPerformed
-       if(!jRoomList.isSelectionEmpty())
-       {
-           //conect.rm[jRoomList.getSelectedIndex()].getIP; ka auf jeden fall sollte er hier connecten
-       }
-       
+        // jConnectRoom.setEnabled(false); 
+        if (!jRoomList.isSelectionEmpty()) {
+
+            
+            //conect.rm[jRoomList.getSelectedIndex()].getIP; ka auf jeden fall sollte er hier connecten
+        }
+
     }//GEN-LAST:event_jConnectRoomActionPerformed
+
+    private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
+        if(!jRoomList.isSelectionEmpty())
+        {
+            jConnectRoom.setEnabled(true);
+        }
+        
+    }//GEN-LAST:event_jRoomListMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -837,12 +852,12 @@ public class FrmMain extends javax.swing.JFrame {
         //jList1.setListData(rooms.entrySet().toArray());
         rooms.toFirst();
         while (rooms.hasAccess()) {
-            lobby.addElement(((RoomModel) rooms.getObject()).getName());
+            lobby.addElement((RoomModel) rooms.getObject());
             rooms.next();
         }
-        rm = (RoomModel[])lobby.toArray();
+
         jRoomList.setModel(lobby);
-       
+        jConnectRoom.setEnabled(false);
 
     }
 
