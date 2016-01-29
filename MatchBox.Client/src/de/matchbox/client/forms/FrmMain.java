@@ -3,7 +3,9 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Control;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
+import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.RoomModel;
+import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -803,7 +805,7 @@ public class FrmMain extends javax.swing.JFrame {
         // jConnectRoom.setEnabled(false); 
         if (!jRoomList.isSelectionEmpty()) {
 
-            
+            new MessageObject(new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId()));
             //conect.rm[jRoomList.getSelectedIndex()].getIP; ka auf jeden fall sollte er hier connecten
         }
 

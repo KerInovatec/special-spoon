@@ -17,6 +17,8 @@ public class JoinRoomContentObject implements IMessageContentObject {
 
     public JoinRoomContentObject() {
     }
+    public JoinRoomContentObject(int roomID) {
+    }
 
     public int getRoomId() {
         return roomId;
