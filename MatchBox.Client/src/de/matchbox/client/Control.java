@@ -43,7 +43,7 @@ public class Control {
     }
     
     public void login(String pUsername){
-        this.client.send(new Gson().toJson(new MessageObject(MessageType.LOGIN, new LoginContentObject(pUsername))));
+        this.client.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LOGIN, new LoginContentObject(pUsername))));
     }
     
     public void send(MessageObject pMessageObject){
