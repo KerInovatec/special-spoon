@@ -5,6 +5,7 @@ import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.RoomModel;
+import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.shared.abiturklassen.List;
@@ -20,11 +21,10 @@ public class FrmMain extends javax.swing.JFrame {
     private JLabel jSpaceArr[][];
     private final Control control;
     private boolean hasMatch;
-    private DefaultListModel lobby;
+    
 
     public FrmMain() {
-        this.control = new Control(this);
-        new FrmLogin(this).setVisible(true);
+        this.control = new Control(this);    
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
@@ -35,7 +35,7 @@ public class FrmMain extends javax.swing.JFrame {
         this.initEvents();
         this.initEvents2();
         hasMatch = false;
-        lobby = new DefaultListModel();
+        
 
     }
 
@@ -49,8 +49,9 @@ public class FrmMain extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jPanelIntro = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jRoomList = new javax.swing.JList();
+        jPLayerList = new javax.swing.JList();
         jConnectRoom = new javax.swing.JButton();
+        jCreateRoom = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jSpace1_1 = new javax.swing.JLabel();
         jSpace2_1 = new javax.swing.JLabel();
@@ -197,13 +198,13 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jRoomList.setToolTipText("");
-        jRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPLayerList.setToolTipText("");
+        jPLayerList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jRoomListMouseClicked(evt);
+                jPLayerListMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jRoomList);
+        jScrollPane3.setViewportView(jPLayerList);
 
         jConnectRoom.setText("Connect");
         jConnectRoom.addActionListener(new java.awt.event.ActionListener() {
@@ -212,15 +213,25 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
+        jCreateRoom.setText("Create");
+        jCreateRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCreateRoomActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelIntroLayout = new javax.swing.GroupLayout(jPanelIntro);
         jPanelIntro.setLayout(jPanelIntroLayout);
         jPanelIntroLayout.setHorizontalGroup(
             jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
+            .addGroup(jPanelIntroLayout.createSequentialGroup()
                 .addContainerGap(1227, Short.MAX_VALUE)
                 .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jConnectRoom)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
+                        .addComponent(jConnectRoom)
+                        .addGap(125, 125, 125)
+                        .addComponent(jCreateRoom))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanelIntroLayout.setVerticalGroup(
@@ -228,8 +239,10 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanelIntroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jConnectRoom)
+                .addGap(11, 11, 11)
+                .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jConnectRoom)
+                    .addComponent(jCreateRoom))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -804,63 +817,27 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void jConnectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConnectRoomActionPerformed
         // jConnectRoom.setEnabled(false); 
-        if (!jRoomList.isSelectionEmpty()) {
-            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId())));
+        if (!jPLayerList.isSelectionEmpty()) {
+            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jPLayerList.getSelectedValue())).getId())));
         }
 
     }//GEN-LAST:event_jConnectRoomActionPerformed
 
-    private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
-        if(!jRoomList.isSelectionEmpty())
+    private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed
+       
+    }//GEN-LAST:event_jCreateRoomActionPerformed
+
+    private void jPLayerListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPLayerListMouseClicked
+        if(!jPLayerList.isSelectionEmpty())
         {
             jConnectRoom.setEnabled(true);
         }
-        
-    }//GEN-LAST:event_jRoomListMouseClicked
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    }//GEN-LAST:event_jPLayerListMouseClicked
 
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FrmMain().setVisible(true);
-            }
-        });
-    }
+    
 
-    public void setRooms(List rooms) {
-        //List voller Raeume. Muss hier noch geaendert werden
-        //jList1.setListData(rooms.entrySet().toArray());
-        rooms.toFirst();
-        while (rooms.hasAccess()) {
-            lobby.addElement((RoomModel) rooms.getObject());
-            rooms.next();
-        }
-
-        jRoomList.setModel(lobby);
-        jConnectRoom.setEnabled(false);
-
-    }
+    
 
     private void createArr() {
         //Spaces
@@ -1132,6 +1109,7 @@ public class FrmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jConnectRoom;
+    private javax.swing.JButton jCreateRoom;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMatch1_1;
@@ -1199,10 +1177,10 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jMatch7_9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JLabel jMinus;
+    private javax.swing.JList jPLayerList;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelIntro;
     private javax.swing.JLabel jPlus;
-    private javax.swing.JList jRoomList;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;

@@ -5,22 +5,39 @@
  */
 package de.matchbox.client.forms;
 
+import de.matchbox.client.Control;
+
 /**
  *
  * @author Jakob
+ * @bearbeitet Andrej
  */
 public class FrmLogin extends javax.swing.JFrame {
 
-    private final FrmMain mainForm;
+   
 
     /**
      * Creates new form login
      *
      * @param pMainForm
      */
-    public FrmLogin(FrmMain pMainForm) {
+    private Control c;
+    private FrmLobby lobby;
+
+    private FrmLogin() {
         initComponents();
-        this.mainForm = pMainForm;
+        c = new Control(this);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        
+        
+    }
+    public void startLobby()
+    {
+        this.setVisible(false);
+        lobby = new FrmLobby();
+        lobby.setVisible(true);
+        
     }
 
     /**
@@ -45,6 +62,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MatchBox");
 
         jLabel1.setText("ip");
 
@@ -123,7 +141,8 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
-        this.mainForm.doLogin(ip, port, username);
+        c.connect(ip, port);
+        c.login(username);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -131,6 +150,35 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPortActionPerformed
 
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new FrmLogin().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
