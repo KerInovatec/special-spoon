@@ -110,7 +110,9 @@ public class StreichholzServer extends Server {
         if (pRoomName == null || this.containsRoom(pRoomName)) {
             return false;
         }
-        this.insertRoomSorted(new Room(this.getFirstFreeRoomId(), pRoomName, pClient));
+        Room lRoom = new Room(this.getFirstFreeRoomId(), pRoomName, pClient);
+        this.insertRoomSorted(lRoom);
+        pClient.setCurRoom(lRoom);
         return true;
     }
 
