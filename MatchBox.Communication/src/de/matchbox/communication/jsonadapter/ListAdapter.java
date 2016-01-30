@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.matchbox.communication.jsonadapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
@@ -20,10 +13,6 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- *
- * @author Pascal
- */
 public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List> {
 
     @Override

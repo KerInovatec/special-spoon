@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.matchbox.communication.jsonadapter;
 
 import com.google.gson.JsonDeserializationContext;
@@ -13,20 +8,15 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import de.matchbox.communication.contentobjects.IMessageContentObject;
 import java.lang.reflect.Type;
 
-/**
- *
- * @author Pascal
- */
-public class IRoomCommandContentObjectAdapter implements JsonSerializer<IMessageContentObject>, JsonDeserializer<IMessageContentObject> {
+public class IRoomCommandContentObjectAdapter implements JsonSerializer<IRoomCommandContentObjectAdapter>, JsonDeserializer<IRoomCommandContentObjectAdapter> {
 
     private static final String CLASSNAME = "classname";
     private static final String INSTANCE = "instance";
 
     @Override
-    public JsonElement serialize(IMessageContentObject t, Type type, JsonSerializationContext jsc) {
+    public JsonElement serialize(IRoomCommandContentObjectAdapter t, Type type, JsonSerializationContext jsc) {
         JsonObject lReturn = new JsonObject();
         String lClassName = t.getClass().getCanonicalName();
         lReturn.addProperty(CLASSNAME, lClassName);
@@ -36,7 +26,7 @@ public class IRoomCommandContentObjectAdapter implements JsonSerializer<IMessage
     }
 
     @Override
-    public IMessageContentObject deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+    public IRoomCommandContentObjectAdapter deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         JsonObject lJsonObject = je.getAsJsonObject();
         JsonPrimitive lPrimitive = (JsonPrimitive) lJsonObject.get(CLASSNAME);
         String className = lPrimitive.getAsString();

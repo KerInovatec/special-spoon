@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.matchbox.communication.enumeration;
 
-/**
- *
- * @author Pascal
- */
 public enum RoomCommand {
     CHECK_EQUASION,
     REQUEST_EQUASION,
+    HOST_CHANGED,
+    EQUASION_SOLVED,
+    LIST_PLAYER,
     UNKOWN
 }

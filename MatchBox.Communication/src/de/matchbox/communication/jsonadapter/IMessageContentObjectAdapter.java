@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.matchbox.communication.jsonadapter;
 
 import com.google.gson.JsonDeserializationContext;
@@ -16,10 +11,6 @@ import com.google.gson.JsonSerializer;
 import de.matchbox.communication.contentobjects.IMessageContentObject;
 import java.lang.reflect.Type;
 
-/**
- *
- * @author Pascal
- */
 public class IMessageContentObjectAdapter implements JsonSerializer<IMessageContentObject>, JsonDeserializer<IMessageContentObject> {
 
     private static final String CLASSNAME = "classname";

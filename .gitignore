@@ -17,3 +17,4 @@ hs_err_pid*
 /MatchBox.Client/build/
 /MatchBox.Client/nbproject/private/
 /MatchBox.Communication/dist/
+/MatchBox.Client/dist/
