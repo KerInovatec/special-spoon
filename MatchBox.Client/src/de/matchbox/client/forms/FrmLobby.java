@@ -23,19 +23,18 @@ public class FrmLobby extends javax.swing.JFrame {
     /**
      * Creates new form FrmLobby
      */
-    private Control c;
+    private Control control;
     private DefaultListModel lobby;
-    private RoomCreation rc;
-    
-    
-    public FrmLobby() {
+    private RoomCreationDialog roomCreationDialog;
+
+    public FrmLobby(Control pControl) {
         initComponents();
-        c = new Control(this);
+        this.control = pControl;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        lobby = new DefaultListModel();
-        jConectRoom.setEnabled(false);
-        rc = new RoomCreation(this,true);
+        this.lobby = new DefaultListModel();
+        this.jConectRoom.setEnabled(false);
+        this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
     }
 
     /**
@@ -121,23 +120,22 @@ public class FrmLobby extends javax.swing.JFrame {
 
     private void jConectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectRoomActionPerformed
         if (!jRoomList.isSelectionEmpty()) {
-            this.c.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId())));
+            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel) (jRoomList.getSelectedValue())).getId())));
         }
     }//GEN-LAST:event_jConectRoomActionPerformed
 
     private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed
-        
-        rc.setVisible(true);
-        
+
+        roomCreationDialog.setVisible(true);
+
     }//GEN-LAST:event_jCreateRoomActionPerformed
 
     private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
-        if(!jRoomList.isSelectionEmpty())
-        {
+        if (!jRoomList.isSelectionEmpty()) {
             jConectRoom.setEnabled(true);
         }
     }//GEN-LAST:event_jRoomListMouseClicked
-public void setRooms(List rooms) {
+    public void setRooms(List rooms) {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
         rooms.toFirst();
@@ -147,17 +145,16 @@ public void setRooms(List rooms) {
         }
 
         jRoomList.setModel(lobby);
-        
 
     }
-public void createRoom(String pName)
-{
-    this.c.send(new MessageObject(MessageType.CREATE_ROOM,new CreateRoomContentObject(pName)));
-}
+
+    public void createRoom(String pName) {
+        this.control.send(new MessageObject(MessageType.CREATE_ROOM, new CreateRoomContentObject(pName)));
+    }
     /**
      * @param args the command line arguments
      */
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jConectRoom;

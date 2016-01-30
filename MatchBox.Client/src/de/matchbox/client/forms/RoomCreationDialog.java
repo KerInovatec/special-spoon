@@ -14,20 +14,20 @@ import de.matchbox.communication.enumeration.MessageType;
  *
  * @author Name
  */
-public class RoomCreation extends javax.swing.JDialog {
+public class RoomCreationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form RoomCreation
      */
-    private Control cr;
+    private Control control;
 
-    public RoomCreation(java.awt.Frame parent, boolean modal) {
+    public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl) {
         super(parent, modal);
         initComponents();
         jButtonCreate.setEnabled(false);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        cr = new Control();
+        this.control = pControl;
 
     }
 
@@ -111,8 +111,8 @@ public class RoomCreation extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldRoomNameKeyTyped
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-        
-        this.cr.send(new MessageObject(MessageType.CREATE_ROOM,new CreateRoomContentObject(jTextFieldRoomName.getText())));
+
+        this.control.send(new MessageObject(MessageType.CREATE_ROOM, new CreateRoomContentObject(jTextFieldRoomName.getText())));
         this.setVisible(false);
 
     }//GEN-LAST:event_jButtonCreateActionPerformed

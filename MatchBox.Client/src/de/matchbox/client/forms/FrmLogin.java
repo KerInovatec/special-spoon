@@ -21,12 +21,12 @@ public class FrmLogin extends javax.swing.JFrame {
      *
      * @param pMainForm
      */
-    private Control c;
+    private Control control;
     private FrmLobby lobby;
 
     private FrmLogin() {
         initComponents();
-        c = new Control(this);
+        this.control = new Control(this);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         
@@ -35,8 +35,8 @@ public class FrmLogin extends javax.swing.JFrame {
     public void startLobby()
     {
         this.setVisible(false);
-        lobby = new FrmLobby();
-        lobby.setVisible(true);
+        this.lobby = new FrmLobby(this.control);
+        this.lobby.setVisible(true);
         
     }
 
@@ -141,8 +141,8 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
-        c.connect(ip, port);
-        c.login(username);
+        control.connect(ip, port);
+        control.login(username);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
