@@ -6,6 +6,7 @@ import de.matchbox.client.Zahl;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.RoomModel;
 import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
+import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -804,9 +805,7 @@ public class FrmMain extends javax.swing.JFrame {
     private void jConnectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConnectRoomActionPerformed
         // jConnectRoom.setEnabled(false); 
         if (!jRoomList.isSelectionEmpty()) {
-
-            new MessageObject(new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId()));
-            //conect.rm[jRoomList.getSelectedIndex()].getIP; ka auf jeden fall sollte er hier connecten
+            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId())));
         }
 
     }//GEN-LAST:event_jConnectRoomActionPerformed

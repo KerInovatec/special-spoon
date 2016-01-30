@@ -3,6 +3,7 @@ package de.matchbox.client;
 import com.google.gson.Gson;
 import de.matchbox.client.forms.FrmMain;
 import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
 import de.matchbox.communication.enumeration.MessageType;
@@ -43,5 +44,9 @@ public class Control {
     
     public void login(String pUsername){
         this.client.send(new Gson().toJson(new MessageObject(MessageType.LOGIN, new LoginContentObject(pUsername))));
+    }
+    
+    public void send(MessageObject pMessageObject){
+        this.client.send(new StandardGsonBuilder().create().toJson(pMessageObject));
     }
 }
