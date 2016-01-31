@@ -141,8 +141,11 @@ public class FrmLobby extends javax.swing.JFrame {
 
     private void jConectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectRoomActionPerformed
         if (!jRoomList.isSelectionEmpty()) {
+            
             this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel) (jRoomList.getSelectedValue())).getId())));
+            
         }
+        
     }//GEN-LAST:event_jConectRoomActionPerformed
 
     private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed

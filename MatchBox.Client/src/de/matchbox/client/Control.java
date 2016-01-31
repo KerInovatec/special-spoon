@@ -46,7 +46,6 @@ public class Control {
     public void setLobby(FrmLobby lobby) {
         this.lobby = lobby;
     }
-    
 
     public void connect(String ip, int port) {
         this.client = new MatchBoxClient(this, ip, port);
@@ -64,17 +63,23 @@ public class Control {
             case LOGIN:
                 JOptionPane.showMessageDialog(null, new Gson().toJson(pMessageObject));
                 login.startLobby();
-                
+
                 break;
             case CREATE_ROOM:
-                
+
                 this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
 
-            case ROOM_CMD:
-
+                break;
+            case JOIN_ROOM:
                 lobby.startMain();
-                
                 main.setPlayerList(((ListPlayerContentObject) (((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject())).getPlayer());
+                break;
+            case ROOM_CMD:
+                if (lobby != null) {
+                    lobby.startMain();
+                }
+                main.setPlayerList(((ListPlayerContentObject) (((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject())).getPlayer());
+                break;
             case ERROR:
                 //Benachrichtige den User
                 break;
