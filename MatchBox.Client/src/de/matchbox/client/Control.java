@@ -75,11 +75,14 @@ public class Control {
                 main.setPlayerList(((ListPlayerContentObject) (((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject())).getPlayer());
                 break;
             case ROOM_CMD:
+                
                 if (lobby != null) {
                     lobby.startMain();
                 }
-                main.setPlayerList(((ListPlayerContentObject) (((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject())).getPlayer());
+                main.verarbeite(((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject());
+                
                 break;
+            
             case ERROR:
                 //Benachrichtige den User
                 break;

@@ -5,9 +5,13 @@ import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.RoomModel;
+import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.enumeration.MessageType;
+import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -797,12 +801,15 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartGameActionPerformed
-       
+        this.control.send(new MessageObject(MessageType.ROOM_CMD,new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
         jPanelIntro.setVisible(false);
         jPanel1.setVisible(true);
     }//GEN-LAST:event_jButtonStartGameActionPerformed
 
-    
+    public void verarbeite(IRoomCommandContentObject pIRoomCommandContentObject)
+    {
+        this.setPlayerList(((ListPlayerContentObject)pIRoomCommandContentObject).getPlayer());
+    }
     public void setPlayerList(List pList) {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());

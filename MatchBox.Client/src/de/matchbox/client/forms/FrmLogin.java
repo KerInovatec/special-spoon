@@ -6,6 +6,8 @@
 package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
+import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.enumeration.MessageType;
 
 /**
  *
@@ -36,6 +38,7 @@ public class FrmLogin extends javax.swing.JFrame {
         this.lobby = new FrmLobby(this.control);
         this.control.setLobby(lobby);
         this.lobby.setVisible(true);
+        this.control.send(new MessageObject(MessageType.LIST_ROOMS));
 
     }
 
