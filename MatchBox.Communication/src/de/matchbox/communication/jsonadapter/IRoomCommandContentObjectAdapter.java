@@ -8,15 +8,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
 import java.lang.reflect.Type;
 
-public class IRoomCommandContentObjectAdapter implements JsonSerializer<IRoomCommandContentObjectAdapter>, JsonDeserializer<IRoomCommandContentObjectAdapter> {
+public class IRoomCommandContentObjectAdapter implements JsonSerializer<IRoomCommandContentObject>, JsonDeserializer<IRoomCommandContentObject> {
 
     private static final String CLASSNAME = "classname";
     private static final String INSTANCE = "instance";
 
     @Override
-    public JsonElement serialize(IRoomCommandContentObjectAdapter t, Type type, JsonSerializationContext jsc) {
+    public JsonElement serialize(IRoomCommandContentObject t, Type type, JsonSerializationContext jsc) {
         JsonObject lReturn = new JsonObject();
         String lClassName = t.getClass().getCanonicalName();
         lReturn.addProperty(CLASSNAME, lClassName);
@@ -26,7 +27,7 @@ public class IRoomCommandContentObjectAdapter implements JsonSerializer<IRoomCom
     }
 
     @Override
-    public IRoomCommandContentObjectAdapter deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+    public IRoomCommandContentObject deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         JsonObject lJsonObject = je.getAsJsonObject();
         JsonPrimitive lPrimitive = (JsonPrimitive) lJsonObject.get(CLASSNAME);
         String className = lPrimitive.getAsString();

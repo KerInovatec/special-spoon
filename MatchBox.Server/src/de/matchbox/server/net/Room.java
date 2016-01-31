@@ -27,6 +27,7 @@ public class Room {
         this.id = pId;
         this.name = pName;
         this.playerList = new List();
+        this.playerList.append(new Player(pHost, 0, true));
     }
 
     public String getName() {
@@ -60,10 +61,7 @@ public class Room {
         this.playerList.toFirst();
         while (this.playerList.hasAccess()) {
             if (this.playerList.getObject() instanceof Player) {
-                Player lPlayer = (Player) this.playerList.getObject();
-                if (!lPlayer.getClient().equals(pClient)) {
-                    lPlayerList.append(lPlayer.getModel());
-                }
+                lPlayerList.append(((Player) this.playerList.getObject()).getModel());
             }
             this.playerList.next();
         }
@@ -78,7 +76,7 @@ public class Room {
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
         if (pMessageObject.getContentObject() instanceof EquasionContentObject) {
             boolean lIsEquasionCorrect = ((EquasionContentObject) pMessageObject.getContentObject()).getEquasion().equals(this.correctEquasion);
-            if(lIsEquasionCorrect){
+            if (lIsEquasionCorrect) {
                 this.givePlayerPoint(pClient);
             }
             pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect)))));
@@ -86,12 +84,12 @@ public class Room {
             pClient.send(new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
         }
     }
-    
-    private void givePlayerPoint(Client pClient){
+
+    private void givePlayerPoint(Client pClient) {
         this.playerList.toFirst();
-        while(this.playerList.hasAccess() && this.playerList.getObject() instanceof Player){
+        while (this.playerList.hasAccess() && this.playerList.getObject() instanceof Player) {
             Player lPlayer = (Player) this.playerList.getObject();
-            if(lPlayer.getClient().equals(pClient)){
+            if (lPlayer.getClient().equals(pClient)) {
                 lPlayer.setPoints(lPlayer.getPoints() + 1);
             }
             this.playerList.next();
@@ -110,8 +108,8 @@ public class Room {
     private void onHostChanged() {
         this.sendPlayersToAll(true);
     }
-    
-    private void sendPlayersToAll(boolean pHostChanged){
+
+    private void sendPlayersToAll(boolean pHostChanged) {
         List lPlayerList = ListUtility.copyList(this.playerList);
         lPlayerList.toFirst();
         while (lPlayerList.hasAccess()) {

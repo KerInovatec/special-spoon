@@ -39,7 +39,7 @@ public class StreichholzServer extends Server {
             MessageObject lMessageObject = lGsonObject.fromJson(pMessage, MessageObject.class);
             this.control.process(lMessageObject, this.getClient(pClientIP, pClientPort), this);
         } catch (Exception ex) {
-            this.send(pClientIP, pClientPort, lGsonObject.toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+            this.send(pClientIP, pClientPort, lGsonObject.toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR, ex.getMessage()))));
         }
     }
 
@@ -176,7 +176,7 @@ public class StreichholzServer extends Server {
         }
         return false;
     }
-    
+
     public Room getRoom(int pRoomId) {
         this.roomList.toFirst();
         while (this.roomList.hasAccess()) {
