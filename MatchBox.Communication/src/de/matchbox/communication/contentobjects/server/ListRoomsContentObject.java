@@ -11,6 +11,6 @@ public class ListRoomsContentObject implements IMessageContentObject{
     }
 
     public List getRooms() {
-        return rooms;
+        return this.rooms;
     }
 }
