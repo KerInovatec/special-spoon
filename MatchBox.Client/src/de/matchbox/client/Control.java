@@ -57,7 +57,7 @@ public class Control {
                 break;
             case CREATE_ROOM:
                 this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
-
+                lobby.startMain();
             case ERROR:
                 //Benachrichtige den User
                 break;

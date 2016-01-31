@@ -23,8 +23,8 @@ public class FrmMain extends javax.swing.JFrame {
     private boolean hasMatch;
     
 
-    public FrmMain() {
-        this.control = new Control(this);    
+    public FrmMain(Control control) {
+        this.control = control;    
         initComponents();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
@@ -39,10 +39,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     }
 
-    public void doLogin(String ip, int port, String username) {
-        this.control.connect(ip, port);
-        this.control.login(username);
-    }
+   
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -50,8 +47,7 @@ public class FrmMain extends javax.swing.JFrame {
         jPanelIntro = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPLayerList = new javax.swing.JList();
-        jConnectRoom = new javax.swing.JButton();
-        jCreateRoom = new javax.swing.JButton();
+        jButtonStartGame = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jSpace1_1 = new javax.swing.JLabel();
         jSpace2_1 = new javax.swing.JLabel();
@@ -199,24 +195,12 @@ public class FrmMain extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jPLayerList.setToolTipText("");
-        jPLayerList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPLayerListMouseClicked(evt);
-            }
-        });
         jScrollPane3.setViewportView(jPLayerList);
 
-        jConnectRoom.setText("Connect");
-        jConnectRoom.addActionListener(new java.awt.event.ActionListener() {
+        jButtonStartGame.setText("Start Game");
+        jButtonStartGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jConnectRoomActionPerformed(evt);
-            }
-        });
-
-        jCreateRoom.setText("Create");
-        jCreateRoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCreateRoomActionPerformed(evt);
+                jButtonStartGameActionPerformed(evt);
             }
         });
 
@@ -224,14 +208,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanelIntro.setLayout(jPanelIntroLayout);
         jPanelIntroLayout.setHorizontalGroup(
             jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIntroLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
                 .addContainerGap(1227, Short.MAX_VALUE)
                 .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
-                        .addComponent(jConnectRoom)
-                        .addGap(125, 125, 125)
-                        .addComponent(jCreateRoom))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonStartGame)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanelIntroLayout.setVerticalGroup(
@@ -239,11 +220,9 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanelIntroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jConnectRoom)
-                    .addComponent(jCreateRoom))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonStartGame)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanelIntro);
@@ -815,25 +794,10 @@ public class FrmMain extends javax.swing.JFrame {
         this.setMatches(jTextFieldTest.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jConnectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConnectRoomActionPerformed
-        // jConnectRoom.setEnabled(false); 
-        if (!jPLayerList.isSelectionEmpty()) {
-            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jPLayerList.getSelectedValue())).getId())));
-        }
-
-    }//GEN-LAST:event_jConnectRoomActionPerformed
-
-    private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed
-       
-    }//GEN-LAST:event_jCreateRoomActionPerformed
-
-    private void jPLayerListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPLayerListMouseClicked
-        if(!jPLayerList.isSelectionEmpty())
-        {
-            jConnectRoom.setEnabled(true);
-        }
-
-    }//GEN-LAST:event_jPLayerListMouseClicked
+    private void jButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartGameActionPerformed
+        jPanelIntro.setVisible(false);
+        jPanel1.setVisible(true);
+    }//GEN-LAST:event_jButtonStartGameActionPerformed
 
     
 
@@ -1108,8 +1072,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jConnectRoom;
-    private javax.swing.JButton jCreateRoom;
+    private javax.swing.JButton jButtonStartGame;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMatch1_1;

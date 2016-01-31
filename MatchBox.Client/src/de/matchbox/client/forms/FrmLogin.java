@@ -14,8 +14,6 @@ import de.matchbox.client.Control;
  */
 public class FrmLogin extends javax.swing.JFrame {
 
-   
-
     /**
      * Creates new form login
      *
@@ -29,15 +27,14 @@ public class FrmLogin extends javax.swing.JFrame {
         this.control = new Control(this);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        
-        
+
     }
-    public void startLobby()
-    {
+
+    public void startLobby() {
         this.setVisible(false);
         this.lobby = new FrmLobby(this.control);
         this.lobby.setVisible(true);
-        
+
     }
 
     /**
@@ -111,7 +108,7 @@ public class FrmLogin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldUsername))))
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +127,7 @@ public class FrmLogin extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(39, 39, 39)
                 .addComponent(jButton1)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();

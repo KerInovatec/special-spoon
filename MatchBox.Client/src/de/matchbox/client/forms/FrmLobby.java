@@ -26,6 +26,7 @@ public class FrmLobby extends javax.swing.JFrame {
     private Control control;
     private DefaultListModel lobby;
     private RoomCreationDialog roomCreationDialog;
+    private FrmMain main;
 
     public FrmLobby(Control pControl) {
         initComponents();
@@ -35,6 +36,13 @@ public class FrmLobby extends javax.swing.JFrame {
         this.lobby = new DefaultListModel();
         this.jConectRoom.setEnabled(false);
         this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
+    }
+
+    public void startMain() {
+        this.setVisible(false);
+        this.main = new FrmMain(this.control);
+        this.main.setVisible(true);
+
     }
 
     /**
