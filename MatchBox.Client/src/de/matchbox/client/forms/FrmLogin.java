@@ -31,8 +31,10 @@ public class FrmLogin extends javax.swing.JFrame {
     }
 
     public void startLobby() {
+        
         this.setVisible(false);
         this.lobby = new FrmLobby(this.control);
+        this.control.setLobby(lobby);
         this.lobby.setVisible(true);
 
     }

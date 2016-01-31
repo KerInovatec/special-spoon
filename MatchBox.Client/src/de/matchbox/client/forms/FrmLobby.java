@@ -39,8 +39,10 @@ public class FrmLobby extends javax.swing.JFrame {
     }
 
     public void startMain() {
+        
         this.setVisible(false);
         this.main = new FrmMain(this.control);
+        this.control.setMain(main);
         this.main.setVisible(true);
 
     }
