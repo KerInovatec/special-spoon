@@ -33,7 +33,7 @@ public class FrmLobby extends javax.swing.JFrame {
         this.control = pControl;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.lobby = new DefaultListModel();
+        
         this.jConectRoom.setEnabled(false);
         this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
     }
@@ -60,6 +60,7 @@ public class FrmLobby extends javax.swing.JFrame {
         jRoomList = new javax.swing.JList();
         jConectRoom = new javax.swing.JButton();
         jCreateRoom = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -96,6 +97,13 @@ public class FrmLobby extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("aktulisieren");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,6 +113,8 @@ public class FrmLobby extends javax.swing.JFrame {
                 .addComponent(jConectRoom)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCreateRoom)
+                .addGap(26, 26, 26)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -119,7 +129,8 @@ public class FrmLobby extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jConectRoom)
-                    .addComponent(jCreateRoom))
+                    .addComponent(jCreateRoom)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -143,9 +154,14 @@ public class FrmLobby extends javax.swing.JFrame {
             jConectRoom.setEnabled(true);
         }
     }//GEN-LAST:event_jRoomListMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.control.send(new MessageObject(MessageType.LIST_ROOMS));
+    }//GEN-LAST:event_jButton1ActionPerformed
     public void setRooms(List rooms) {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
+        this.lobby = new DefaultListModel();
         rooms.toFirst();
         while (rooms.hasAccess()) {
             lobby.addElement((RoomModel) rooms.getObject());
@@ -165,6 +181,7 @@ public class FrmLobby extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jConectRoom;
     private javax.swing.JButton jCreateRoom;
     private javax.swing.JDialog jDialog1;

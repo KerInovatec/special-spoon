@@ -21,11 +21,13 @@ public class FrmMain extends javax.swing.JFrame {
     private JLabel jSpaceArr[][];
     private final Control control;
     private boolean hasMatch;
+    private DefaultListModel playerListModel;
     
 
     public FrmMain(Control control) {
         this.control = control;    
         initComponents();
+        this.playerListModel = new DefaultListModel();
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -795,12 +797,24 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartGameActionPerformed
+       
         jPanelIntro.setVisible(false);
         jPanel1.setVisible(true);
     }//GEN-LAST:event_jButtonStartGameActionPerformed
 
     
+    public void setPlayerList(List pList) {
+        //List voller Raeume. Muss hier noch geaendert werden
+        //jList1.setListData(rooms.entrySet().toArray());
+        pList.toFirst();
+        while (pList.hasAccess()) {
+            playerListModel.addElement(pList.getObject());
+            pList.next();
+        }
 
+        jPLayerList.setModel(playerListModel);
+
+    }
     
 
     private void createArr() {

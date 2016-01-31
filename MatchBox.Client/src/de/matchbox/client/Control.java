@@ -9,6 +9,7 @@ import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 import javax.swing.JOptionPane;
@@ -54,10 +55,16 @@ public class Control {
             case LOGIN:
                 JOptionPane.showMessageDialog(null, new Gson().toJson(pMessageObject));
                 login.startLobby();
+                
                 break;
             case CREATE_ROOM:
-                this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
-                lobby.startMain();
+                
+                //this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
+
+            case ROOM_CMD:
+
+//                lobby.startMain();
+//                main.setPlayerList(((ListPlayerContentObject) (((RoomCommandContentObject) pMessageObject.getContentObject()).getContentObject())).getPlayer());
             case ERROR:
                 //Benachrichtige den User
                 break;
