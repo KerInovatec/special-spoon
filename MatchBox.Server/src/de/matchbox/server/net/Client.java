@@ -1,5 +1,7 @@
 package de.matchbox.server.net;
 
+import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.server.abiturklassen.Server;
 
 public class Client {
@@ -39,9 +41,13 @@ public class Client {
     public void setUsername(String pUsername) {
         this.username = pUsername;
     }
-    
-    public void send(String pMessage){
+
+    public void send(String pMessage) {
         this.server.send(this, pMessage);
+    }
+
+    public void sendJson(MessageObject pMessage) {
+        this.server.send(this, new StandardGsonBuilder().create().toJson(pMessage));
     }
 
     public boolean equals(Client pClient) {

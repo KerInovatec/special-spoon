@@ -1,6 +1,5 @@
 package de.matchbox.server.net;
 
-import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
@@ -50,7 +49,7 @@ public class Room {
                 this.listPlayer(pClient, false);
                 break;
             default:
-                pServer.send(pClient, new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND))));
+                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND)));
                 break;
         }
     }
@@ -67,9 +66,9 @@ public class Room {
         }
 
         if (!pHostChanged) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER, new ListPlayerContentObject(lPlayerList)))));
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER, new ListPlayerContentObject(lPlayerList))));
         } else {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.HOST_CHANGED, new ListPlayerContentObject(lPlayerList)))));
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.HOST_CHANGED, new ListPlayerContentObject(lPlayerList))));
         }
     }
 
@@ -79,9 +78,9 @@ public class Room {
             if (lIsEquasionCorrect) {
                 this.givePlayerPoint(pClient);
             }
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect)))));
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect))));
         } else {
-            pClient.send(new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
         }
     }
 
@@ -101,7 +100,7 @@ public class Room {
         if (this.isClientHost(pClient)) {
             this.sendToAll(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion)))));
         } else {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion)))));
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
         }
     }
 

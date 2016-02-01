@@ -1,8 +1,6 @@
 package de.matchbox.server;
 
-import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
-import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
@@ -22,7 +20,7 @@ public class Control {
     public void process(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         switch (pMessageObject.getNachrichtenTyp()) {
             case LOGIN:
-                this.loginClient(pMessageObject, pClient);
+                this.loginClient(pMessageObject, pClient, pServer);
                 break;
             case LOGOUT:
                 this.logoutClient(pClient, pServer);
@@ -37,13 +35,13 @@ public class Control {
                 this.leaveRoom(pClient, pServer);
                 break;
             case LIST_ROOMS:
-                pServer.send(pClient, new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LIST_ROOMS, new ListRoomsContentObject(pServer.getRoomModelList()))));
+                pClient.sendJson(new MessageObject(MessageType.LIST_ROOMS, new ListRoomsContentObject(pServer.getRoomModelList())));
                 break;
             case ROOM_CMD:
                 this.processRoomCommand(pMessageObject, pClient, pServer);
                 break;
             default:
-                pServer.send(pClient.getIp(), pClient.getPort(), new Gson().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND))));
+                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND)));
                 break;
         }
     }
@@ -51,69 +49,74 @@ public class Control {
     private void processRoomCommand(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         if (pClient != null && pClient.getCurRoom() != null) {
             if (!(pMessageObject.getContentObject() instanceof RoomCommandContentObject)) {
-                pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             } else {
                 pClient.getCurRoom().process((RoomCommandContentObject) pMessageObject.getContentObject(), pClient, pServer);
             }
         } else if (pClient != null && pClient.getCurRoom() == null) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
         }
     }
 
-    private void loginClient(MessageObject pMessageObject, Client pClient) {
+    private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         if (pMessageObject.getContentObject() instanceof LoginContentObject) {
-            pClient.setUsername(((LoginContentObject) pMessageObject.getContentObject()).getUsername());
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LOGIN)));
+            String lUsername = ((LoginContentObject) pMessageObject.getContentObject()).getUsername();
+            if (pServer.containsName(lUsername)) {
+                pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN)));
+            } else {
+                pClient.setUsername(lUsername);
+                pClient.sendJson(new MessageObject(MessageType.LOGIN));
+            }
         } else {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
         }
     }
 
     private void logoutClient(Client pClient, StreichholzServer pServer) {
         if (pServer.logoutClient(pClient)) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LOGOUT)));
+            pClient.sendJson(new MessageObject(MessageType.LOGOUT));
         } else {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN)));
         }
     }
 
     private void createRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         if (!(pMessageObject.getContentObject() instanceof CreateRoomContentObject)) {
-            pClient.send( new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             return;
         }
 
         if (pServer.createRoom(((CreateRoomContentObject) pMessageObject.getContentObject()).getName(), pClient)) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.CREATE_ROOM)));
+            pClient.sendJson(new MessageObject(MessageType.CREATE_ROOM));
         } else {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_EXISTS))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_EXISTS)));
         }
     }
 
     private void joinRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         if (!(pMessageObject.getContentObject() instanceof JoinRoomContentObject)) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             return;
         }
 
         int lRoomId = ((JoinRoomContentObject) pMessageObject.getContentObject()).getRoomId();
         Room lRoom = pServer.getRoom(lRoomId);
         if (lRoom == null) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_NOT_FOUND))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_NOT_FOUND)));
         } else {
             lRoom.addClient(pClient);
             pClient.setCurRoom(lRoom);
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.JOIN_ROOM)));
+            pClient.sendJson(new MessageObject(MessageType.JOIN_ROOM));
         }
     }
 
     private void leaveRoom(Client pClient, StreichholzServer pServer) {
         Room lRoom = pClient.getCurRoom();
         if (lRoom == null) {
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM))));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
         } else {
             lRoom.deleteClient(pClient);
-            pClient.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LEAVE_ROOM)));
+            pClient.sendJson(new MessageObject(MessageType.LEAVE_ROOM));
         }
     }
 

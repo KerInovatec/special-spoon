@@ -79,6 +79,20 @@ public class StreichholzServer extends Server {
         }
         return false;
     }
+    
+    public boolean containsName(String pName) {
+        this.clientList.toFirst();
+        while (this.clientList.hasAccess()) {
+            if (this.clientList.getObject().getClass() == Client.class) {
+                Client lClient = (Client) this.clientList.getObject();
+                if (lClient.getUsername().equals(pName)) {
+                    return true;
+                }
+            }
+            this.clientList.next();
+        }
+        return false;
+    }
 
     private void deleteClient(Client pClient) {
         this.clientList.toFirst();

@@ -8,5 +8,6 @@ public enum ErrorType {
     ROOM_NOT_FOUND,
     NOT_LOGGED_IN,
     NOT_IN_ROOM,
-    ALREADY_IN_ROOM
+    ALREADY_IN_ROOM,
+    USERNAME_TAKEN
 }
