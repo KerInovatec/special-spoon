@@ -14,6 +14,11 @@ import de.matchbox.server.net.Room;
 
 public class Control {
 
+    public static void main(String[] args) {
+        Control lControl = new Control();
+        StreichholzServer lStreichholzServer1 = new StreichholzServer(1234, lControl);
+    }
+
     private Control() {
     }
 
@@ -43,40 +48,6 @@ public class Control {
             default:
                 pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND)));
                 break;
-        }
-    }
-
-    private void processRoomCommand(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
-        if (pClient != null && pClient.getCurRoom() != null) {
-            if (!(pMessageObject.getContentObject() instanceof RoomCommandContentObject)) {
-                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
-            } else {
-                pClient.getCurRoom().process((RoomCommandContentObject) pMessageObject.getContentObject(), pClient, pServer);
-            }
-        } else if (pClient != null && pClient.getCurRoom() == null) {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
-        }
-    }
-
-    private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
-        if (pMessageObject.getContentObject() instanceof LoginContentObject) {
-            String lUsername = ((LoginContentObject) pMessageObject.getContentObject()).getUsername();
-            if (pServer.containsName(lUsername)) {
-                pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN)));
-            } else {
-                pClient.setUsername(lUsername);
-                pClient.sendJson(new MessageObject(MessageType.LOGIN));
-            }
-        } else {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
-        }
-    }
-
-    private void logoutClient(Client pClient, StreichholzServer pServer) {
-        if (pServer.logoutClient(pClient)) {
-            pClient.sendJson(new MessageObject(MessageType.LOGOUT));
-        } else {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN)));
         }
     }
 
@@ -120,8 +91,37 @@ public class Control {
         }
     }
 
-    public static void main(String[] args) {
-        Control lControl = new Control();
-        StreichholzServer lStreichholzServer1 = new StreichholzServer(1234, lControl);
+    private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
+        if (pMessageObject.getContentObject() instanceof LoginContentObject) {
+            String lUsername = ((LoginContentObject) pMessageObject.getContentObject()).getUsername();
+            if (pServer.containsName(lUsername)) {
+                pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN)));
+            } else {
+                pClient.setUsername(lUsername);
+                pClient.sendJson(new MessageObject(MessageType.LOGIN));
+            }
+        } else {
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
+        }
+    }
+
+    private void logoutClient(Client pClient, StreichholzServer pServer) {
+        if (pServer.logoutClient(pClient)) {
+            pClient.sendJson(new MessageObject(MessageType.LOGOUT));
+        } else {
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN)));
+        }
+    }
+
+    private void processRoomCommand(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
+        if (pClient != null && pClient.getCurRoom() != null) {
+            if (!(pMessageObject.getContentObject() instanceof RoomCommandContentObject)) {
+                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
+            } else {
+                pClient.getCurRoom().process((RoomCommandContentObject) pMessageObject.getContentObject(), pClient, pServer);
+            }
+        } else if (pClient != null && pClient.getCurRoom() == null) {
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
+        }
     }
 }

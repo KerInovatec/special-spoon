@@ -15,16 +15,6 @@ import java.util.ArrayList;
 
 public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List> {
 
-    @Override
-    public JsonElement serialize(List t, Type type, JsonSerializationContext jsc) {
-        ArrayList<ListContainerObject> lContainerObjects = new ArrayList<>();
-        t.toFirst();
-        while (t.hasAccess()) {
-            lContainerObjects.add(new ListContainerObject(t.getObject().getClass().getCanonicalName(), new Gson().toJson(jsc.serialize(t.getObject()))));
-            t.next();
-        }
-        return jsc.serialize(lContainerObjects);
-    }
 
     @Override
     public List deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
@@ -43,6 +33,16 @@ public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List>
             }
         }
         return lReturn;
+    }
+    @Override
+    public JsonElement serialize(List t, Type type, JsonSerializationContext jsc) {
+        ArrayList<ListContainerObject> lContainerObjects = new ArrayList<>();
+        t.toFirst();
+        while (t.hasAccess()) {
+            lContainerObjects.add(new ListContainerObject(t.getObject().getClass().getCanonicalName(), new Gson().toJson(jsc.serialize(t.getObject()))));
+            t.next();
+        }
+        return jsc.serialize(lContainerObjects);
     }
 
     private class ListContainerObject {

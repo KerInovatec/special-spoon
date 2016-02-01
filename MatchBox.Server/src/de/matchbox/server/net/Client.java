@@ -6,16 +6,29 @@ import de.matchbox.server.abiturklassen.Server;
 
 public class Client {
 
+    private Room curRoom;
+
     private final String ip;
     private final int port;
     private final Server server;
     private String username;
-    private Room curRoom;
 
     public Client(String pIp, int pPort, Server pServer) {
         this.ip = pIp;
         this.port = pPort;
         this.server = pServer;
+    }
+
+    public boolean equals(Client pClient) {
+        return this.ip.equals(pClient.getIp()) && this.port == pClient.getPort();
+    }
+
+    public Room getCurRoom() {
+        return curRoom;
+    }
+
+    public void setCurRoom(Room pCurRoom) {
+        this.curRoom = pCurRoom;
     }
 
     public String getIp() {
@@ -30,14 +43,6 @@ public class Client {
         return username;
     }
 
-    public Room getCurRoom() {
-        return curRoom;
-    }
-
-    public void setCurRoom(Room pCurRoom) {
-        this.curRoom = pCurRoom;
-    }
-
     public void setUsername(String pUsername) {
         this.username = pUsername;
     }
@@ -50,7 +55,4 @@ public class Client {
         this.server.send(this, new StandardGsonBuilder().create().toJson(pMessage));
     }
 
-    public boolean equals(Client pClient) {
-        return this.ip.equals(pClient.getIp()) && this.port == pClient.getPort();
-    }
 }
