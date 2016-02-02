@@ -75,20 +75,20 @@ public class FrmLogin extends javax.swing.JFrame
         jLabel3.setText("Port");
 
         jTextFieldIp.setText("localhost");
-        jTextFieldIp.addActionListener(new java.awt.event.ActionListener()
+        jTextFieldIp.addKeyListener(new java.awt.event.KeyAdapter()
         {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
+            public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                jTextFieldIpActionPerformed(evt);
+                jTextFieldIpKeyPressed(evt);
             }
         });
 
         jTextFieldPort.setText("1234");
-        jTextFieldPort.addActionListener(new java.awt.event.ActionListener()
+        jTextFieldPort.addKeyListener(new java.awt.event.KeyAdapter()
         {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
+            public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                jTextFieldPortActionPerformed(evt);
+                jTextFieldPortKeyPressed(evt);
             }
         });
 
@@ -102,6 +102,13 @@ public class FrmLogin extends javax.swing.JFrame
         });
 
         jTextFieldUsername.setText("Hans3");
+        jTextFieldUsername.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jTextFieldUsernameKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("Username");
 
@@ -162,14 +169,22 @@ public class FrmLogin extends javax.swing.JFrame
         this.startLobby();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextFieldPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPortActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPortActionPerformed
+    private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
+    {//GEN-HEADEREND:event_jTextFieldIpKeyPressed
+        if(!jTextFieldIp.getText().isEmpty() && !jTextFieldPort.getText().isEmpty()
+           && !jTextFieldUsername.getText().isEmpty() && evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+            this.jButton1ActionPerformed(null);
+    }//GEN-LAST:event_jTextFieldIpKeyPressed
 
-    private void jTextFieldIpActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTextFieldIpActionPerformed
-    {//GEN-HEADEREND:event_jTextFieldIpActionPerformed
+    private void jTextFieldUsernameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldUsernameKeyPressed
+    {//GEN-HEADEREND:event_jTextFieldUsernameKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldIpActionPerformed
+    }//GEN-LAST:event_jTextFieldUsernameKeyPressed
+
+    private void jTextFieldPortKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldPortKeyPressed
+    {//GEN-HEADEREND:event_jTextFieldPortKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPortKeyPressed
 
     public static void main(String args[])
     {
