@@ -5,6 +5,7 @@
  */
 package de.matchbox.client.forms;
 
+import com.sun.glass.events.KeyEvent;
 import de.matchbox.client.Control;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
@@ -14,14 +15,16 @@ import de.matchbox.communication.enumeration.MessageType;
  *
  * @author Name
  */
-public class RoomCreationDialog extends javax.swing.JDialog {
+public class RoomCreationDialog extends javax.swing.JDialog
+{
 
     /**
      * Creates new form RoomCreation
      */
     private Control control;
 
-    public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl) {
+    public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl)
+    {
         super(parent, modal);
         initComponents();
         jButtonCreate.setEnabled(false);
@@ -38,7 +41,8 @@ public class RoomCreationDialog extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jButtonCreate = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
@@ -48,21 +52,31 @@ public class RoomCreationDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButtonCreate.setText("Create");
-        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonCreate.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonCreateActionPerformed(evt);
             }
         });
 
         jButtonCancel.setText("Cancel");
-        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonCancelActionPerformed(evt);
             }
         });
 
-        jTextFieldRoomName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+        jTextFieldRoomName.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jTextFieldRoomNameKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
                 jTextFieldRoomNameKeyTyped(evt);
             }
         });
@@ -103,9 +117,12 @@ public class RoomCreationDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldRoomNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRoomNameKeyTyped
-        if (!jTextFieldRoomName.getText().isEmpty()) {
+        if(!jTextFieldRoomName.getText().isEmpty())
+        {
             jButtonCreate.setEnabled(true);
-        } else {
+        }
+        else
+        {
             jButtonCreate.setEnabled(false);
         }
     }//GEN-LAST:event_jTextFieldRoomNameKeyTyped
@@ -123,10 +140,15 @@ public class RoomCreationDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
+    private void jTextFieldRoomNameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldRoomNameKeyPressed
+    {//GEN-HEADEREND:event_jTextFieldRoomNameKeyPressed
+        if(!jTextFieldRoomName.getText().isEmpty() && evt.getKeyCode() == KeyEvent.VK_ENTER)
+            this.jButtonCreateActionPerformed(null);
+    }//GEN-LAST:event_jTextFieldRoomNameKeyPressed
+
     /**
      * @param args the command line arguments
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;

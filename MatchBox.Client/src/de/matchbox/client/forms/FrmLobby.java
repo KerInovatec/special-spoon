@@ -18,7 +18,8 @@ import javax.swing.DefaultListModel;
  *
  * @author Name
  */
-public class FrmLobby extends javax.swing.JFrame {
+public class FrmLobby extends javax.swing.JFrame
+{
 
     /**
      * Creates new form FrmLobby
@@ -28,18 +29,20 @@ public class FrmLobby extends javax.swing.JFrame {
     private RoomCreationDialog roomCreationDialog;
     private FrmMain main;
 
-    public FrmLobby(Control pControl) {
+    public FrmLobby(Control pControl)
+    {
         initComponents();
         this.control = pControl;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        
+
         this.jConectRoom.setEnabled(false);
         this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
     }
 
-    public void startMain() {
-        
+    public void startMain()
+    {
+
         this.setVisible(false);
         this.main = new FrmMain(this.control);
         this.control.setMain(main);
@@ -54,7 +57,8 @@ public class FrmLobby extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jDialog1 = new javax.swing.JDialog();
@@ -78,30 +82,38 @@ public class FrmLobby extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
 
-        jRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jRoomList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jRoomListMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jRoomList);
 
-        jConectRoom.setText("Conect");
-        jConectRoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jConectRoom.setText("Connect");
+        jConectRoom.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jConectRoomActionPerformed(evt);
             }
         });
 
         jCreateRoom.setText("Create Room");
-        jCreateRoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jCreateRoom.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jCreateRoomActionPerformed(evt);
             }
         });
 
-        jButtonAktulisieren.setText("aktulisieren");
-        jButtonAktulisieren.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonAktulisieren.setText("Refresh");
+        jButtonAktulisieren.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonAktulisierenActionPerformed(evt);
             }
         });
@@ -140,12 +152,13 @@ public class FrmLobby extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jConectRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectRoomActionPerformed
-        if (!jRoomList.isSelectionEmpty()) {
-            
-            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel) (jRoomList.getSelectedValue())).getId())));
-            
+        if(!jRoomList.isSelectionEmpty())
+        {
+
+            this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel)(jRoomList.getSelectedValue())).getId())));
+
         }
-        
+
     }//GEN-LAST:event_jConectRoomActionPerformed
 
     private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed
@@ -155,7 +168,8 @@ public class FrmLobby extends javax.swing.JFrame {
     }//GEN-LAST:event_jCreateRoomActionPerformed
 
     private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
-        if (!jRoomList.isSelectionEmpty()) {
+        if(!jRoomList.isSelectionEmpty())
+        {
             jConectRoom.setEnabled(true);
         }
     }//GEN-LAST:event_jRoomListMouseClicked
@@ -163,13 +177,16 @@ public class FrmLobby extends javax.swing.JFrame {
     private void jButtonAktulisierenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAktulisierenActionPerformed
         this.control.send(new MessageObject(MessageType.LIST_ROOMS));
     }//GEN-LAST:event_jButtonAktulisierenActionPerformed
-    public void setRooms(List rooms) {
+
+    public void setRooms(List rooms)
+    {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
         this.lobby = new DefaultListModel();
         rooms.toFirst();
-        while (rooms.hasAccess()) {
-            lobby.addElement((RoomModel) rooms.getObject());
+        while(rooms.hasAccess())
+        {
+            lobby.addElement((RoomModel)rooms.getObject());
             rooms.next();
         }
 
@@ -177,13 +194,13 @@ public class FrmLobby extends javax.swing.JFrame {
 
     }
 
-    public void createRoom(String pName) {
+    public void createRoom(String pName)
+    {
         this.control.send(new MessageObject(MessageType.CREATE_ROOM, new CreateRoomContentObject(pName)));
     }
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAktulisieren;
