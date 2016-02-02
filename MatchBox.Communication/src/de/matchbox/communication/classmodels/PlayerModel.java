@@ -1,42 +1,36 @@
 package de.matchbox.communication.classmodels;
 
-public class PlayerModel
-{
+public class PlayerModel {
+
     private int points;
     private String username;
     private boolean host;
 
-    public PlayerModel()
-    {
+    public PlayerModel() {
 
     }
 
-    public PlayerModel(String pUsername, int pPoints, boolean pIsHost)
-    {
+    public PlayerModel(String pUsername, int pPoints, boolean pIsHost) {
         this.username = pUsername;
         this.points = pPoints;
         this.host = pIsHost;
     }
 
-    public int getPoints()
-    {
+    public int getPoints() {
         return points;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
     //Nötig für Anzeige in ListBox
     @Override
-    public String toString()
-    {
+    public String toString() {
         return username;
     }
 
-    public boolean isHost()
-    {
+    public boolean isHost() {
         return host;
     }
 }

@@ -13,7 +13,7 @@ public class MessageObject {
         this.nachrichtenTyp = pNachrichtenTyp;
         this.contentObject = pContentObject;
     }
-    
+
     public MessageObject(MessageType pNachrichtenTyp) {
         this.nachrichtenTyp = pNachrichtenTyp;
         this.contentObject = null;

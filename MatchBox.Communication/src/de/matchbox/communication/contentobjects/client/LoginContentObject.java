@@ -2,10 +2,11 @@ package de.matchbox.communication.contentobjects.client;
 
 import de.matchbox.communication.contentobjects.IMessageContentObject;
 
-public class LoginContentObject implements IMessageContentObject{
+public class LoginContentObject implements IMessageContentObject {
+
     private final String username;
-    
-    public LoginContentObject(String pUsername){
+
+    public LoginContentObject(String pUsername) {
         this.username = pUsername;
     }
 

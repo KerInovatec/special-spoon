@@ -30,7 +30,7 @@ public class StreichholzServer extends Server {
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject().getClass() == Client.class) {
                 Client lClient = (Client) this.clientList.getObject();
-                if (lClient.getUsername().equals(pName)) {
+                if (lClient.getUsername() != null && lClient.getUsername().equals(pName)) {
                     return true;
                 }
             }

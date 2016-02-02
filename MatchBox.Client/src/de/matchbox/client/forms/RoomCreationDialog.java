@@ -15,16 +15,14 @@ import de.matchbox.communication.enumeration.MessageType;
  *
  * @author Name
  */
-public class RoomCreationDialog extends javax.swing.JDialog
-{
+public class RoomCreationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form RoomCreation
      */
     private Control control;
 
-    public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl)
-    {
+    public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl) {
         super(parent, modal);
         initComponents();
         jButtonCreate.setEnabled(false);
@@ -117,12 +115,9 @@ public class RoomCreationDialog extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldRoomNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRoomNameKeyTyped
-        if(!jTextFieldRoomName.getText().isEmpty())
-        {
+        if (!jTextFieldRoomName.getText().isEmpty()) {
             jButtonCreate.setEnabled(true);
-        }
-        else
-        {
+        } else {
             jButtonCreate.setEnabled(false);
         }
     }//GEN-LAST:event_jTextFieldRoomNameKeyTyped
@@ -142,8 +137,9 @@ public class RoomCreationDialog extends javax.swing.JDialog
 
     private void jTextFieldRoomNameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldRoomNameKeyPressed
     {//GEN-HEADEREND:event_jTextFieldRoomNameKeyPressed
-        if(!jTextFieldRoomName.getText().isEmpty() && evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if (!jTextFieldRoomName.getText().isEmpty() && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.jButtonCreateActionPerformed(null);
+        }
     }//GEN-LAST:event_jTextFieldRoomNameKeyPressed
 
     /**

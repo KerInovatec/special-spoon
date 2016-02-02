@@ -12,21 +12,22 @@ import de.matchbox.communication.jsonadapter.ListAdapter;
 import de.matchbox.communication.shared.abiturklassen.List;
 
 public final class StandardGsonBuilder {
+
     private final GsonBuilder gsonBuilder;
-    
-    public StandardGsonBuilder(){
+
+    public StandardGsonBuilder() {
         this.gsonBuilder = new GsonBuilder();
         this.gsonBuilder.registerTypeAdapter(IMessageContentObject.class, new IMessageContentObjectAdapter());
         this.gsonBuilder.registerTypeAdapter(IRoomCommandContentObject.class, new IRoomCommandContentObjectAdapter());
         this.gsonBuilder.registerTypeAdapter(ErrorContentObject.class, new ErrorContentObjectInstanceCreator());
         this.gsonBuilder.registerTypeAdapter(List.class, new ListAdapter());
     }
-    
-    public GsonBuilder createBuilder(){
+
+    public GsonBuilder createBuilder() {
         return this.gsonBuilder;
     }
-    
-    public Gson create(){
+
+    public Gson create() {
         return this.gsonBuilder.create();
     }
 }

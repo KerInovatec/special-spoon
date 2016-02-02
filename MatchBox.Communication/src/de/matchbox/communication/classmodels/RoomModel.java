@@ -1,6 +1,7 @@
 package de.matchbox.communication.classmodels;
 
 public class RoomModel {
+
     private final int id;
     private final String name;
 
@@ -20,10 +21,9 @@ public class RoomModel {
     public int getId() {
         return id;
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.getName();
     }
 }

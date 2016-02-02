@@ -1,13 +1,14 @@
 package de.matchbox.communication.contentobjects.roomcommands;
 
-public class EquasionContentObject implements IRoomCommandContentObject{
+public class EquasionContentObject implements IRoomCommandContentObject {
+
     private String equasion;
-    
-    public EquasionContentObject(){
-        
+
+    public EquasionContentObject() {
+
     }
-    
-    public EquasionContentObject(String pEquasion){
+
+    public EquasionContentObject(String pEquasion) {
         this.equasion = pEquasion;
     }
 

@@ -14,8 +14,7 @@ import de.matchbox.communication.enumeration.MessageType;
  * @author Jakob
  * @bearbeitet Andrej
  */
-public class FrmLogin extends javax.swing.JFrame
-{
+public class FrmLogin extends javax.swing.JFrame {
 
     /**
      * Creates new form login
@@ -25,8 +24,7 @@ public class FrmLogin extends javax.swing.JFrame
     private Control control;
     private FrmLobby lobby;
 
-    private FrmLogin()
-    {
+    private FrmLogin() {
         initComponents();
         this.control = new Control(this);
         this.setResizable(false);
@@ -34,8 +32,7 @@ public class FrmLogin extends javax.swing.JFrame
 
     }
 
-    public void startLobby()
-    {
+    public void startLobby() {
 
         this.setVisible(false);
         this.lobby = new FrmLobby(this.control);
@@ -165,15 +162,14 @@ public class FrmLogin extends javax.swing.JFrame
         String username = this.jTextFieldUsername.getText();
         control.connect(ip, port);
         control.login(username);
-        this.setVisible(false);
-        this.startLobby();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
     {//GEN-HEADEREND:event_jTextFieldIpKeyPressed
-        if(!jTextFieldIp.getText().isEmpty() && !jTextFieldPort.getText().isEmpty()
-           && !jTextFieldUsername.getText().isEmpty() && evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        if (!jTextFieldIp.getText().isEmpty() && !jTextFieldPort.getText().isEmpty()
+                && !jTextFieldUsername.getText().isEmpty() && evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             this.jButton1ActionPerformed(null);
+        }
     }//GEN-LAST:event_jTextFieldIpKeyPressed
 
     private void jTextFieldUsernameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldUsernameKeyPressed
@@ -186,45 +182,31 @@ public class FrmLogin extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPortKeyPressed
 
-    public static void main(String args[])
-    {
-        try
-        {
-            for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if("Windows".equals(info.getName()))
-                {
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
                 }
             }
-        }
-        catch(ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmMain.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrmMain.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        catch(InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch(IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch(javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 new FrmLogin().setVisible(true);
             }
         });

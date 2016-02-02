@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List> {
 
-
     @Override
     public List deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         List lReturn = new List();
@@ -34,6 +33,7 @@ public class ListAdapter implements JsonSerializer<List>, JsonDeserializer<List>
         }
         return lReturn;
     }
+
     @Override
     public JsonElement serialize(List t, Type type, JsonSerializationContext jsc) {
         ArrayList<ListContainerObject> lContainerObjects = new ArrayList<>();

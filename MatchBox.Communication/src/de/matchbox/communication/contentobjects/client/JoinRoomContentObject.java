@@ -8,6 +8,7 @@ public class JoinRoomContentObject implements IMessageContentObject {
 
     public JoinRoomContentObject() {
     }
+
     public JoinRoomContentObject(int pRoomID) {
         this.roomId = pRoomID;
     }

@@ -4,10 +4,7 @@ import de.matchbox.client.Control;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
 import de.matchbox.communication.MessageObject;
-import de.matchbox.communication.classmodels.RoomModel;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
-import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
-import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.enumeration.MessageType;
@@ -15,8 +12,6 @@ import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 
 public class FrmMain extends javax.swing.JFrame {
 
@@ -26,12 +21,12 @@ public class FrmMain extends javax.swing.JFrame {
     private final Control control;
     private boolean hasMatch;
     private DefaultListModel playerListModel;
-    
 
     public FrmMain(Control control) {
-        this.control = control;    
+        this.control = control;
         initComponents();
         this.playerListModel = new DefaultListModel();
+        this.jPLayerList.setModel(this.playerListModel);
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -41,11 +36,8 @@ public class FrmMain extends javax.swing.JFrame {
         this.initEvents();
         this.initEvents2();
         hasMatch = false;
-        
-
     }
 
-   
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -801,28 +793,35 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartGameActionPerformed
-        this.control.send(new MessageObject(MessageType.ROOM_CMD,new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
+        this.control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
         jPanelIntro.setVisible(false);
         jPanel1.setVisible(true);
     }//GEN-LAST:event_jButtonStartGameActionPerformed
 
-    public void verarbeite(IRoomCommandContentObject pIRoomCommandContentObject)
-    {
-        this.setPlayerList(((ListPlayerContentObject)pIRoomCommandContentObject).getPlayer());
-    }
-    public void setPlayerList(List pList) {
-        //List voller Raeume. Muss hier noch geaendert werden
-        //jList1.setListData(rooms.entrySet().toArray());
-        pList.toFirst();
-        while (pList.hasAccess()) {
-            playerListModel.addElement(pList.getObject());
-            pList.next();
+    public void verarbeite(RoomCommandContentObject pCommandObject) {
+        switch (pCommandObject.getCommand()) {
+            case LIST_PLAYER:
+                this.setPlayerList(pCommandObject.getContentObject());
+                break;
         }
 
-        jPLayerList.setModel(playerListModel);
-
     }
-    
+
+    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
+        //List voller Raeume. Muss hier noch geaendert werden
+        //jList1.setListData(rooms.entrySet().toArray());
+        if (!(pRoomCommandContentObject instanceof ListPlayerContentObject)) {
+            return;
+        }
+
+        this.playerListModel.clear();
+        List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
+        lList.toFirst();
+        while (lList.hasAccess()) {
+            this.playerListModel.addElement(lList.getObject());
+            lList.next();
+        }
+    }
 
     private void createArr() {
         //Spaces
@@ -1089,7 +1088,6 @@ public class FrmMain extends javax.swing.JFrame {
         }
 
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;

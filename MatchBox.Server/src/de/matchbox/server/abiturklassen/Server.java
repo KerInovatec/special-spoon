@@ -51,7 +51,6 @@ public abstract class Server {
          @param pSocket Socket, der die Verbindung beschreibt
          @param pServer Server, den die ServerVerbindung kennen lernt
          */
-
         public ServerConnection(Socket pSocket, Server pServer) {
             super(pSocket);
             server = pServer;
@@ -179,8 +178,8 @@ public abstract class Server {
                     + " mit Port " + pClientPort + " nicht vorhanden.");
         }
     }
-    
-    public void send(Client pClient, String pMessage){
+
+    public void send(Client pClient, String pMessage) {
         this.send(pClient.getIp(), pClient.getPort(), pMessage);
     }
 
