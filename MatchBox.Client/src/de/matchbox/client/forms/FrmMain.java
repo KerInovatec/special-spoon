@@ -1,10 +1,11 @@
 package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
-import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.client.Zahl;
+import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.enumeration.MessageType;
@@ -13,7 +14,8 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 
-public class FrmMain extends javax.swing.JFrame {
+public class FrmMain extends javax.swing.JFrame
+{
 
     private static final long serialVersionUID = 1L;
     private JLabel jMatchArr[][];
@@ -22,11 +24,13 @@ public class FrmMain extends javax.swing.JFrame {
     private boolean hasMatch;
     private DefaultListModel playerListModel;
 
-    public FrmMain(Control control) {
+    public FrmMain(Control control)
+    {
         this.control = control;
         initComponents();
         this.playerListModel = new DefaultListModel();
         this.jPLayerList.setModel(this.playerListModel);
+        this.jPlayerListIngame.setModel(this.playerListModel);
         jMatchArr = new JLabel[8][10];
         jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -39,14 +43,13 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jMenu1 = new javax.swing.JMenu();
-        jPanelIntro = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jPLayerList = new javax.swing.JList();
-        jButtonStartGame = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPlayerListIngame = new javax.swing.JList();
         jSpace1_1 = new javax.swing.JLabel();
         jSpace2_1 = new javax.swing.JLabel();
         jSpace3_1 = new javax.swing.JLabel();
@@ -178,7 +181,12 @@ public class FrmMain extends javax.swing.JFrame {
         jMinus = new javax.swing.JLabel();
         jTextFieldTest = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelInfo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jPanelIntro = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jPLayerList = new javax.swing.JList();
+        jButtonStartGame = new javax.swing.JButton();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -192,42 +200,13 @@ public class FrmMain extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPLayerList.setToolTipText("");
-        jScrollPane3.setViewportView(jPLayerList);
-
-        jButtonStartGame.setText("Start Game");
-        jButtonStartGame.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStartGameActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelIntroLayout = new javax.swing.GroupLayout(jPanelIntro);
-        jPanelIntro.setLayout(jPanelIntroLayout);
-        jPanelIntroLayout.setHorizontalGroup(
-            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelIntroLayout.createSequentialGroup()
-                .addContainerGap(1227, Short.MAX_VALUE)
-                .addGroup(jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonStartGame)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jPanelIntroLayout.setVerticalGroup(
-            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIntroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonStartGame)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanelIntro);
-        jPanelIntro.setBounds(0, 0, 1500, 620);
-
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
+
+        jScrollPane1.setViewportView(jPlayerListIngame);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(1110, 330, 230, 270);
 
         jSpace1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Empty_H.png"))); // NOI18N
         jPanel1.add(jSpace1_1);
@@ -748,26 +727,81 @@ public class FrmMain extends javax.swing.JFrame {
         jTextFieldTest.setBounds(160, 380, 240, 40);
 
         jButton3.setText("Test");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton3ActionPerformed(evt);
             }
         });
         jPanel1.add(jButton3);
         jButton3.setBounds(240, 450, 53, 23);
 
-        jLabel1.setText("HasMatch");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(620, 370, 130, 14);
+        jLabelInfo.setText("HasMatch");
+        jPanel1.add(jLabelInfo);
+        jLabelInfo.setBounds(620, 370, 130, 180);
+
+        jButton1.setText("Check");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(460, 450, 61, 23);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
 
+        jPanelIntro.setBackground(new java.awt.Color(102, 0, 102));
+
+        jPLayerList.setToolTipText("");
+        jPLayerList.setPreferredSize(new java.awt.Dimension(380, 520));
+        jScrollPane3.setViewportView(jPLayerList);
+
+        jButtonStartGame.setText("Start Game");
+        jButtonStartGame.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonStartGameActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelIntroLayout = new javax.swing.GroupLayout(jPanelIntro);
+        jPanelIntro.setLayout(jPanelIntroLayout);
+        jPanelIntroLayout.setHorizontalGroup(
+            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIntroLayout.createSequentialGroup()
+                .addContainerGap(934, Short.MAX_VALUE)
+                .addComponent(jButtonStartGame)
+                .addGap(479, 479, 479))
+            .addGroup(jPanelIntroLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelIntroLayout.setVerticalGroup(
+            jPanelIntroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIntroLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonStartGame)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanelIntro);
+        jPanelIntro.setBounds(0, 0, 1500, 620);
+
         mnuFile.setText("Datei");
 
         mnuQuit.setText("Beenden");
-        mnuQuit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        mnuQuit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 mnuQuitActionPerformed(evt);
             }
         });
@@ -796,34 +830,61 @@ public class FrmMain extends javax.swing.JFrame {
         this.control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
         jPanelIntro.setVisible(false);
         jPanel1.setVisible(true);
+
     }//GEN-LAST:event_jButtonStartGameActionPerformed
 
-    public void verarbeite(RoomCommandContentObject pCommandObject) {
-        switch (pCommandObject.getCommand()) {
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private List convertToList()
+    {
+        List ausgabe = new List();
+        boolean[] zahlCode = new boolean[7];
+        for(int i = 1; i < 10; i++)
+        {
+            //die jBlanks uberprufen und die zahlcodes in die liste packen
+        }
+        return ausgabe;
+    }
+
+    public void verarbeite(RoomCommandContentObject pCommandObject)
+    {
+        switch(pCommandObject.getCommand())
+        {
             case LIST_PLAYER:
                 this.setPlayerList(pCommandObject.getContentObject());
                 break;
+            case REQUEST_EQUASION:
+                this.setMatches(((EquasionContentObject)(pCommandObject.getContentObject())).getEquasion());
+                break;
+
         }
 
     }
 
-    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
+    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject)
+    {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
-        if (!(pRoomCommandContentObject instanceof ListPlayerContentObject)) {
+        if(!(pRoomCommandContentObject instanceof ListPlayerContentObject))
+        {
             return;
         }
 
         this.playerListModel.clear();
-        List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
+        List lList = ((ListPlayerContentObject)pRoomCommandContentObject).getPlayer();
         lList.toFirst();
-        while (lList.hasAccess()) {
+        while(lList.hasAccess())
+        {
             this.playerListModel.addElement(lList.getObject());
             lList.next();
         }
     }
 
-    private void createArr() {
+    private void createArr()
+    {
         //Spaces
         int x = 1;
         jSpaceArr[1][x] = jSpace1_1;
@@ -992,39 +1053,52 @@ public class FrmMain extends javax.swing.JFrame {
 
     }
 
-    private void resetView() {
+    private void resetView()
+    {
         jPlus.setVisible(false);
         jMinus.setVisible(false);
         jEaquals.setVisible(false);
-        for (int i = 1; i < 10; i++) {
-            for (int y = 1; y < 8; y++) {
+        for(int i = 1; i < 10; i++)
+        {
+            for(int y = 1; y < 8; y++)
+            {
                 jSpaceArr[y][i].setVisible(true);
-                //jMatchArr[y][i].setVisible(true); 
+                //jMatchArr[y][i].setVisible(true);
             }
         }
 
     }
 
-    private void setMatches(String pEaquasion) {
+    private void setMatches(String pEaquasion)
+    {
         resetView();
         List lGleichung = MatchUtility.equationToMatch(pEaquasion);
         boolean[] lCode;
         int ZahlIndex = 1;
         lGleichung.toFirst();
-        while (lGleichung.hasAccess()) {
+        while(lGleichung.hasAccess())
+        {
 
-            if ((lGleichung.getObject() instanceof Zahl)) {
-                lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
-                for (int i = 1; i <= 7; i++) {
+            if((lGleichung.getObject() instanceof Zahl))
+            {
+                lCode = ((Zahl)lGleichung.getObject()).getZahlCode();
+                for(int i = 1; i <= 7; i++)
+                {
                     jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
                 }
                 ZahlIndex++;
-            } else if ((char) lGleichung.getObject() == '*') {
+            }
+            else if((char)lGleichung.getObject() == '*')
+            {
                 ZahlIndex++;
 
-            } else if ((char) lGleichung.getObject() == '-') {
+            }
+            else if((char)lGleichung.getObject() == '-')
+            {
                 jMinus.setVisible(true);
-            } else if ((char) lGleichung.getObject() == '+') {
+            }
+            else if((char)lGleichung.getObject() == '+')
+            {
                 jPlus.setVisible(true);
             }
             lGleichung.next();
@@ -1032,16 +1106,22 @@ public class FrmMain extends javax.swing.JFrame {
         jEaquals.setVisible(true);
     }
 
-    private void initEvents() {
-        for (int i = 1; i < 10; i++) {
-            for (int y = 1; y < 8; y++) {
+    private void initEvents()
+    {
+        for(int i = 1; i < 10; i++)
+        {
+            for(int y = 1; y < 8; y++)
+            {
                 JLabel curLabel = this.jMatchArr[y][i];
                 int x = i;
                 int z = y;
-                if (curLabel != null) {
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                if(curLabel != null)
+                {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
+                    {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        public void mouseClicked(java.awt.event.MouseEvent evt)
+                        {
                             matchClicked(evt, x, z);
                         }
                     });
@@ -1050,16 +1130,22 @@ public class FrmMain extends javax.swing.JFrame {
         }
     }
 
-    private void initEvents2() {
-        for (int i = 1; i < 10; i++) {
-            for (int y = 1; y < 8; y++) {
+    private void initEvents2()
+    {
+        for(int i = 1; i < 10; i++)
+        {
+            for(int y = 1; y < 8; y++)
+            {
                 JLabel curLabel = this.jSpaceArr[y][i];
                 int x = i;
                 int z = y;
-                if (curLabel != null) {
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                if(curLabel != null)
+                {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
+                    {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        public void mouseClicked(java.awt.event.MouseEvent evt)
+                        {
                             spaceClicked(evt, x, z);
                         }
                     });
@@ -1068,32 +1154,37 @@ public class FrmMain extends javax.swing.JFrame {
         }
     }
 
-    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (!hasMatch) {
+    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y)
+    {
+        if(!hasMatch)
+        {
             jSpaceArr[y][x].setVisible(true);
 
             hasMatch = true;
 
-            jLabel1.setText("HasMatch true");
+            jLabelInfo.setText("HasMatch true");
         }
     }
 
-    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (hasMatch) {
+    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y)
+    {
+        if(hasMatch)
+        {
             jSpaceArr[y][x].setVisible(false);
 
             hasMatch = false;
 
-            jLabel1.setText("HasMatch false");
+            jLabelInfo.setText("HasMatch false");
         }
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonStartGame;
     private javax.swing.JLabel jEaquals;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelInfo;
     private javax.swing.JLabel jMatch1_1;
     private javax.swing.JLabel jMatch1_2;
     private javax.swing.JLabel jMatch1_3;
@@ -1162,7 +1253,9 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JList jPLayerList;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelIntro;
+    private javax.swing.JList jPlayerListIngame;
     private javax.swing.JLabel jPlus;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;
