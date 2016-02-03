@@ -1,6 +1,5 @@
 package de.matchbox.server;
 
-import de.matchbox.server.net.Room;
 import com.google.gson.Gson;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
@@ -10,27 +9,34 @@ import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.shared.abiturklassen.List;
 import de.matchbox.server.abiturklassen.Server;
 import de.matchbox.server.net.Client;
+import de.matchbox.server.net.Room;
 
-public class StreichholzServer extends Server {
+public class StreichholzServer extends Server
+{
 
     private final List clientList;
 
     private final Control control;
     private final List roomList;
 
-    public StreichholzServer(int pPortNr, Control pControl) {
+    public StreichholzServer(int pPortNr, Control pControl)
+    {
         super(pPortNr);
         this.control = pControl;
         this.roomList = new List();
         this.clientList = new List();
     }
 
-    public boolean containsName(String pName) {
+    public boolean containsName(String pName)
+    {
         this.clientList.toFirst();
-        while (this.clientList.hasAccess()) {
-            if (this.clientList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.clientList.getObject();
-                if (lClient.getUsername() != null && lClient.getUsername().equals(pName)) {
+        while(this.clientList.hasAccess())
+        {
+            if(this.clientList.getObject().getClass() == Client.class)
+            {
+                Client lClient = (Client)this.clientList.getObject();
+                if(lClient.getUsername() != null && lClient.getUsername().equals(pName))
+                {
                     return true;
                 }
             }
@@ -39,12 +45,16 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    public boolean containsRoom(int pRoomId) {
+    public boolean containsRoom(int pRoomId)
+    {
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Room.class) {
-                Room lRoom = (Room) this.roomList.getObject();
-                if (pRoomId == lRoom.getId()) {
+        while(this.roomList.hasAccess())
+        {
+            if(this.roomList.getObject().getClass() == Room.class)
+            {
+                Room lRoom = (Room)this.roomList.getObject();
+                if(pRoomId == lRoom.getId())
+                {
                     return true;
                 }
             }
@@ -53,22 +63,33 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    public boolean createRoom(String pRoomName, Client pClient) {
-        if (pRoomName == null || this.containsRoom(pRoomName)) {
+    public boolean createRoom(String pRoomName, Client pClient)
+    {
+        if(pRoomName == null)
+            return false;
+        log("Versuche Raum \"" + pRoomName + "\" zu erstellen.");
+        if(this.containsRoom(pRoomName))
+        {
+            log("Raum \"" + pRoomName + "\" bereits vorhanden.");
             return false;
         }
         Room lRoom = new Room(this.getFirstFreeRoomId(), pRoomName, pClient);
         this.insertRoomSorted(lRoom);
         pClient.setCurRoom(lRoom);
+        log("Raum \"" + pRoomName + "\" erfolgreich erstellt.");
         return true;
     }
 
-    public Room getRoom(int pRoomId) {
+    public Room getRoom(int pRoomId)
+    {
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Room.class) {
-                Room lRoom = (Room) this.roomList.getObject();
-                if (pRoomId == lRoom.getId()) {
+        while(this.roomList.hasAccess())
+        {
+            if(this.roomList.getObject().getClass() == Room.class)
+            {
+                Room lRoom = (Room)this.roomList.getObject();
+                if(pRoomId == lRoom.getId())
+                {
                     return lRoom;
                 }
             }
@@ -77,17 +98,21 @@ public class StreichholzServer extends Server {
         return null;
     }
 
-    public List getRoomList() {
+    public List getRoomList()
+    {
         return roomList;
     }
 
-    public List getRoomModelList() {
+    public List getRoomModelList()
+    {
         List lList = new List();
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
+        while(this.roomList.hasAccess())
+        {
             Object lCurObject = this.roomList.getObject();
-            if (lCurObject != null && lCurObject instanceof Room) {
-                Room lCurRoom = (Room) lCurObject;
+            if(lCurObject != null && lCurObject instanceof Room)
+            {
+                Room lCurRoom = (Room)lCurObject;
                 lList.append(new RoomModel(lCurRoom.getId(), lCurRoom.getName()));
             }
             this.roomList.next();
@@ -95,50 +120,66 @@ public class StreichholzServer extends Server {
         return lList;
     }
 
-    public boolean logoutClient(Client pClient) {
-        if (pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort())) {
+    public boolean logoutClient(Client pClient)
+    {
+        if(pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort()))
+        {
             return false;
         }
+        log(pClient.toString() + " erfolgreich ausgeloggt.");
         this.deleteClient(pClient);
         return true;
     }
 
     @Override
-    public void processClosedConnection(String pClientIP, int pClientPort) {
-        if (this.containsClient(pClientIP, pClientPort)) {
+    public void processClosedConnection(String pClientIP, int pClientPort)
+    {
+        if(this.containsClient(pClientIP, pClientPort))
+        {
             this.deleteClient(getClient(pClientIP, pClientPort));
         }
     }
 
     @Override
-    public void processMessage(String pClientIP, int pClientPort, String pMessage) {
+    public void processMessage(String pClientIP, int pClientPort, String pMessage)
+    {
         Gson lGsonObject = new StandardGsonBuilder().create();
-        try {
+        try
+        {
             MessageObject lMessageObject = lGsonObject.fromJson(pMessage, MessageObject.class);
             this.control.process(lMessageObject, this.getClient(pClientIP, pClientPort), this);
-        } catch (Exception ex) {
+        }
+        catch(Exception ex)
+        {
             this.send(pClientIP, pClientPort, lGsonObject.toJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR, ex.getMessage()))));
         }
     }
 
     @Override
-    public void processNewConnection(String pClientIP, int pClientPort) {
-        if (this.containsClient(pClientIP, pClientPort)) {
+    public void processNewConnection(String pClientIP, int pClientPort)
+    {
+        if(this.containsClient(pClientIP, pClientPort))
+        {
             this.deleteClient(getClient(pClientIP, pClientPort));
         }
         this.addClient(pClientIP, pClientPort);
     }
 
-    private void addClient(String pIp, int pPort) {
+    private void addClient(String pIp, int pPort)
+    {
         this.clientList.append(new Client(pIp, pPort, this));
     }
 
-    private boolean containsClient(String pIp, int pPort) {
+    private boolean containsClient(String pIp, int pPort)
+    {
         this.clientList.toFirst();
-        while (this.clientList.hasAccess()) {
-            if (this.clientList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.clientList.getObject();
-                if (lClient.equals(new Client(pIp, pPort, this))) {
+        while(this.clientList.hasAccess())
+        {
+            if(this.clientList.getObject().getClass() == Client.class)
+            {
+                Client lClient = (Client)this.clientList.getObject();
+                if(lClient.equals(new Client(pIp, pPort, this)))
+                {
                     return true;
                 }
             }
@@ -147,12 +188,16 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    private boolean containsRoom(String pRoomName) {
+    private boolean containsRoom(String pRoomName)
+    {
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
-            if (this.roomList.getObject().getClass() == Room.class) {
-                Room lRoom = (Room) this.roomList.getObject();
-                if (pRoomName.equals(lRoom.getName())) {
+        while(this.roomList.hasAccess())
+        {
+            if(this.roomList.getObject().getClass() == Room.class)
+            {
+                Room lRoom = (Room)this.roomList.getObject();
+                if(pRoomName.equals(lRoom.getName()))
+                {
                     return true;
                 }
             }
@@ -161,13 +206,18 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    private void deleteClient(Client pClient) {
+    private void deleteClient(Client pClient)
+    {
         this.clientList.toFirst();
-        while (this.clientList.hasAccess()) {
-            if (this.clientList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.clientList.getObject();
-                if (lClient.equals(pClient)) {
+        while(this.clientList.hasAccess())
+        {
+            if(this.clientList.getObject() instanceof Client)
+            {
+                Client lClient = (Client)this.clientList.getObject();
+                if(lClient.equals(pClient))
+                {
                     this.clientList.remove();
+                    log(lClient.toString() + " wurde ausgeloggt.");
                     return;
                 }
             }
@@ -175,12 +225,16 @@ public class StreichholzServer extends Server {
         }
     }
 
-    private Client getClient(String pIp, int pPort) {
+    private Client getClient(String pIp, int pPort)
+    {
         this.clientList.toFirst();
-        while (this.clientList.hasAccess()) {
-            if (this.clientList.getObject().getClass() == Client.class) {
-                Client lClient = (Client) this.clientList.getObject();
-                if (lClient.getIp().equals(pIp) && lClient.getPort() == pPort) {
+        while(this.clientList.hasAccess())
+        {
+            if(this.clientList.getObject().getClass() == Client.class)
+            {
+                Client lClient = (Client)this.clientList.getObject();
+                if(lClient.getIp().equals(pIp) && lClient.getPort() == pPort)
+                {
                     return lClient;
                 }
             }
@@ -191,16 +245,22 @@ public class StreichholzServer extends Server {
         return this.getClient(pIp, pPort);
     }
 
-    private int getFirstFreeRoomId() {
+    private int getFirstFreeRoomId()
+    {
         int lReturn = 1;
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
+        while(this.roomList.hasAccess())
+        {
             Object lCurObject = this.roomList.getObject();
-            if (lCurObject != null && lCurObject instanceof Room) {
-                Room lCurRoom = (Room) lCurObject;
-                if (lCurRoom.getId() == lReturn) {
+            if(lCurObject != null && lCurObject instanceof Room)
+            {
+                Room lCurRoom = (Room)lCurObject;
+                if(lCurRoom.getId() == lReturn)
+                {
                     lReturn++;
-                } else if (lCurRoom.getId() < lReturn) {
+                }
+                else if(lCurRoom.getId() < lReturn)
+                {
                     break;
                 }
             }
@@ -209,19 +269,33 @@ public class StreichholzServer extends Server {
         return lReturn;
     }
 
-    private void insertRoomSorted(Room pRoom) {
+    private void insertRoomSorted(Room pRoom)
+    {
         this.roomList.toFirst();
-        while (this.roomList.hasAccess()) {
+        while(this.roomList.hasAccess())
+        {
             Object lCurObject = this.roomList.getObject();
-            if (lCurObject != null && lCurObject instanceof Room) {
-                Room lCurRoom = (Room) lCurObject;
-                if (lCurRoom.getId() < pRoom.getId()) {
+            if(lCurObject != null && lCurObject instanceof Room)
+            {
+                Room lCurRoom = (Room)lCurObject;
+                if(lCurRoom.getId() < pRoom.getId())
+                {
                     break;
                 }
             }
             this.roomList.next();
         }
         this.roomList.insert(pRoom);
+    }
+
+    public void log(String message)
+    {
+        System.out.println(message);
+    }
+
+    public void err(String errMsg)
+    {
+        System.err.println(errMsg);
     }
 
 }
