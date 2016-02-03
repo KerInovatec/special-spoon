@@ -21,7 +21,7 @@ public class Control
         lRoom.getNewEquasion();
         Control lControl = new Control();
         StreichholzServer lStreichholzServer1 = new StreichholzServer(1234, lControl);
-        System.out.println("Der Server wurde gestartet. Port: " + lStreichholzServer1.getPort());
+        lControl.log("Der Server wurde gestartet. Port: " + lStreichholzServer1.getPort());
     }
 
     private Control()
@@ -30,6 +30,8 @@ public class Control
 
     public void process(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
     {
+        log("Erhaltene Nachricht:" + pMessageObject.getNachrichtenTyp());
+
         switch(pMessageObject.getNachrichtenTyp())
         {
             case LOGIN:
@@ -115,15 +117,18 @@ public class Control
 
     private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
     {
+        log(pClient.toString() + " verbunden.");
         if(pMessageObject.getContentObject() instanceof LoginContentObject)
         {
             String lUsername = ((LoginContentObject)pMessageObject.getContentObject()).getUsername();
             if(pServer.containsName(lUsername))
             {
+                log(pClient.toString() + "abgelehnt: Name bereits vorhanden.");
                 pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN)));
             }
             else
             {
+                log(pClient.toString() + "wurde akzeptiert.");
                 pClient.setUsername(lUsername);
                 pClient.sendJson(new MessageObject(MessageType.LOGIN));
             }
@@ -163,5 +168,15 @@ public class Control
         {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
         }
+    }
+
+    public void log(String message)
+    {
+        System.out.println(message);
+    }
+
+    public void err(String errMsg)
+    {
+        System.err.println(errMsg);
     }
 }
