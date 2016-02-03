@@ -12,11 +12,9 @@ import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.server.net.Client;
 import de.matchbox.server.net.Room;
 
-public class Control
-{
+public class Control {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Room lRoom = new Room(0, null, null);
         lRoom.getNewEquasion();
         Control lControl = new Control();
@@ -24,16 +22,19 @@ public class Control
         lControl.log("Der Server wurde gestartet. Port: " + lStreichholzServer1.getPort());
     }
 
-    private Control()
-    {
+    private Control() {
+    }
+    public void err(String errMsg) {
+        System.err.println(errMsg);
+    }
+    public void log(String message) {
+        System.out.println(message);
     }
 
-    public void process(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
-    {
+    public void process(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         log("Erhaltene Nachricht:" + pMessageObject.getNachrichtenTyp());
 
-        switch(pMessageObject.getNachrichtenTyp())
-        {
+        switch (pMessageObject.getNachrichtenTyp()) {
             case LOGIN:
                 this.loginClient(pMessageObject, pClient, pServer);
                 break;
@@ -61,122 +62,84 @@ public class Control
         }
     }
 
-    private void createRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
-    {
-        if(!(pMessageObject.getContentObject() instanceof CreateRoomContentObject))
-        {
+    private void createRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
+        if (!(pMessageObject.getContentObject() instanceof CreateRoomContentObject)) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             return;
         }
 
-        if(pServer.createRoom(((CreateRoomContentObject)pMessageObject.getContentObject()).getName(), pClient))
-        {
+        if (pServer.createRoom(((CreateRoomContentObject) pMessageObject.getContentObject()).getName(), pClient)) {
             pClient.sendJson(new MessageObject(MessageType.CREATE_ROOM));
-        }
-        else
-        {
+        } else {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_EXISTS)));
         }
     }
 
-    private void joinRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
-    {
-        if(!(pMessageObject.getContentObject() instanceof JoinRoomContentObject))
-        {
+    private void joinRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
+        if (!(pMessageObject.getContentObject() instanceof JoinRoomContentObject)) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             return;
         }
 
-        int lRoomId = ((JoinRoomContentObject)pMessageObject.getContentObject()).getRoomId();
+        int lRoomId = ((JoinRoomContentObject) pMessageObject.getContentObject()).getRoomId();
         Room lRoom = pServer.getRoom(lRoomId);
-        if(lRoom == null)
-        {
+        if (lRoom == null) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_NOT_FOUND)));
-        }
-        else
-        {
+        } else {
             lRoom.addClient(pClient);
             pClient.setCurRoom(lRoom);
             pClient.sendJson(new MessageObject(MessageType.JOIN_ROOM));
         }
     }
 
-    private void leaveRoom(Client pClient, StreichholzServer pServer)
-    {
+    private void leaveRoom(Client pClient, StreichholzServer pServer) {
         Room lRoom = pClient.getCurRoom();
-        if(lRoom == null)
-        {
+        if (lRoom == null) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
-        }
-        else
-        {
-            lRoom.deleteClient(pClient);
+        } else {
+            lRoom.logoutPlayer(pClient);
             pClient.sendJson(new MessageObject(MessageType.LEAVE_ROOM));
         }
     }
 
-    private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
-    {
+    private void loginClient(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         log(pClient.toString() + " verbunden.");
-        if(pMessageObject.getContentObject() instanceof LoginContentObject)
-        {
-            String lUsername = ((LoginContentObject)pMessageObject.getContentObject()).getUsername();
-            if(pServer.containsName(lUsername))
-            {
+        if (pMessageObject.getContentObject() instanceof LoginContentObject) {
+            String lUsername = ((LoginContentObject) pMessageObject.getContentObject()).getUsername();
+            if (pServer.containsName(lUsername)) {
                 log(pClient.toString() + "abgelehnt: Name bereits vorhanden.");
                 pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN)));
-            }
-            else
-            {
+            } else {
                 log(pClient.toString() + "wurde akzeptiert.");
                 pClient.setUsername(lUsername);
                 pClient.sendJson(new MessageObject(MessageType.LOGIN));
             }
-        }
-        else
-        {
+        } else {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
         }
     }
 
-    private void logoutClient(Client pClient, StreichholzServer pServer)
-    {
-        if(pServer.logoutClient(pClient))
-        {
+    private void logoutClient(Client pClient, StreichholzServer pServer) {
+        if (pServer.logoutClient(pClient)) {
+            if (pClient.getCurRoom() != null) {
+                pClient.getCurRoom().logoutPlayer(pClient);
+            }
             pClient.sendJson(new MessageObject(MessageType.LOGOUT));
-        }
-        else
-        {
+        } else {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN)));
         }
     }
 
-    private void processRoomCommand(MessageObject pMessageObject, Client pClient, StreichholzServer pServer)
-    {
-        if(pClient != null && pClient.getCurRoom() != null)
-        {
-            if(!(pMessageObject.getContentObject() instanceof RoomCommandContentObject))
-            {
+    private void processRoomCommand(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
+        if (pClient != null && pClient.getCurRoom() != null) {
+            if (!(pMessageObject.getContentObject() instanceof RoomCommandContentObject)) {
                 pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
+            } else {
+                pClient.getCurRoom().process((RoomCommandContentObject) pMessageObject.getContentObject(), pClient, pServer);
             }
-            else
-            {
-                pClient.getCurRoom().process((RoomCommandContentObject)pMessageObject.getContentObject(), pClient, pServer);
-            }
-        }
-        else if(pClient != null && pClient.getCurRoom() == null)
-        {
+        } else if (pClient != null && pClient.getCurRoom() == null) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
         }
     }
 
-    public void log(String message)
-    {
-        System.out.println(message);
-    }
-
-    public void err(String errMsg)
-    {
-        System.err.println(errMsg);
-    }
 }

@@ -23,8 +23,7 @@ import java.net.Socket;
  *
  * @version 2011-12-12
  */
-public abstract class Server
-{
+public abstract class Server {
 
     // Objekte
     private ServerSocket serverSocket;
@@ -41,8 +40,7 @@ public abstract class Server
      * @author Horst Hildebrecht
      * @version 1.0
      */
-    private class ServerConnection extends Connection
-    {
+    private class ServerConnection extends Connection {
 
         // Objekte
         Server server;
@@ -53,8 +51,7 @@ public abstract class Server
          @param pSocket Socket, der die Verbindung beschreibt
          @param pServer Server, den die ServerVerbindung kennen lernt
          */
-        public ServerConnection(Socket pSocket, Server pServer)
-        {
+        public ServerConnection(Socket pSocket, Server pServer) {
             super(pSocket);
             server = pServer;
         }
@@ -65,56 +62,44 @@ public abstract class Server
          * Abgebrochene Verbindungen wurden erkannt.
          */
         @Override
-        public void run()
-        {
+        public void run() {
             String lNachricht;
 
-            while(!this.isClosed())
-            {
+            while (!this.isClosed()) {
                 lNachricht = this.receive();
-                if(lNachricht == null)
-                {
-                    if(!this.isClosed())
-                    {
+                if (lNachricht == null) {
+                    if (!this.isClosed()) {
                         server.closeConnection(this.getRemoteIP(), this.getRemotePort());
                     }
-                }
-                else
-                {
+                } else {
                     server.processMessage(this.getRemoteIP(),
-                                          this.getRemotePort(), lNachricht);
+                            this.getRemotePort(), lNachricht);
                 }
             }
         }
 
     }
 
-    private class ServerSchleife extends Thread
-    {
+    private class ServerSchleife extends Thread {
 
         private final Server server;
 
-        public ServerSchleife(Server pServer)
-        {
+        public ServerSchleife(Server pServer) {
             server = pServer;
         }
 
         @Override
-        public void run()
-        {
-            while(true) // ewige Schleife
+        public void run() {
+            while (true) // ewige Schleife
             {
-                try
-                {
+                try {
                     Socket lClientSocket = server.serverSocket.accept();
                     ServerConnection lNeueSerververbindung = new ServerConnection(lClientSocket, server);
                     // Der Client laeuft in einem eigenen Thread, damit mehrere Clients gleichzeitig
                     // auf den Server zugreifen koennen.
                     server.ergaenzeVerbindung(lNeueSerververbindung);
                     lNeueSerververbindung.start();
-                }
-                catch(Exception pFehler)
-                {
+                } catch (Exception pFehler) {
                     System.err.println("Fehler beim Erwarten einer Verbindung in Server: " + pFehler);
                 }
             }
@@ -126,31 +111,25 @@ public abstract class Server
      *
      * @param pPortNr Portnummer des Sockets
      */
-    public Server(int pPortNr)
-    {
-        try
-        {
+    public Server(int pPortNr) {
+        try {
             //Socket oeffnen
             serverSocket = new ServerSocket(pPortNr);
             zPort = pPortNr;
             verbindungen = new List();
             schleife = new ServerSchleife(this);
             schleife.start();
-        }
-        catch(Exception pFehler)
-        {
+        } catch (Exception pFehler) {
             System.err.println("Fehler beim \u00D6ffnen der Server: " + pFehler);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Server von ServerSocket: " + serverSocket;
     }
 
-    private void ergaenzeVerbindung(ServerConnection pVerbindung)
-    {
+    private void ergaenzeVerbindung(ServerConnection pVerbindung) {
         verbindungen.append(pVerbindung);
         this.processNewConnection(pVerbindung.getRemoteIP(), pVerbindung.getRemotePort());
     }
@@ -159,21 +138,18 @@ public abstract class Server
      * Liefert die Serververbindung der angegebenen IP mit dem angegebenen Port,
      * null falls nicht vorhanden.
      *
-     * @param pClientIP   IP-Nummer des Clients der gesuchten Verbindung
+     * @param pClientIP IP-Nummer des Clients der gesuchten Verbindung
      * @param pClientPort Port-Nummer des Clients der gesuchten Verbindung
      */
-    private ServerConnection SerververbindungVonIPUndPort(String pClientIP, int pClientPort)
-    {
+    private ServerConnection SerververbindungVonIPUndPort(String pClientIP, int pClientPort) {
         ServerConnection lSerververbindung;
 
         verbindungen.toFirst();
 
-        while(verbindungen.hasAccess())
-        {
-            lSerververbindung = (ServerConnection)verbindungen.getObject();
-            if(lSerververbindung.getRemoteIP().equals(pClientIP)
-               && lSerververbindung.getRemotePort() == pClientPort)
-            {
+        while (verbindungen.hasAccess()) {
+            lSerververbindung = (ServerConnection) verbindungen.getObject();
+            if (lSerververbindung.getRemoteIP().equals(pClientIP)
+                    && lSerververbindung.getRemotePort() == pClientPort) {
                 return lSerververbindung;
             }
             verbindungen.next();
@@ -185,30 +161,25 @@ public abstract class Server
     /**
      * Eine Nachricht wurde an einen Client geschickt.
      *
-     * @param pClientIP   IP-Nummer des Empf&auml;ngers
+     * @param pClientIP IP-Nummer des Empf&auml;ngers
      * @param pClientPort Port-Nummer des Empf&auml;ngers
-     * @param pMessage    die verschickte Nachricht
+     * @param pMessage die verschickte Nachricht
      */
-    public void send(String pClientIP, int pClientPort, String pMessage)
-    {
+    public void send(String pClientIP, int pClientPort, String pMessage) {
         ServerConnection lSerververbindung
-                         = this.SerververbindungVonIPUndPort(pClientIP, pClientPort);
+                = this.SerververbindungVonIPUndPort(pClientIP, pClientPort);
 
-        if(lSerververbindung != null)
-        {
+        if (lSerververbindung != null) {
             System.out.println("Server hat gesendet: '" + pMessage + "' @ "
-                               + pClientIP + ":" + pClientPort);
+                    + pClientIP + ":" + pClientPort);
             lSerververbindung.send(pMessage);
-        }
-        else
-        {
+        } else {
             System.err.println("Fehler beim Senden: IP " + pClientIP
-                               + " mit Port " + pClientPort + " nicht vorhanden.");
+                    + " mit Port " + pClientPort + " nicht vorhanden.");
         }
     }
 
-    public void send(Client pClient, String pMessage)
-    {
+    public void send(Client pClient, String pMessage) {
         this.send(pClient.getIp(), pClient.getPort(), pMessage);
     }
 
@@ -217,13 +188,11 @@ public abstract class Server
      *
      * @param pMessage die verschickte Nachricht
      */
-    public void sendToAll(String pMessage)
-    {
+    public void sendToAll(String pMessage) {
         ServerConnection lSerververbindung;
         verbindungen.toFirst();
-        while(verbindungen.hasAccess())
-        {
-            lSerververbindung = (ServerConnection)verbindungen.getObject();
+        while (verbindungen.hasAccess()) {
+            lSerververbindung = (ServerConnection) verbindungen.getObject();
             lSerververbindung.send(pMessage);
             verbindungen.next();
         }
@@ -233,24 +202,20 @@ public abstract class Server
      * Die Verbindung mit der angegebenen IP und dem angegebenen Port wurde
      * geschlossen.<br>
      *
-     * @param pClientIP   IP-Nummer des Clients der zu beendenden Verbindung
+     * @param pClientIP IP-Nummer des Clients der zu beendenden Verbindung
      * @param pClientPort Port-Nummer des Clients der zu beendenden Verbindung
      */
-    public void closeConnection(String pClientIP, int pClientPort)
-    {
+    public void closeConnection(String pClientIP, int pClientPort) {
         ServerConnection lSerververbindung
-                         = this.SerververbindungVonIPUndPort(pClientIP, pClientPort);
-        if(lSerververbindung != null)
-        {
+                = this.SerververbindungVonIPUndPort(pClientIP, pClientPort);
+        if (lSerververbindung != null) {
             this.processClosedConnection(pClientIP, pClientPort);
             lSerververbindung.close();
             this.loescheVerbindung(lSerververbindung);
 
-        }
-        else
-        {
+        } else {
             System.err.println("Fehler beim Schlie\u00DFen der Verbindung: IP "
-                               + pClientIP + " mit Port " + pClientPort + " nicht vorhanden.");
+                    + pClientIP + " mit Port " + pClientPort + " nicht vorhanden.");
         }
 
     }
@@ -260,14 +225,11 @@ public abstract class Server
      *
      * @param pVerbindung die zu l&ouml;schende Verbindung
      */
-    private void loescheVerbindung(ServerConnection pVerbindung)
-    {
+    private void loescheVerbindung(ServerConnection pVerbindung) {
         verbindungen.toFirst();
-        while(verbindungen.hasAccess())
-        {
-            ServerConnection lClient = (ServerConnection)verbindungen.getObject();
-            if(lClient == pVerbindung)
-            {
+        while (verbindungen.hasAccess()) {
+            ServerConnection lClient = (ServerConnection) verbindungen.getObject();
+            if (lClient == pVerbindung) {
                 verbindungen.remove();
             }
             verbindungen.next();
@@ -279,7 +241,7 @@ public abstract class Server
      * Diese leere Methode kann in einer Unterklasse realisiert werden
      * (Begr&uuml;&szlig;ung).
      *
-     * @param pClientIP   IP-Nummer des Clients, der neu angemeldet ist
+     * @param pClientIP IP-Nummer des Clients, der neu angemeldet ist
      * @param pClientPort Port-Nummer des Clients, der neu angemeldet ist
      */
     public abstract void processNewConnection(String pClientIP, int pClientPort);
@@ -288,10 +250,10 @@ public abstract class Server
      * Eine Nachricht von einem Client wurde bearbeitet.<br>
      * Diese leere Methode sollte in Unterklassen &uuml;berschrieben werden.
      *
-     * @param pClientIP   IP-Nummer des Clients, der die Nachricht geschickt hat
+     * @param pClientIP IP-Nummer des Clients, der die Nachricht geschickt hat
      * @param pClientPort Port-Nummer des Clients, der die Nachricht geschickt
-     *                    hat
-     * @param pMessage    Die empfangene Nachricht, die bearbeitet werden soll
+     * hat
+     * @param pMessage Die empfangene Nachricht, die bearbeitet werden soll
      */
     public abstract void processMessage(String pClientIP, int pClientPort, String pMessage);
 
@@ -299,32 +261,27 @@ public abstract class Server
      * Die Verbindung mit einem Client wurde beendet oder verloren.<br>
      * Diese leere Methode kann in einer Unterklasse realisiert werden.
      *
-     * @param pClientIP   IP-Nummer des Clients, mit dem die Verbindung beendet
-     *                    wurde
+     * @param pClientIP IP-Nummer des Clients, mit dem die Verbindung beendet
+     * wurde
      * @param pClientPort Port-Nummer des Clients, mit dem die Verbindung
-     *                    beendet wurde
+     * beendet wurde
      */
     public abstract void processClosedConnection(String pClientIP, int pClientPort);
 
     /**
      * Der Server wurde geschlossen.
      */
-    public void close()
-    {
-        try
-        {
+    public void close() {
+        try {
             serverSocket.close();
             serverSocket = null;
-        }
-        catch(Exception pFehler)
-        {
+        } catch (Exception pFehler) {
             System.err.println("Fehler beim Schlie\u00DFen des Servers: " + pFehler);
         }
 
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         return zPort;
     }
 
