@@ -184,7 +184,7 @@ public class Room
             this.correctEquasion = this.fillStringUp(String.valueOf(lNumber1), 3, '*', true) + "+" + this.fillStringUp(String.valueOf(lNumber2), 3, '*', true) + "=" + this.fillStringUp(String.valueOf(lSum), 3, '*', true);
             this.wrongEquasion = MatchUtility.getWrongEquasion(this.correctEquasion);
         }
-        while(this.wrongEquasion.equals(""));
+        while(this.wrongEquasion.isEmpty());
     }
 
     private void givePlayerPoint(Client pClient)

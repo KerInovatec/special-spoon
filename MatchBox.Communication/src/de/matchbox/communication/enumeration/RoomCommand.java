@@ -8,5 +8,6 @@ public enum RoomCommand
     EQUASION_SOLVED,
     LIST_PLAYER,
     PLAYER_JOINED,
+    PLAYER_LEFT,
     UNKOWN
 }
