@@ -772,23 +772,40 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
-        jLabelInfo.setText(this.areNummbers() + "");
+
+        if (this.areNummbers()) {
+            jLabelInfo.setText(MatchUtility.matchToEquation(this.convertToList()));
+        } else {
+            jLabelInfo.setText("eine der Figuren ist keine Zahl");
+        }
     }//GEN-LAST:event_jButtonCheckActionPerformed
 
     private List convertToList() {
         List ausgabe = new List();
-        boolean[] zahlCode = new boolean[7];
+        boolean[] zahlCode;
         Zahl pZahl = new Zahl();
         for (int i = 1; i < 10; i++) {
-            for (int y = 1; y <= 7; y++) {
-                if (jSpaceArr[y][i].isVisible()) {
-                    zahlCode[y] = false;
+
+            zahlCode = new boolean[]{
+                !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
+            };
+
+            pZahl.setZahlCode(zahlCode);
+
+            if (i == 3) {
+                if (jPlus.isVisible()) {
+                    ausgabe.append('+');
                 } else {
-                    zahlCode[y] = true;
+                    ausgabe.append('-');
                 }
-                pZahl.setZahlCode(zahlCode);
+            } else if (i == 6) {
+                ausgabe.append('=');
+            } else if (pZahl.toInt() == -2) {
+                ausgabe.append('*');
+            } else {
+                ausgabe.append(pZahl);
             }
-            ausgabe.append(pZahl);
+
         }
         return ausgabe;
     }
@@ -797,7 +814,7 @@ public class FrmMain extends javax.swing.JFrame {
         boolean[] zahlCode;
 
         Zahl pZahl = new Zahl();
-        for (int i = 1; i < 9; i++) {
+        for (int i = 1; i < 10; i++) {
 
             zahlCode = new boolean[]{
                 !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()

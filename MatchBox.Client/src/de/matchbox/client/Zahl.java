@@ -119,7 +119,7 @@ public class Zahl {
         boolean[] lzahlCode;
         Zahl lZahl = new Zahl();
         boolean assd = true;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             assd = true;
             lZahl.setZahl(i);
             lzahlCode = lZahl.getZahlCode();
