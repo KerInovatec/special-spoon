@@ -88,6 +88,12 @@ public class Zahl {
                     };
                     break;
                 }
+                case -2: {
+                    zahlCode = new boolean[]{
+                        false, false, false, false, false, false, false
+                    };
+                    break;
+                }
             }
         }
 

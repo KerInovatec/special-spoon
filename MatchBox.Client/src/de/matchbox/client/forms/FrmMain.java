@@ -11,8 +11,7 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 
-public class FrmMain extends javax.swing.JFrame
-{
+public class FrmMain extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
     private JLabel jMatchArr[][];
@@ -21,8 +20,7 @@ public class FrmMain extends javax.swing.JFrame
     private boolean hasMatch;
     private DefaultListModel playerListModel;
 
-    public FrmMain(Control control)
-    {
+    public FrmMain(Control control) {
         this.control = control;
         initComponents();
         this.playerListModel = new DefaultListModel();
@@ -40,8 +38,7 @@ public class FrmMain extends javax.swing.JFrame
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
@@ -179,7 +176,7 @@ public class FrmMain extends javax.swing.JFrame
         jTextFieldTest = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonCheck = new javax.swing.JButton();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -720,10 +717,8 @@ public class FrmMain extends javax.swing.JFrame
         jTextFieldTest.setBounds(160, 380, 240, 40);
 
         jButton3.setText("Test");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
@@ -734,16 +729,14 @@ public class FrmMain extends javax.swing.JFrame
         jPanel1.add(jLabelInfo);
         jLabelInfo.setBounds(620, 370, 130, 180);
 
-        jButton1.setText("Check");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton1ActionPerformed(evt);
+        jButtonCheck.setText("Check");
+        jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCheckActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(460, 450, 61, 23);
+        jPanel1.add(jButtonCheck);
+        jButtonCheck.setBounds(460, 450, 61, 23);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -751,10 +744,8 @@ public class FrmMain extends javax.swing.JFrame
         mnuFile.setText("Datei");
 
         mnuQuit.setText("Beenden");
-        mnuQuit.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        mnuQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuQuitActionPerformed(evt);
             }
         });
@@ -779,58 +770,78 @@ public class FrmMain extends javax.swing.JFrame
         this.setMatches(jTextFieldTest.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-    {//GEN-HEADEREND:event_jButton1ActionPerformed
+    private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
+    {//GEN-HEADEREND:event_jButtonCheckActionPerformed
+        jLabelInfo.setText(this.areNummbers() + "");
+    }//GEN-LAST:event_jButtonCheckActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private List convertToList()
-    {
+    private List convertToList() {
         List ausgabe = new List();
         boolean[] zahlCode = new boolean[7];
-        for(int i = 1; i < 10; i++)
-        {
-            //die jBlanks uberprufen und die zahlcodes in die liste packen
+        Zahl pZahl = new Zahl();
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y <= 7; y++) {
+                if (jSpaceArr[y][i].isVisible()) {
+                    zahlCode[y] = false;
+                } else {
+                    zahlCode[y] = true;
+                }
+                pZahl.setZahlCode(zahlCode);
+            }
+            ausgabe.append(pZahl);
         }
         return ausgabe;
     }
 
-    public void verarbeite(RoomCommandContentObject pCommandObject)
-    {
-        switch(pCommandObject.getCommand())
-        {
+    private boolean areNummbers() {
+        boolean[] zahlCode;
+
+        Zahl pZahl = new Zahl();
+        for (int i = 1; i < 9; i++) {
+
+            zahlCode = new boolean[]{
+                !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
+            };
+
+            pZahl.setZahlCode(zahlCode);
+
+            if (!pZahl.isNumber()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void verarbeite(RoomCommandContentObject pCommandObject) {
+        switch (pCommandObject.getCommand()) {
             case LIST_PLAYER:
                 this.setPlayerList(pCommandObject.getContentObject());
                 break;
             case REQUEST_EQUASION:
-                this.setMatches(((EquasionContentObject)(pCommandObject.getContentObject())).getEquasion());
+                this.setMatches(((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion());
                 break;
 
         }
 
     }
 
-    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject)
-    {
+    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
         //List voller Raeume. Muss hier noch geaendert werden
         //jList1.setListData(rooms.entrySet().toArray());
-        if(!(pRoomCommandContentObject instanceof ListPlayerContentObject))
-        {
+        if (!(pRoomCommandContentObject instanceof ListPlayerContentObject)) {
             return;
         }
 
         this.playerListModel.clear();
-        List lList = ((ListPlayerContentObject)pRoomCommandContentObject).getPlayer();
+        List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
         lList.toFirst();
-        while(lList.hasAccess())
-        {
+        while (lList.hasAccess()) {
             this.playerListModel.addElement(lList.getObject());
             lList.next();
         }
     }
 
-    private void createArr()
-    {
+    private void createArr() {
         //Spaces
         int x = 1;
         jSpaceArr[1][x] = jSpace1_1;
@@ -999,15 +1010,12 @@ public class FrmMain extends javax.swing.JFrame
 
     }
 
-    private void resetView()
-    {
+    private void resetView() {
         jPlus.setVisible(false);
         jMinus.setVisible(false);
         jEaquals.setVisible(false);
-        for(int i = 1; i < 10; i++)
-        {
-            for(int y = 1; y < 8; y++)
-            {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 jSpaceArr[y][i].setVisible(true);
                 //jMatchArr[y][i].setVisible(true);
             }
@@ -1015,36 +1023,26 @@ public class FrmMain extends javax.swing.JFrame
 
     }
 
-    private void setMatches(String pEaquasion)
-    {
+    private void setMatches(String pEaquasion) {
         resetView();
         List lGleichung = MatchUtility.equationToMatch(pEaquasion);
         boolean[] lCode;
         int ZahlIndex = 1;
         lGleichung.toFirst();
-        while(lGleichung.hasAccess())
-        {
+        while (lGleichung.hasAccess()) {
 
-            if((lGleichung.getObject() instanceof Zahl))
-            {
-                lCode = ((Zahl)lGleichung.getObject()).getZahlCode();
-                for(int i = 1; i <= 7; i++)
-                {
+            if ((lGleichung.getObject() instanceof Zahl)) {
+                lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
+                for (int i = 1; i <= 7; i++) {
                     jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
                 }
                 ZahlIndex++;
-            }
-            else if((char)lGleichung.getObject() == '*')
-            {
+            } else if ((char) lGleichung.getObject() == '*') {
                 ZahlIndex++;
 
-            }
-            else if((char)lGleichung.getObject() == '-')
-            {
+            } else if ((char) lGleichung.getObject() == '-') {
                 jMinus.setVisible(true);
-            }
-            else if((char)lGleichung.getObject() == '+')
-            {
+            } else if ((char) lGleichung.getObject() == '+') {
                 jPlus.setVisible(true);
             }
             lGleichung.next();
@@ -1052,22 +1050,16 @@ public class FrmMain extends javax.swing.JFrame
         jEaquals.setVisible(true);
     }
 
-    private void initEvents()
-    {
-        for(int i = 1; i < 10; i++)
-        {
-            for(int y = 1; y < 8; y++)
-            {
+    private void initEvents() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 JLabel curLabel = this.jMatchArr[y][i];
                 int x = i;
                 int z = y;
-                if(curLabel != null)
-                {
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
-                    {
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt)
-                        {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
                             matchClicked(evt, x, z);
                         }
                     });
@@ -1076,22 +1068,16 @@ public class FrmMain extends javax.swing.JFrame
         }
     }
 
-    private void initEvents2()
-    {
-        for(int i = 1; i < 10; i++)
-        {
-            for(int y = 1; y < 8; y++)
-            {
+    private void initEvents2() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 JLabel curLabel = this.jSpaceArr[y][i];
                 int x = i;
                 int z = y;
-                if(curLabel != null)
-                {
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
-                    {
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt)
-                        {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
                             spaceClicked(evt, x, z);
                         }
                     });
@@ -1100,10 +1086,8 @@ public class FrmMain extends javax.swing.JFrame
         }
     }
 
-    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y)
-    {
-        if(!hasMatch)
-        {
+    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (!hasMatch) {
             jSpaceArr[y][x].setVisible(true);
 
             hasMatch = true;
@@ -1112,10 +1096,8 @@ public class FrmMain extends javax.swing.JFrame
         }
     }
 
-    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y)
-    {
-        if(hasMatch)
-        {
+    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (hasMatch) {
             jSpaceArr[y][x].setVisible(false);
 
             hasMatch = false;
@@ -1126,8 +1108,8 @@ public class FrmMain extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonCheck;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelInfo;
     private javax.swing.JLabel jMatch1_1;
