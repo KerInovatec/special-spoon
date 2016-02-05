@@ -107,9 +107,31 @@ public class Zahl {
         return this.toInt() != -1;
     }
 
+//    public int toInt() {
+//        for (int i = 0; i < 10; i++) {
+//            if (zahlCode == new Zahl(i).getZahlCode()) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
     public int toInt() {
+        boolean[] lzahlCode;
+        Zahl lZahl = new Zahl();
+        boolean assd = true;
         for (int i = 0; i < 10; i++) {
-            if (zahlCode == new Zahl(i).getZahlCode()) {
+            assd = true;
+            lZahl.setZahl(i);
+            lzahlCode = lZahl.getZahlCode();
+            for(int y = 0;y<7;y++)
+            {
+                if(zahlCode[y] != lzahlCode[y])
+                {
+                    assd = false;
+                }
+            }
+            if(assd)
+            {
                 return i;
             }
         }
