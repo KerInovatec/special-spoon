@@ -793,6 +793,7 @@ public class FrmMain extends javax.swing.JFrame {
                 this.setPlayerList(pCommandObject.getContentObject());
                 break;
             case REQUEST_EQUASION:
+                this.hasMatch = false;
                 this.setMatches(((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion());
                 break;
             case CHECK_EQUASION:
