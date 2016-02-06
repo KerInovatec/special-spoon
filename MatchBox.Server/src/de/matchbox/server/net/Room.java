@@ -22,14 +22,16 @@ public class Room {
 
     private final int id;
     private final String name;
+    private final StreichholzServer server;
     private final List playerList;
     private String wrongEquasion = "**7+**8=**1";
 
-    public Room(int pId, String pName, Client pHost) {
+    public Room(int pId, String pName, Client pHost, StreichholzServer pServer) {
         this.id = pId;
         this.name = pName;
         this.playerList = new List();
         this.playerList.append(new Player(pHost, 0, true));
+        this.server = pServer;
     }
 
     public void addClient(Client pClient) {
@@ -193,6 +195,11 @@ public class Room {
     }
 
     private void onPlayerLeft(boolean pIsHost) {
+        if (this.playerList.isEmpty()) {
+            this.server.deleteRoom(this);
+            return;
+        }
+        
         if (pIsHost) {
             this.sendPlayersToAll(RoomCommand.HOST_CHANGED);
         } else {

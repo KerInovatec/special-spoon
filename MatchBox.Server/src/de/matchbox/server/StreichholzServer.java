@@ -57,16 +57,29 @@ public class StreichholzServer extends Server {
         if (pRoomName == null) {
             return false;
         }
-        log("Versuche Raum \"" + pRoomName + "\" zu erstellen.");
+        this.log("Versuche Raum \"" + pRoomName + "\" zu erstellen.");
         if (this.containsRoom(pRoomName)) {
-            log("Raum \"" + pRoomName + "\" bereits vorhanden.");
+            this.log("Raum \"" + pRoomName + "\" bereits vorhanden.");
             return false;
         }
-        Room lRoom = new Room(this.getFirstFreeRoomId(), pRoomName, pClient);
+        Room lRoom = new Room(this.getFirstFreeRoomId(), pRoomName, pClient, this);
         this.insertRoomSorted(lRoom);
         pClient.setCurRoom(lRoom);
-        log("Raum \"" + pRoomName + "\" erfolgreich erstellt.");
+        this.log("Raum \"" + pRoomName + "\" erfolgreich erstellt.");
         return true;
+    }
+
+    public void deleteRoom(Room pRoom) {
+        this.log("Versuche Raum \"" + pRoom.getName() + "\" zu löschen");
+        this.roomList.toFirst();
+        while (this.roomList.hasAccess()) {
+            if (this.roomList.getObject().equals(pRoom)) {
+                
+                this.roomList.remove();
+                this.log("Der Raum \"" + pRoom.getName() + "\" wurde gelöscht");
+            }
+            this.roomList.next();
+        }
     }
 
     public Room getRoom(int pRoomId) {
@@ -105,7 +118,7 @@ public class StreichholzServer extends Server {
         if (pClient == null || !this.containsClient(pClient.getIp(), pClient.getPort())) {
             return false;
         }
-        log(pClient.toString() + " erfolgreich ausgeloggt.");
+        this.log(pClient.toString() + " erfolgreich ausgeloggt.");
         this.deleteClient(pClient);
         return true;
     }
@@ -169,17 +182,17 @@ public class StreichholzServer extends Server {
     }
 
     private void deleteClient(Client pClient) {
-        if(pClient.getCurRoom() != null){
+        if (pClient.getCurRoom() != null) {
             pClient.getCurRoom().logoutPlayer(pClient);
         }
-        
+
         this.clientList.toFirst();
         while (this.clientList.hasAccess()) {
             if (this.clientList.getObject() instanceof Client) {
                 Client lClient = (Client) this.clientList.getObject();
                 if (lClient.equals(pClient)) {
                     this.clientList.remove();
-                    log(lClient.toString() + " wurde ausgeloggt.");
+                    this.log(lClient.toString() + " wurde ausgeloggt.");
                     return;
                 }
             }
