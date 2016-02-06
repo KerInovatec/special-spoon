@@ -110,8 +110,8 @@ public class Room {
     public void sendToAll(String pMessage) {
         this.playerList.toFirst();
         Object lCurObject;
-        while (this.playerList.hasAccess() && (lCurObject = this.playerList.getObject()) instanceof Client) {
-            ((Client) lCurObject).send(pMessage);
+        while (this.playerList.hasAccess() && (lCurObject = this.playerList.getObject()) instanceof Player) {
+            ((Player) lCurObject).getClient().send(pMessage);
             this.playerList.next();
         }
     }

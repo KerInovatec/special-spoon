@@ -15,8 +15,6 @@ import de.matchbox.server.net.Room;
 public class Control {
 
     public static void main(String[] args) {
-        Room lRoom = new Room(0, null, null);
-        lRoom.getNewEquasion();
         Control lControl = new Control();
         StreichholzServer lStreichholzServer1 = new StreichholzServer(1234, lControl);
         lControl.log("Der Server wurde gestartet. Port: " + lStreichholzServer1.getPort());
