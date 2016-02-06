@@ -142,6 +142,8 @@ public class Room {
                         if (this.playerList.hasAccess()) {
                             ((Player) this.playerList.getObject()).setHost(true);
                             this.onPlayerLeft(true);
+                        }else{
+                            this.onPlayerLeft(true);
                         }
                     } else {
                         this.onPlayerLeft(false);
