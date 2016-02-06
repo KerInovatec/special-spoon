@@ -50,7 +50,7 @@ public class MatchUtility {
     }
 
     public static String matchToEquation(List pEquation) {
-        String ausgabe = null;
+        String ausgabe = "";
         pEquation.toFirst();
         while (pEquation.hasAccess()) {
             if (!(pEquation.getObject() instanceof Zahl)) {

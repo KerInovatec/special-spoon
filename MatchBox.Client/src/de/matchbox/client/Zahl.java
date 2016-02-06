@@ -88,12 +88,7 @@ public class Zahl {
                     };
                     break;
                 }
-                case -2: {
-                    zahlCode = new boolean[]{
-                        false, false, false, false, false, false, false
-                    };
-                    break;
-                }
+
             }
         }
 
@@ -119,19 +114,16 @@ public class Zahl {
         boolean[] lzahlCode;
         Zahl lZahl = new Zahl();
         boolean assd = true;
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 10; i++) {
             assd = true;
             lZahl.setZahl(i);
             lzahlCode = lZahl.getZahlCode();
-            for(int y = 0;y<7;y++)
-            {
-                if(zahlCode[y] != lzahlCode[y])
-                {
+            for (int y = 0; y < 7; y++) {
+                if (zahlCode[y] != lzahlCode[y]) {
                     assd = false;
                 }
             }
-            if(assd)
-            {
+            if (assd) {
                 return i;
             }
         }

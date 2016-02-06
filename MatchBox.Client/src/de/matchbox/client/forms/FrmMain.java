@@ -3,10 +3,14 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Control;
 import de.matchbox.client.Zahl;
 import de.matchbox.client.utility.MatchUtility;
+import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
+import de.matchbox.communication.enumeration.MessageType;
+import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -713,6 +717,8 @@ public class FrmMain extends javax.swing.JFrame {
         jMinus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Horizontal.png"))); // NOI18N
         jPanel1.add(jMinus);
         jMinus.setBounds(400, 150, 100, 30);
+
+        jTextFieldTest.setText("123+456=789");
         jPanel1.add(jTextFieldTest);
         jTextFieldTest.setBounds(160, 380, 240, 40);
 
@@ -727,7 +733,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         jLabelInfo.setText("HasMatch");
         jPanel1.add(jLabelInfo);
-        jLabelInfo.setBounds(620, 370, 130, 180);
+        jLabelInfo.setBounds(620, 370, 290, 70);
 
         jButtonCheck.setText("Check");
         jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -767,18 +773,41 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuQuitActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.setMatches(jTextFieldTest.getText());
+//        this.setMatches(jTextFieldTest.getText());
+        control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
-
         if (this.areNummbers()) {
-            jLabelInfo.setText(MatchUtility.matchToEquation(this.convertToList()));
+            control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
         } else {
-            jLabelInfo.setText("eine der Figuren ist keine Zahl");
+            jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
         }
+
     }//GEN-LAST:event_jButtonCheckActionPerformed
+
+    public void verarbeite(RoomCommandContentObject pCommandObject) {
+        switch (pCommandObject.getCommand()) {
+            case LIST_PLAYER:
+                this.setPlayerList(pCommandObject.getContentObject());
+                break;
+            case REQUEST_EQUASION:
+                this.setMatches(((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion());
+                break;
+            case CHECK_EQUASION:
+                if(((CheckEquasionResultContentObject)pCommandObject.getContentObject()).isEquasionCorrect())
+                {
+                    jLabelInfo.setText("Gut Gemacht ist Richtig!");
+                }else{
+                    jLabelInfo.setText("Schlecht gemacht ist Falsch");
+                }
+                
+                break;
+
+        }
+
+    }
 
     private List convertToList() {
         List ausgabe = new List();
@@ -790,8 +819,14 @@ public class FrmMain extends javax.swing.JFrame {
                 !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
             };
 
+            pZahl = new Zahl();
             pZahl.setZahlCode(zahlCode);
 
+            if (this.isBlank(i)) {
+                ausgabe.append('*');
+            } else {
+                ausgabe.append(pZahl);
+            }
             if (i == 3) {
                 if (jPlus.isVisible()) {
                     ausgabe.append('+');
@@ -800,14 +835,19 @@ public class FrmMain extends javax.swing.JFrame {
                 }
             } else if (i == 6) {
                 ausgabe.append('=');
-            } else if (pZahl.toInt() == -2) {
-                ausgabe.append('*');
-            } else {
-                ausgabe.append(pZahl);
             }
 
         }
         return ausgabe;
+    }
+
+    private boolean isBlank(int index) {
+        for (int i = 1; i < 8; i++) {
+            if (!jSpaceArr[i][index].isVisible()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean areNummbers() {
@@ -819,27 +859,16 @@ public class FrmMain extends javax.swing.JFrame {
             zahlCode = new boolean[]{
                 !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
             };
-
+            pZahl = new Zahl();
             pZahl.setZahlCode(zahlCode);
 
             if (!pZahl.isNumber()) {
-                return false;
+                if (!isBlank(i)) {
+                    return false;
+                }
             }
         }
         return true;
-    }
-
-    public void verarbeite(RoomCommandContentObject pCommandObject) {
-        switch (pCommandObject.getCommand()) {
-            case LIST_PLAYER:
-                this.setPlayerList(pCommandObject.getContentObject());
-                break;
-            case REQUEST_EQUASION:
-                this.setMatches(((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion());
-                break;
-
-        }
-
     }
 
     public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
