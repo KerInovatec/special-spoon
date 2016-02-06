@@ -23,6 +23,7 @@ public class FrmMain extends javax.swing.JFrame {
     private final Control control;
     private boolean hasMatch;
     private DefaultListModel playerListModel;
+    private String gleichung;
 
     public FrmMain(Control control) {
         this.control = control;
@@ -39,6 +40,7 @@ public class FrmMain extends javax.swing.JFrame {
         this.initEvents();
         this.initEvents2();
         hasMatch = false;
+        gleichung = "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -181,6 +183,7 @@ public class FrmMain extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -744,6 +747,15 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel1.add(jButtonCheck);
         jButtonCheck.setBounds(460, 450, 61, 23);
 
+        jButton1.setText("Reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(340, 460, 61, 23);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
 
@@ -787,6 +799,10 @@ public class FrmMain extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonCheckActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setMatches(gleichung);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void verarbeite(RoomCommandContentObject pCommandObject) {
         switch (pCommandObject.getCommand()) {
             case LIST_PLAYER:
@@ -794,7 +810,8 @@ public class FrmMain extends javax.swing.JFrame {
                 break;
             case REQUEST_EQUASION:
                 this.hasMatch = false;
-                this.setMatches(((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion());
+                gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
+                this.setMatches(gleichung);
                 break;
             case CHECK_EQUASION:
                 if(((CheckEquasionResultContentObject)pCommandObject.getContentObject()).isEquasionCorrect())
@@ -1155,6 +1172,7 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonCheck;
     private javax.swing.JLabel jEaquals;
