@@ -110,7 +110,7 @@ public class MatchUtility {
                     || (lToBeChecked[i] == '+' && lEquasion[i] != '+')
                     || (lToBeChecked[i] == '=' && lEquasion[i] != '=')) {
                 return false;
-            } else if (lToBeChecked[i] != '*' && lToBeChecked[i] != '+' && lToBeChecked[i] != '=') {
+            } else if (lToBeChecked[i] != '*' && lToBeChecked[i] != '+' && lToBeChecked[i] != '=' && lToBeChecked[i] != lEquasion[i]) {
                 boolean lFoundChar = false;
                 for (MatchInfoContainer lContainer : lMatchHelperHashMap.get(lEquasion[i])) {
                     if (lContainer.getResult() == lToBeChecked[i]) {
