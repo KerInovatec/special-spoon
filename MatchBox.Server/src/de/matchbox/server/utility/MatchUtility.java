@@ -62,6 +62,10 @@ public class MatchUtility {
             lLoopCount++;
         } while (lChangesCount < lMaxChanges && !(lChangesCount > 0 && lMatchesCount == 0));
 
+        if (isEquasionCorrect(CharUtility.getStringFromCharArray(lCharArray))) {
+            return getWrongEquasion(pCorrectEquasion);
+        }
+        
         return CharUtility.getStringFromCharArray(lCharArray);
     }
 
@@ -78,6 +82,18 @@ public class MatchUtility {
         lReturn.put('9', new MatchInfoContainer[]{new MatchInfoContainer('3', 1), new MatchInfoContainer('5', 1), new MatchInfoContainer('8', -1), new MatchInfoContainer('0', 0)});
         lReturn.put('0', new MatchInfoContainer[]{new MatchInfoContainer('6', 0), new MatchInfoContainer('8', -1), new MatchInfoContainer('9', 0)});
         return lReturn;
+    }
+
+    static boolean isEquasionCorrect(String pEquasion) {
+        pEquasion = pEquasion.replace("*", "");
+        try {
+            int lNumber1 = Integer.parseInt(pEquasion.split("+")[0]);
+            int lNumber2 = Integer.parseInt(pEquasion.split("+")[1].split("=")[0]);
+            int lSum = Integer.parseInt(pEquasion.split("=")[1]);
+            return lNumber1 + lNumber2 == lSum;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }
 
