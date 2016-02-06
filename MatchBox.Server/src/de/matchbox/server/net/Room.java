@@ -120,8 +120,10 @@ public class Room {
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
         if (pMessageObject.getContentObject() instanceof EquasionContentObject) {
-            boolean lIsEquasionCorrect = ((EquasionContentObject) pMessageObject.getContentObject()).getEquasion().equals(this.correctEquasion);
-            if (lIsEquasionCorrect) {
+            String lEquasion = ((EquasionContentObject) pMessageObject.getContentObject()).getEquasion();
+            boolean lIsEquasionCorrect = false;
+            if (MatchUtility.canBeCreatedFromEquasion(this.wrongEquasion, lEquasion)
+                    && (lIsEquasionCorrect = MatchUtility.isEquasionCorrect(lEquasion))) {
                 this.givePlayerPoint(pClient);
             }
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect))));
@@ -142,7 +144,7 @@ public class Room {
                         if (this.playerList.hasAccess()) {
                             ((Player) this.playerList.getObject()).setHost(true);
                             this.onPlayerLeft(true);
-                        }else{
+                        } else {
                             this.onPlayerLeft(true);
                         }
                     } else {
@@ -201,7 +203,7 @@ public class Room {
             this.server.deleteRoom(this);
             return;
         }
-        
+
         if (pIsHost) {
             this.sendPlayersToAll(RoomCommand.HOST_CHANGED);
         } else {

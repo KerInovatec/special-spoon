@@ -22,9 +22,11 @@ public class Control {
 
     private Control() {
     }
+
     public void err(String errMsg) {
         System.err.println(errMsg);
     }
+
     public void log(String message) {
         System.out.println(message);
     }

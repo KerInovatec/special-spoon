@@ -62,10 +62,11 @@ public class MatchUtility {
             lLoopCount++;
         } while (lChangesCount < lMaxChanges && !(lChangesCount > 0 && lMatchesCount == 0));
 
-        if (isEquasionCorrect(CharUtility.getStringFromCharArray(lCharArray))) {
+        String lWrongEquasion = CharUtility.getStringFromCharArray(lCharArray);
+        if (lWrongEquasion.isEmpty() || isEquasionCorrect(lWrongEquasion)) {
             return getWrongEquasion(pCorrectEquasion);
         }
-        
+
         return CharUtility.getStringFromCharArray(lCharArray);
     }
 
@@ -84,16 +85,44 @@ public class MatchUtility {
         return lReturn;
     }
 
-    static boolean isEquasionCorrect(String pEquasion) {
+    public static boolean isEquasionCorrect(String pEquasion) {
         pEquasion = pEquasion.replace("*", "");
         try {
-            int lNumber1 = Integer.parseInt(pEquasion.split("+")[0]);
-            int lNumber2 = Integer.parseInt(pEquasion.split("+")[1].split("=")[0]);
+            int lNumber1 = Integer.parseInt(pEquasion.split("\\+")[0]);
+            int lNumber2 = Integer.parseInt(pEquasion.split("\\+")[1].split("=")[0]);
             int lSum = Integer.parseInt(pEquasion.split("=")[1]);
             return lNumber1 + lNumber2 == lSum;
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    public static boolean canBeCreatedFromEquasion(String pEquasion, String pToBeChecked) {
+        if (pEquasion.length() != pToBeChecked.length()) {
+            return false;
+        }
+
+        HashMap<Character, MatchInfoContainer[]> lMatchHelperHashMap = getMatchHelperHashMap();
+        char[] lEquasion = pEquasion.toCharArray();
+        char[] lToBeChecked = pToBeChecked.toCharArray();
+        for (int i = 0; i < lToBeChecked.length; i++) {
+            if ((lToBeChecked[i] == '*' && lEquasion[i] != '*')
+                    || (lToBeChecked[i] == '+' && lEquasion[i] != '+')
+                    || (lToBeChecked[i] == '=' && lEquasion[i] != '=')) {
+                return false;
+            } else if (lToBeChecked[i] != '*' && lToBeChecked[i] != '+' && lToBeChecked[i] != '=') {
+                boolean lFoundChar = false;
+                for (MatchInfoContainer lContainer : lMatchHelperHashMap.get(lEquasion[i])) {
+                    if (lContainer.getResult() == lToBeChecked[i]) {
+                        lFoundChar = true;
+                    }
+                }
+                if (!lFoundChar) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

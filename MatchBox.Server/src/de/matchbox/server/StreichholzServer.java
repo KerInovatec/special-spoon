@@ -74,7 +74,7 @@ public class StreichholzServer extends Server {
         this.roomList.toFirst();
         while (this.roomList.hasAccess()) {
             if (this.roomList.getObject().equals(pRoom)) {
-                
+
                 this.roomList.remove();
                 this.log("Der Raum \"" + pRoom.getName() + "\" wurde gelöscht");
             }
