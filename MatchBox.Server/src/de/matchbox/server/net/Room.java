@@ -37,6 +37,7 @@ public class Room {
 
     public void addClient(Client pClient) {
         this.playerList.append(new Player(pClient, 0, false));
+        this.sendPlayersToAll(RoomCommand.PLAYER_JOINED);
     }
 
     public boolean containsClient(Client pClient) {

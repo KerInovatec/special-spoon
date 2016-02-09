@@ -27,6 +27,12 @@ public class RoomFormModel {
             case LIST_PLAYER:
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 break;
+            case PLAYER_JOINED:
+                this.room.setPlayerList(pCommandObject.getContentObject());
+                break;
+            case EQUASION_SOLVED:
+                this.room.setPlayerList(pCommandObject.getContentObject());
+                break;
             case REQUEST_EQUASION:
                 this.room.setEquasion(pCommandObject);
                 break;

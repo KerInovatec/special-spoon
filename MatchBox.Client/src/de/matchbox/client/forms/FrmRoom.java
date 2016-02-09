@@ -1,10 +1,11 @@
 package de.matchbox.client.forms;
 
-import de.matchbox.client.Control;
 import de.matchbox.client.Zahl;
 import de.matchbox.client.forms.models.RoomFormModel;
+import de.matchbox.client.forms.usercontrols.PlayerControl;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.communication.MessageObject;
+import de.matchbox.communication.classmodels.PlayerModel;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
@@ -13,7 +14,10 @@ import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerCo
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +30,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private JLabel jSpaceArr[][];
     private final RoomFormModel roomFormModel;
     private boolean hasMatch;
-    private DefaultListModel playerListModel;
     private String gleichung;
     private Timer timer;
     private int secondsPassed;
@@ -34,8 +37,6 @@ public class FrmRoom extends javax.swing.JFrame {
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
         this.initComponents();
-        this.playerListModel = new DefaultListModel();
-        this.jPlayerListIngame.setModel(this.playerListModel);
         this.jMatchArr = new JLabel[8][10];
         this.jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -65,8 +66,6 @@ public class FrmRoom extends javax.swing.JFrame {
 
         jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPlayerListIngame = new javax.swing.JList();
         jSpace1_1 = new javax.swing.JLabel();
         jSpace2_1 = new javax.swing.JLabel();
         jSpace3_1 = new javax.swing.JLabel();
@@ -202,6 +201,7 @@ public class FrmRoom extends javax.swing.JFrame {
         jButtonCheck = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
+        jPanelPlayer = new javax.swing.JPanel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -215,13 +215,7 @@ public class FrmRoom extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
-
-        jScrollPane1.setViewportView(jPlayerListIngame);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(1270, 340, 230, 270);
 
         jSpace1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Empty_H.png"))); // NOI18N
         jPanel1.add(jSpace1_1);
@@ -775,6 +769,8 @@ public class FrmRoom extends javax.swing.JFrame {
         jButton1.setBounds(340, 460, 61, 23);
         jPanel1.add(jProgressBar1);
         jProgressBar1.setBounds(0, 584, 1270, 30);
+        jPanel1.add(jPanelPlayer);
+        jPanelPlayer.setBounds(1230, 330, 270, 280);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -841,9 +837,7 @@ public class FrmRoom extends javax.swing.JFrame {
                 }
                 timer.stop();
                 break;
-
         }
-
     }
 
     private List convertToList() {
@@ -913,13 +907,22 @@ public class FrmRoom extends javax.swing.JFrame {
             return;
         }
 
-        this.playerListModel.clear();
         List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
+        Box lPlayerBox = Box.createVerticalBox();
+
         lList.toFirst();
         while (lList.hasAccess()) {
-            this.playerListModel.addElement(lList.getObject());
+            PlayerControl lPlayerControl = new PlayerControl((PlayerModel) lList.getObject());
+            lPlayerControl.setAlignmentX(0.5F);
+            lPlayerControl.setMaximumSize(new Dimension(210, 35));
+            lPlayerBox.add(lPlayerControl);
             lList.next();
         }
+
+        this.jPanelPlayer.removeAll();
+        this.jPanelPlayer.setLayout(new GridLayout(1, 1));
+        this.jPanelPlayer.add(lPlayerBox);
+        this.jPanelPlayer.updateUI();
     }
 
     public void setEquasion(RoomCommandContentObject pCommandObject) {
@@ -1276,10 +1279,9 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JLabel jMinus;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JList jPlayerListIngame;
+    private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JLabel jPlus;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;
     private javax.swing.JLabel jSpace1_3;

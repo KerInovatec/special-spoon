@@ -94,10 +94,10 @@ public class Control {
                 }
                 break;
             case ROOM_CMD:
-                if(this.roomFormModel == null){
+                if (this.roomFormModel == null) {
                     this.roomFormModel = new RoomFormModel(this);
                 }
-                
+
                 if (this.lobby != null) {
                     this.lobby.setVisible(false);
                     this.roomFormModel.process((RoomCommandContentObject) pMessageObject.getContentObject());
