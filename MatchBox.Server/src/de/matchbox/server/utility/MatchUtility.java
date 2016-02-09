@@ -19,7 +19,7 @@ public class MatchUtility {
             for (int i = 0; i < lCharArray.length && lChangesCount < lMaxChanges && !(lChangesCount > 0 && lMatchesCount == 0); i++) {
                 if (!lChangedIndexes.contains(i) && lMatchHelperHashMap.containsKey(lCharArray[i]) && new Random().nextBoolean()) {
                     MatchInfoContainer[] lPossibleChanges = lMatchHelperHashMap.get(lCharArray[i]);
-                    if (lMatchesCount == 0) {
+                    if (lMatchesCount == 0 && lPossibleChanges.length > 0) {
                         MatchInfoContainer lChange = lPossibleChanges[new Random().nextInt(lPossibleChanges.length)];
                         lMatchesCount += lChange.getMatchCount();
                         lCharArray[i] = lChange.getResult();

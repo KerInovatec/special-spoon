@@ -9,5 +9,6 @@ public enum ErrorType {
     NOT_LOGGED_IN,
     NOT_IN_ROOM,
     ALREADY_IN_ROOM,
+    EQUASION_ALREADY_SOLVED,
     USERNAME_TAKEN
 }

@@ -25,6 +25,7 @@ public class Room {
     private final StreichholzServer server;
     private final List playerList;
     private String wrongEquasion = "**7+**8=**1";
+    private boolean equasionSolved = false;
 
     public Room(int pId, String pName, Client pHost, StreichholzServer pServer) {
         this.id = pId;
@@ -119,12 +120,17 @@ public class Room {
     }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
+        if (this.equasionSolved) {
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.EQUASION_ALREADY_SOLVED)));
+        }
+
         if (pMessageObject.getContentObject() instanceof EquasionContentObject) {
             String lEquasion = ((EquasionContentObject) pMessageObject.getContentObject()).getEquasion();
             boolean lIsEquasionCorrect = false;
             if (MatchUtility.canBeCreatedFromEquasion(this.wrongEquasion, lEquasion)
                     && (lIsEquasionCorrect = MatchUtility.isEquasionCorrect(lEquasion))) {
                 this.givePlayerPoint(pClient);
+                this.equasionSolved = true;
             }
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect))));
         } else {
@@ -214,6 +220,7 @@ public class Room {
     private void requestEquasion(Client pClient) {
         if (this.isClientHost(pClient)) {
             this.getNewEquasion();
+            this.equasionSolved = false;
             this.sendToAll(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion)))));
         } else {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
