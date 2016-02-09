@@ -40,6 +40,15 @@ public class Control {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                
+                try{
+                    Thread.sleep(4500);
+                }catch(Exception e)
+                {
+                    
+                }
+                
+                
                 Control lControl = new Control();
             }
         });
