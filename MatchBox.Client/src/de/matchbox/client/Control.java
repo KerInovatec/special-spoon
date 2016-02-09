@@ -42,7 +42,7 @@ public class Control {
             public void run() {
                 
                 try{
-                    Thread.sleep(4500);
+                    Thread.sleep(2000);
                 }catch(Exception e)
                 {
                     
