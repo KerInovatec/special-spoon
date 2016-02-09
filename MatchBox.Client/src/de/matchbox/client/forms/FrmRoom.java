@@ -45,6 +45,7 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
+        this.Rekt.setVisible(false);
         this.hasMatch = false;
         this.gleichung = "";
         this.jProgressBar1.setMinimum(0);
@@ -196,12 +197,13 @@ public class FrmRoom extends javax.swing.JFrame {
         jPlus = new javax.swing.JLabel();
         jMinus = new javax.swing.JLabel();
         jTextFieldTest = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jButtonTest = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jPanelPlayer = new javax.swing.JPanel();
+        Rekt = new javax.swing.JLabel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -737,18 +739,18 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jTextFieldTest);
         jTextFieldTest.setBounds(160, 380, 240, 40);
 
-        jButton3.setText("Test");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonTest.setText("Test");
+        jButtonTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonTestActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3);
-        jButton3.setBounds(240, 450, 53, 23);
+        jPanel1.add(jButtonTest);
+        jButtonTest.setBounds(240, 450, 53, 23);
 
         jLabelInfo.setText("HasMatch");
         jPanel1.add(jLabelInfo);
-        jLabelInfo.setBounds(620, 370, 290, 70);
+        jLabelInfo.setBounds(410, 360, 290, 70);
 
         jButtonCheck.setText("Check");
         jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -771,6 +773,13 @@ public class FrmRoom extends javax.swing.JFrame {
         jProgressBar1.setBounds(0, 584, 1270, 30);
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1230, 330, 270, 280);
+
+        Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
+        Rekt.setMaximumSize(new java.awt.Dimension(500, 200));
+        Rekt.setMinimumSize(new java.awt.Dimension(500, 200));
+        Rekt.setPreferredSize(new java.awt.Dimension(500, 200));
+        jPanel1.add(Rekt);
+        Rekt.setBounds(730, 410, 500, 170);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -800,10 +809,11 @@ public class FrmRoom extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_mnuQuitActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
 //        this.setMatches(jTextFieldTest.getText());
+        this.Rekt.setVisible(false);
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonTestActionPerformed
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
@@ -832,6 +842,7 @@ public class FrmRoom extends javax.swing.JFrame {
             case CHECK_EQUASION:
                 if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
                     jLabelInfo.setText("Gut Gemacht ist Richtig!");
+                    this.Rekt.setVisible(true);
                 } else {
                     jLabelInfo.setText("Schlecht gemacht ist Falsch");
                 }
@@ -1208,9 +1219,10 @@ public class FrmRoom extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Rekt;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonCheck;
+    private javax.swing.JButton jButtonTest;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelInfo;
     private javax.swing.JLabel jMatch1_1;
