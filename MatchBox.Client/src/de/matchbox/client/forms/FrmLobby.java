@@ -8,11 +8,9 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Control;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.RoomModel;
-import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
 import de.matchbox.communication.enumeration.MessageType;
-import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import javax.swing.DefaultListModel;
 
@@ -25,10 +23,9 @@ public class FrmLobby extends javax.swing.JFrame {
     /**
      * Creates new form FrmLobby
      */
-    private Control control;
+    private final Control control;
     private DefaultListModel lobby;
-    private RoomCreationDialog roomCreationDialog;
-    private FrmMain main;
+    private final RoomCreationDialog roomCreationDialog;
 
     public FrmLobby(Control pControl) {
         initComponents();
@@ -38,14 +35,8 @@ public class FrmLobby extends javax.swing.JFrame {
 
         this.jConectRoom.setEnabled(false);
         this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
-    }
 
-    public void startMain() {
-        this.setVisible(false);
-        this.main = new FrmMain(this.control);
-        this.control.setMain(main);
-        this.control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
-        this.main.setVisible(true);
+        this.control.send(new MessageObject(MessageType.LIST_ROOMS));
     }
 
     /**
@@ -153,13 +144,10 @@ public class FrmLobby extends javax.swing.JFrame {
         if (!jRoomList.isSelectionEmpty()) {
             this.control.send(new MessageObject(MessageType.JOIN_ROOM, new JoinRoomContentObject(((RoomModel) (jRoomList.getSelectedValue())).getId())));
         }
-
     }//GEN-LAST:event_jConectRoomActionPerformed
 
     private void jCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCreateRoomActionPerformed
-
         roomCreationDialog.setVisible(true);
-
     }//GEN-LAST:event_jCreateRoomActionPerformed
 
     private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
@@ -173,17 +161,13 @@ public class FrmLobby extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAktulisierenActionPerformed
 
     public void setRooms(List rooms) {
-        //List voller Raeume. Muss hier noch geaendert werden
-        //jList1.setListData(rooms.entrySet().toArray());
         this.lobby = new DefaultListModel();
         rooms.toFirst();
         while (rooms.hasAccess()) {
             lobby.addElement((RoomModel) rooms.getObject());
             rooms.next();
         }
-
         jRoomList.setModel(lobby);
-
     }
 
     public void createRoom(String pName) {

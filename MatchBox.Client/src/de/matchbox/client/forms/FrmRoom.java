@@ -2,6 +2,7 @@ package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
 import de.matchbox.client.Zahl;
+import de.matchbox.client.forms.models.RoomFormModel;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
@@ -18,55 +19,49 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-public class FrmMain extends javax.swing.JFrame
-{
+public class FrmRoom extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
     private JLabel jMatchArr[][];
     private JLabel jSpaceArr[][];
-    private final Control control;
+    private final RoomFormModel roomFormModel;
     private boolean hasMatch;
     private DefaultListModel playerListModel;
     private String gleichung;
     private Timer timer;
     private int secondsPassed;
 
-    public FrmMain(Control control)
-    {
-        this.control = control;
-        initComponents();
+    public FrmRoom(RoomFormModel pRoomFormModel) {
+        this.roomFormModel = pRoomFormModel;
+        this.initComponents();
         this.playerListModel = new DefaultListModel();
-        //this.jPLayerList.setModel(this.playerListModel);
         this.jPlayerListIngame.setModel(this.playerListModel);
-        jMatchArr = new JLabel[8][10];
-        jSpaceArr = new JLabel[8][10];
+        this.jMatchArr = new JLabel[8][10];
+        this.jSpaceArr = new JLabel[8][10];
         this.createArr();
         this.resetView();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
-        hasMatch = false;
-        gleichung = "";
-        jProgressBar1.setMinimum(0);
-        jProgressBar1.setMaximum(100);
-        secondsPassed = 0;
-        timer = new Timer(100, (ActionEvent e)
-                          ->
-                          {
-                              jProgressBar1.setValue(jProgressBar1.getMaximum() - secondsPassed);
-                              secondsPassed++;
-                              if(secondsPassed == jProgressBar1.getMaximum())
-                              {
-                                  timer.stop();
-                                  JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
-                              }
-                  });
+        this.hasMatch = false;
+        this.gleichung = "";
+        this.jProgressBar1.setMinimum(0);
+        this.jProgressBar1.setMaximum(100);
+        this.secondsPassed = 0;
+        this.timer = new Timer(1000, (ActionEvent e)
+                -> {
+            this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
+            this.secondsPassed++;
+            if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
+                this.timer.stop();
+                JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
@@ -749,10 +744,8 @@ public class FrmMain extends javax.swing.JFrame
         jTextFieldTest.setBounds(160, 380, 240, 40);
 
         jButton3.setText("Test");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
@@ -764,10 +757,8 @@ public class FrmMain extends javax.swing.JFrame
         jLabelInfo.setBounds(620, 370, 290, 70);
 
         jButtonCheck.setText("Check");
-        jButtonCheck.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCheckActionPerformed(evt);
             }
         });
@@ -775,10 +766,8 @@ public class FrmMain extends javax.swing.JFrame
         jButtonCheck.setBounds(460, 450, 61, 23);
 
         jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -793,10 +782,8 @@ public class FrmMain extends javax.swing.JFrame
         mnuFile.setText("Datei");
 
         mnuQuit.setText("Beenden");
-        mnuQuit.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        mnuQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuQuitActionPerformed(evt);
             }
         });
@@ -819,15 +806,16 @@ public class FrmMain extends javax.swing.JFrame
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 //        this.setMatches(jTextFieldTest.getText());
-        control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
+        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
-        if(this.areNummbers())
-            control.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
-        else
+        if (this.areNummbers()) {
+            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
+        } else {
             jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
+        }
 
     }//GEN-LAST:event_jButtonCheckActionPerformed
 
@@ -835,23 +823,22 @@ public class FrmMain extends javax.swing.JFrame
         this.setMatches(gleichung);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void verarbeite(RoomCommandContentObject pCommandObject)
-    {
-        switch(pCommandObject.getCommand())
-        {
+    public void verarbeite(RoomCommandContentObject pCommandObject) {
+        switch (pCommandObject.getCommand()) {
             case LIST_PLAYER:
                 this.setPlayerList(pCommandObject.getContentObject());
                 break;
             case REQUEST_EQUASION:
                 this.hasMatch = false;
-                gleichung = ((EquasionContentObject)(pCommandObject.getContentObject())).getEquasion();
+                gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
                 this.setMatches(gleichung);
                 break;
             case CHECK_EQUASION:
-                if(((CheckEquasionResultContentObject)pCommandObject.getContentObject()).isEquasionCorrect())
+                if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
                     jLabelInfo.setText("Gut Gemacht ist Richtig!");
-                else
+                } else {
                     jLabelInfo.setText("Schlecht gemacht ist Falsch");
+                }
                 timer.stop();
                 break;
 
@@ -859,87 +846,98 @@ public class FrmMain extends javax.swing.JFrame
 
     }
 
-    private List convertToList()
-    {
+    private List convertToList() {
         List ausgabe = new List();
         boolean[] zahlCode;
         Zahl pZahl = new Zahl();
-        for(int i = 1; i < 10; i++)
-        {
+        for (int i = 1; i < 10; i++) {
 
-            zahlCode = new boolean[]
-            {
+            zahlCode = new boolean[]{
                 !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
             };
 
             pZahl = new Zahl();
             pZahl.setZahlCode(zahlCode);
 
-            if(this.isBlank(i))
+            if (this.isBlank(i)) {
                 ausgabe.append('*');
-            else
+            } else {
                 ausgabe.append(pZahl);
-            if(i == 3)
-                if(jPlus.isVisible())
+            }
+            if (i == 3) {
+                if (jPlus.isVisible()) {
                     ausgabe.append('+');
-                else
+                } else {
                     ausgabe.append('-');
-            else if(i == 6)
+                }
+            } else if (i == 6) {
                 ausgabe.append('=');
+            }
 
         }
         return ausgabe;
     }
 
-    private boolean isBlank(int index)
-    {
-        for(int i = 1; i < 8; i++)
-            if(!jSpaceArr[i][index].isVisible())
+    private boolean isBlank(int index) {
+        for (int i = 1; i < 8; i++) {
+            if (!jSpaceArr[i][index].isVisible()) {
                 return false;
+            }
+        }
         return true;
     }
 
-    private boolean areNummbers()
-    {
+    private boolean areNummbers() {
         boolean[] zahlCode;
 
         Zahl pZahl = new Zahl();
-        for(int i = 1; i < 10; i++)
-        {
+        for (int i = 1; i < 10; i++) {
 
-            zahlCode = new boolean[]
-            {
+            zahlCode = new boolean[]{
                 !jSpaceArr[1][i].isVisible(), !jSpaceArr[2][i].isVisible(), !jSpaceArr[3][i].isVisible(), !jSpaceArr[4][i].isVisible(), !jSpaceArr[5][i].isVisible(), !jSpaceArr[6][i].isVisible(), !jSpaceArr[7][i].isVisible()
             };
             pZahl = new Zahl();
             pZahl.setZahlCode(zahlCode);
 
-            if(!pZahl.isNumber())
-                if(!isBlank(i))
+            if (!pZahl.isNumber()) {
+                if (!isBlank(i)) {
                     return false;
+                }
+            }
         }
         return true;
     }
 
-    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject)
-    {
-        //List voller Raeume. Muss hier noch geaendert werden
-        //jList1.setListData(rooms.entrySet().toArray());
-        if(!(pRoomCommandContentObject instanceof ListPlayerContentObject))
+    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
+        if (!(pRoomCommandContentObject instanceof ListPlayerContentObject)) {
             return;
+        }
 
         this.playerListModel.clear();
-        List lList = ((ListPlayerContentObject)pRoomCommandContentObject).getPlayer();
+        List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
         lList.toFirst();
-        while(lList.hasAccess())
-        {
+        while (lList.hasAccess()) {
             this.playerListModel.addElement(lList.getObject());
             lList.next();
         }
     }
 
-    private void createArr()
-    {
+    public void setEquasion(RoomCommandContentObject pCommandObject) {
+        this.hasMatch = false;
+        this.gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
+        this.setMatches(gleichung);
+    }
+
+    public void onCheckedEquasion(RoomCommandContentObject pCommandObject) {
+        if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
+            jLabelInfo.setText("Gut Gemacht ist Richtig!");
+        } else {
+            jLabelInfo.setText("Schlecht gemacht ist Falsch");
+        }
+        timer.stop();
+    }
+
+    private void createArr() {
         //Spaces
         int x = 1;
         jSpaceArr[1][x] = jSpace1_1;
@@ -1108,39 +1106,38 @@ public class FrmMain extends javax.swing.JFrame
 
     }
 
-    private void resetView()
-    {
+    private void resetView() {
         jPlus.setVisible(false);
         jMinus.setVisible(false);
         jEaquals.setVisible(false);
-        for(int i = 1; i < 10; i++)
-            for(int y = 1; y < 8; y++)
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 jSpaceArr[y][i].setVisible(true); //jMatchArr[y][i].setVisible(true);
-
+            }
+        }
     }
 
-    private void setMatches(String pEaquasion)
-    {
+    private void setMatches(String pEaquasion) {
         resetView();
         List lGleichung = MatchUtility.equationToMatch(pEaquasion);
         boolean[] lCode;
         int ZahlIndex = 1;
         lGleichung.toFirst();
-        while(lGleichung.hasAccess())
-        {
+        while (lGleichung.hasAccess()) {
 
-            if((lGleichung.getObject() instanceof Zahl))
-            {
-                lCode = ((Zahl)lGleichung.getObject()).getZahlCode();
-                for(int i = 1; i <= 7; i++)
+            if ((lGleichung.getObject() instanceof Zahl)) {
+                lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
+                for (int i = 1; i <= 7; i++) {
                     jSpaceArr[i][ZahlIndex].setVisible(!lCode[i - 1]);
+                }
                 ZahlIndex++;
-            } else if((char)lGleichung.getObject() == '*')
+            } else if ((char) lGleichung.getObject() == '*') {
                 ZahlIndex++;
-            else if((char)lGleichung.getObject() == '-')
+            } else if ((char) lGleichung.getObject() == '-') {
                 jMinus.setVisible(true);
-            else if((char)lGleichung.getObject() == '+')
+            } else if ((char) lGleichung.getObject() == '+') {
                 jPlus.setVisible(true);
+            }
             lGleichung.next();
         }
         jEaquals.setVisible(true);
@@ -1150,50 +1147,44 @@ public class FrmMain extends javax.swing.JFrame
         timer.restart();
     }
 
-    private void initEvents()
-    {
-        for(int i = 1; i < 10; i++)
-            for(int y = 1; y < 8; y++)
-            {
+    private void initEvents() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 JLabel curLabel = this.jMatchArr[y][i];
                 int x = i;
                 int z = y;
-                if(curLabel != null)
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
-                    {
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt)
-                        {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
                             matchClicked(evt, x, z);
                         }
                     });
+                }
             }
+        }
     }
 
-    private void initEvents2()
-    {
-        for(int i = 1; i < 10; i++)
-            for(int y = 1; y < 8; y++)
-            {
+    private void initEvents2() {
+        for (int i = 1; i < 10; i++) {
+            for (int y = 1; y < 8; y++) {
                 JLabel curLabel = this.jSpaceArr[y][i];
                 int x = i;
                 int z = y;
-                if(curLabel != null)
-                    curLabel.addMouseListener(new java.awt.event.MouseAdapter()
-                    {
+                if (curLabel != null) {
+                    curLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                         @Override
-                        public void mouseClicked(java.awt.event.MouseEvent evt)
-                        {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
                             spaceClicked(evt, x, z);
                         }
                     });
+                }
             }
+        }
     }
 
-    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y)
-    {
-        if(!hasMatch)
-        {
+    private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (!hasMatch) {
             jSpaceArr[y][x].setVisible(true);
 
             hasMatch = true;
@@ -1202,10 +1193,8 @@ public class FrmMain extends javax.swing.JFrame
         }
     }
 
-    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y)
-    {
-        if(hasMatch)
-        {
+    private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
+        if (hasMatch) {
             jSpaceArr[y][x].setVisible(false);
 
             hasMatch = false;

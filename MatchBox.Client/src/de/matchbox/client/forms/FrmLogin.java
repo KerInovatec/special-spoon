@@ -21,24 +21,13 @@ public class FrmLogin extends javax.swing.JFrame {
      *
      * @param pMainForm
      */
-    private Control control;
-    private FrmLobby lobby;
+    private final Control control;
 
-    private FrmLogin() {
+    public FrmLogin(Control pControl) {
+        this.control = pControl;
         initComponents();
-        this.control = new Control(this);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-
-    }
-
-    public void startLobby() {
-
-        this.setVisible(false);
-        this.lobby = new FrmLobby(this.control);
-        this.control.setLobby(lobby);
-        this.lobby.setVisible(true);
-        this.control.send(new MessageObject(MessageType.LIST_ROOMS));
 
     }
 
@@ -160,8 +149,8 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
-        control.connect(ip, port);
-        control.login(username);
+        this.control.connect(ip, port);
+        this.control.login(username);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
@@ -181,36 +170,6 @@ public class FrmLogin extends javax.swing.JFrame {
     {//GEN-HEADEREND:event_jTextFieldPortKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPortKeyPressed
-
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FrmLogin().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
