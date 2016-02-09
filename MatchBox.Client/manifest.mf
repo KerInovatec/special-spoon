@@ -1,4 +1,2 @@
 Manifest-Version: 1.0
-X-COMMENT: Main-Class will be added automatically by build
-
-SplashScreen-Image: de\matchbox\client\Resources\splash.gif
+X-COMMENT: Main-Class will be added automatically by build SplashScreen-Image: de\matchbox\client\Resources\splash.gif
