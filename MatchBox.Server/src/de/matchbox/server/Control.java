@@ -47,9 +47,6 @@ public class Control {
             case JOIN_ROOM:
                 this.joinRoom(pMessageObject, pClient, pServer);
                 break;
-            case LEAVE_ROOM:
-                this.leaveRoom(pClient, pServer);
-                break;
             case LIST_ROOMS:
                 pClient.sendJson(new MessageObject(MessageType.LIST_ROOMS, new ListRoomsContentObject(pServer.getRoomModelList())));
                 break;
@@ -89,16 +86,6 @@ public class Control {
             lRoom.addClient(pClient);
             pClient.setCurRoom(lRoom);
             pClient.sendJson(new MessageObject(MessageType.JOIN_ROOM));
-        }
-    }
-
-    private void leaveRoom(Client pClient, StreichholzServer pServer) {
-        Room lRoom = pClient.getCurRoom();
-        if (lRoom == null) {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.NOT_IN_ROOM)));
-        } else {
-            lRoom.logoutPlayer(pClient);
-            pClient.sendJson(new MessageObject(MessageType.LEAVE_ROOM));
         }
     }
 

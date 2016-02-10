@@ -18,13 +18,6 @@ public class Player {
         return client;
     }
 
-    public boolean isHost() {
-        return host;
-    }
-
-    public void setHost(boolean host) {
-        this.host = host;
-    }
 
     public PlayerModel getModel() {
         //Username ist immer null
@@ -37,5 +30,11 @@ public class Player {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+    public boolean isHost() {
+        return host;
+    }
+    public void setHost(boolean host) {
+        this.host = host;
     }
 }
