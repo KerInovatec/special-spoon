@@ -16,6 +16,7 @@ import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
@@ -38,6 +39,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
         this.initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         this.jMatchArr = new JLabel[8][10];
         this.jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -54,26 +56,34 @@ public class FrmRoom extends javax.swing.JFrame {
 //        this.jProgressBar1.setMinimum(0);
 //        this.jProgressBar1.setMaximum(100);
 //        this.secondsPassed = 0;
-        int delay = 1420; //milliseconds
+        
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 jLabelScope.setVisible(false);
+                Rekt.setVisible(false);
                 timer.stop();
             }
         };
-        this.timer = new Timer(delay, taskPerformer);
-
+        this.timer = new Timer(1420, taskPerformer);
+        
+        
 //        this.timer = new Timer(1000, (ActionEvent e)
 //                -> {
 //                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
 //                    this.secondsPassed++;
 //                    if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
 //                        this.timer.stop();
-//                        JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
+                        
 //                    }
 //                });
+        
+    }
+    public void newEquasion()
+    {
+        this.hasMatch = 0;
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -751,7 +761,7 @@ public class FrmRoom extends javax.swing.JFrame {
 
         jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
         jPanel1.add(jLabelScope);
-        jLabelScope.setBounds(310, 320, 310, 280);
+        jLabelScope.setBounds(400, 320, 310, 280);
 
         jButtonTest.setText("Test");
         jButtonTest.addActionListener(new java.awt.event.ActionListener() {
@@ -832,7 +842,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
 //        this.setMatches(jTextFieldTest.getText());
         this.hasMatch = 0;
-        this.Rekt.setVisible(false);
+        
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }//GEN-LAST:event_jButtonTestActionPerformed
 
@@ -853,16 +863,19 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         this.setMatches(gleichung);
         hasMatch = 0;
-        jLabelInfo.setText("");
-        jLabelScope.setVisible(true);
-        timer.start();
+        jLabelInfo.setText("Has Match false");
+        
+       
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-
+    public void callTheWinner(String pWinner)
+    {
+        JOptionPane.showMessageDialog(null, "Player "+pWinner+" Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     private List convertToList() {
         List ausgabe = new List();
@@ -959,6 +972,8 @@ public class FrmRoom extends javax.swing.JFrame {
         if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
             jLabelInfo.setText("Well Done! Correct");
             this.Rekt.setVisible(true);
+            this.jLabelScope.setVisible(true);
+            timer.start();
         } else {
             jLabelInfo.setText("Sorry, try again");
         }

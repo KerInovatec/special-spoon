@@ -11,5 +11,6 @@ public enum RoomCommand
     PLAYER_LEFT,
     PLAYER_WON,
     LEAVE_ROOM,
-    UNKOWN
+    UNKOWN,
+    
 }

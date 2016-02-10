@@ -4,6 +4,7 @@ import de.matchbox.client.Control;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 
@@ -38,6 +39,8 @@ public class RoomFormModel {
                 break;
             case EQUASION_SOLVED:
                 this.room.setPlayerList(pCommandObject.getContentObject());
+                room.newEquasion();
+                
                 break;
             case REQUEST_EQUASION:
                 this.room.setEquasion(pCommandObject);
@@ -47,6 +50,9 @@ public class RoomFormModel {
                 break;
             case LEAVE_ROOM:
                 this.closeRoom();
+                break;
+            case PLAYER_WON:
+                this.room.callTheWinner(((PlayerWonContentObject)pCommandObject.getContentObject()).getUsername());
                 break;
                 
         }
