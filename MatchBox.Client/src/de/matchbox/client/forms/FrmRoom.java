@@ -29,7 +29,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private JLabel jMatchArr[][];
     private JLabel jSpaceArr[][];
     private final RoomFormModel roomFormModel;
-    private boolean hasMatch;
+    private int hasMatch;
     private String gleichung;
     private Timer timer;
     private int secondsPassed;
@@ -45,8 +45,8 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
-//        this.Rekt.setVisible(false);
-        this.hasMatch = false;
+        this.Rekt.setVisible(false);
+        this.hasMatch = 0;
         this.gleichung = "";
         this.jProgressBar1.setMinimum(0);
         this.jProgressBar1.setMaximum(100);
@@ -200,7 +200,7 @@ public class FrmRoom extends javax.swing.JFrame {
         jButtonTest = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonReset = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jPanelPlayer = new javax.swing.JPanel();
         Rekt = new javax.swing.JLabel();
@@ -761,14 +761,14 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jButtonCheck);
         jButtonCheck.setBounds(460, 450, 61, 23);
 
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonReset.setText("Reset");
+        jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonResetActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(340, 460, 61, 23);
+        jPanel1.add(jButtonReset);
+        jButtonReset.setBounds(340, 460, 61, 23);
         jPanel1.add(jProgressBar1);
         jProgressBar1.setBounds(0, 584, 1270, 30);
         jPanel1.add(jPanelPlayer);
@@ -808,23 +808,30 @@ public class FrmRoom extends javax.swing.JFrame {
 
     private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
 //        this.setMatches(jTextFieldTest.getText());
+        this.hasMatch = 0;
         this.Rekt.setVisible(false);
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }//GEN-LAST:event_jButtonTestActionPerformed
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
-        if (this.areNummbers()) {
-            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
+        if (hasMatch == 1) {
+            jLabelInfo.setText("Place you Match before Checking");
         } else {
-            jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
+            if (this.areNummbers()) {
+                roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
+            } else {
+                jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
+            }
         }
 
     }//GEN-LAST:event_jButtonCheckActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         this.setMatches(gleichung);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        hasMatch = 0;
+        jLabelInfo.setText("");
+    }//GEN-LAST:event_jButtonResetActionPerformed
 
     public void verarbeite(RoomCommandContentObject pCommandObject) {
         switch (pCommandObject.getCommand()) {
@@ -832,17 +839,17 @@ public class FrmRoom extends javax.swing.JFrame {
                 this.setPlayerList(pCommandObject.getContentObject());
                 break;
             case REQUEST_EQUASION:
-                this.hasMatch = false;
+
                 gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
                 this.setMatches(gleichung);
                 break;
             case CHECK_EQUASION:
                 if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
-                    this.Rekt.updateUI();                     
-                    jLabelInfo.setText("Gut Gemacht ist Richtig!");
+                    this.Rekt.updateUI();
+                    jLabelInfo.setText("Well Done! Correct");
 
                 } else {
-                    jLabelInfo.setText("Schlecht gemacht ist Falsch");
+                    jLabelInfo.setText("Sorry, try again");
                 }
                 timer.stop();
                 break;
@@ -935,7 +942,7 @@ public class FrmRoom extends javax.swing.JFrame {
     }
 
     public void setEquasion(RoomCommandContentObject pCommandObject) {
-        this.hasMatch = false;
+
         this.gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
         this.setMatches(gleichung);
     }
@@ -943,7 +950,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public void onCheckedEquasion(RoomCommandContentObject pCommandObject) {
         if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
             jLabelInfo.setText("Gut Gemacht ist Richtig!");
-            this.Rekt.setVisible(true);    
+            this.Rekt.setVisible(true);
         } else {
             jLabelInfo.setText("Schlecht gemacht ist Falsch");
         }
@@ -1197,31 +1204,35 @@ public class FrmRoom extends javax.swing.JFrame {
     }
 
     private void matchClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (!hasMatch) {
+        if (hasMatch == 0) {
             jSpaceArr[y][x].setVisible(true);
 
-            hasMatch = true;
+            hasMatch = 1;
 
             jLabelInfo.setText("HasMatch true");
+        } else {
+            jLabelInfo.setText("You are only allowed to move 1 Match. Click reset to restart");
         }
     }
 
     private void spaceClicked(java.awt.event.MouseEvent evt, int x, int y) {
-        if (hasMatch) {
+        if (hasMatch == 1) {
             jSpaceArr[y][x].setVisible(false);
 
-            hasMatch = false;
+            hasMatch = 2;
 
             jLabelInfo.setText("HasMatch false");
+        } else {
+            jLabelInfo.setText("You have no Matches");
         }
 
     }
-     
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Rekt;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCheck;
+    private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonTest;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelInfo;

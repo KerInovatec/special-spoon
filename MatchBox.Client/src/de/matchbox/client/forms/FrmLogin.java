@@ -50,15 +50,26 @@ public class FrmLogin extends javax.swing.JFrame {
         jTextFieldUsername = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         MLG = new javax.swing.JLabel();
+        jLabelBackGround = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
+        setMinimumSize(new java.awt.Dimension(360, 267));
+        getContentPane().setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("IP");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(72, 56, 9, 15);
 
+        jLabel3.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Port");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(182, 56, 19, 15);
 
         jTextFieldIp.setText("localhost");
         jTextFieldIp.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -66,6 +77,8 @@ public class FrmLogin extends javax.swing.JFrame {
                 jTextFieldIpKeyPressed(evt);
             }
         });
+        getContentPane().add(jTextFieldIp);
+        jTextFieldIp.setBounds(92, 53, 80, 20);
 
         jTextFieldPort.setText("1234");
         jTextFieldPort.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -73,13 +86,18 @@ public class FrmLogin extends javax.swing.JFrame {
                 jTextFieldPortKeyPressed(evt);
             }
         });
+        getContentPane().add(jTextFieldPort);
+        jTextFieldPort.setBounds(206, 53, 30, 20);
 
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(93, 138, 57, 23);
 
         jTextFieldUsername.setText("Hans3");
         jTextFieldUsername.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -87,61 +105,23 @@ public class FrmLogin extends javax.swing.JFrame {
                 jTextFieldUsernameKeyPressed(evt);
             }
         });
+        getContentPane().add(jTextFieldUsername);
+        jTextFieldUsername.setBounds(93, 79, 225, 20);
 
+        jLabel4.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Username");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(35, 82, 47, 15);
 
         MLG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/MLG.gif"))); // NOI18N
-        MLG.setPreferredSize(new java.awt.Dimension(150, 150));
+        getContentPane().add(MLG);
+        MLG.setBounds(168, 117, 150, 150);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldIp, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldUsername)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(MLG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(42, 42, 42))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextFieldIp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(MLG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
+        jLabelBackGround.setBackground(new java.awt.Color(255, 0, 0));
+        jLabelBackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/BurningMatch.gif"))); // NOI18N
+        getContentPane().add(jLabelBackGround);
+        jLabelBackGround.setBounds(0, -6, 360, 280);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -180,6 +160,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelBackGround;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextFieldIp;
     private javax.swing.JTextField jTextFieldPort;
