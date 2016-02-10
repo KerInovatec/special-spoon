@@ -17,6 +17,7 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -32,7 +33,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private int hasMatch;
     private String gleichung;
     private Timer timer;
-    private int secondsPassed;
+//    private int secondsPassed;
 
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
@@ -46,20 +47,30 @@ public class FrmRoom extends javax.swing.JFrame {
         this.initEvents();
         this.initEvents2();
         this.Rekt.setVisible(false);
+        this.jLabelScope.setVisible(false);
         this.hasMatch = 0;
         this.gleichung = "";
-        this.jProgressBar1.setMinimum(0);
-        this.jProgressBar1.setMaximum(100);
-        this.secondsPassed = 0;
-        this.timer = new Timer(1000, (ActionEvent e)
-                -> {
-                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
-                    this.secondsPassed++;
-                    if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
-                        this.timer.stop();
-                        JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                });
+//        this.jProgressBar1.setMinimum(0);
+//        this.jProgressBar1.setMaximum(100);
+//        this.secondsPassed = 0;
+        int delay = 1420; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jLabelScope.setVisible(false);
+                timer.stop();
+            }
+        };
+        this.timer = new Timer(delay, taskPerformer);
+        
+//        this.timer = new Timer(1000, (ActionEvent e)
+//                -> {
+//                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
+//                    this.secondsPassed++;
+//                    if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
+//                        this.timer.stop();
+//                        JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
+//                    }
+//                });
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -196,14 +207,14 @@ public class FrmRoom extends javax.swing.JFrame {
         jEaquals = new javax.swing.JLabel();
         jPlus = new javax.swing.JLabel();
         jMinus = new javax.swing.JLabel();
-        jTextFieldTest = new javax.swing.JTextField();
+        jLabelScope = new javax.swing.JLabel();
         jButtonTest = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
         jPanelPlayer = new javax.swing.JPanel();
         Rekt = new javax.swing.JLabel();
+        jLabelBackground = new javax.swing.JLabel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -735,9 +746,9 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jMinus);
         jMinus.setBounds(400, 150, 100, 30);
 
-        jTextFieldTest.setText("123+456=789");
-        jPanel1.add(jTextFieldTest);
-        jTextFieldTest.setBounds(160, 380, 240, 40);
+        jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
+        jPanel1.add(jLabelScope);
+        jLabelScope.setBounds(310, 320, 310, 280);
 
         jButtonTest.setText("Test");
         jButtonTest.addActionListener(new java.awt.event.ActionListener() {
@@ -746,11 +757,11 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonTest);
-        jButtonTest.setBounds(240, 450, 53, 23);
+        jButtonTest.setBounds(30, 480, 53, 23);
 
         jLabelInfo.setText("HasMatch");
         jPanel1.add(jLabelInfo);
-        jLabelInfo.setBounds(410, 360, 290, 70);
+        jLabelInfo.setBounds(60, 330, 290, 70);
 
         jButtonCheck.setText("Check");
         jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -759,7 +770,7 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonCheck);
-        jButtonCheck.setBounds(460, 450, 61, 23);
+        jButtonCheck.setBounds(450, 450, 61, 23);
 
         jButtonReset.setText("Reset");
         jButtonReset.addActionListener(new java.awt.event.ActionListener() {
@@ -768,15 +779,15 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonReset);
-        jButtonReset.setBounds(340, 460, 61, 23);
-        jPanel1.add(jProgressBar1);
-        jProgressBar1.setBounds(0, 584, 1270, 30);
+        jButtonReset.setBounds(370, 450, 61, 23);
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1230, 330, 270, 280);
 
         Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
         jPanel1.add(Rekt);
-        Rekt.setBounds(710, 410, 500, 170);
+        Rekt.setBounds(730, 420, 500, 170);
+        jPanel1.add(jLabelBackground);
+        jLabelBackground.setBounds(0, 4, 1500, 610);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -831,6 +842,8 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setMatches(gleichung);
         hasMatch = 0;
         jLabelInfo.setText("");
+        jLabelScope.setVisible(true);
+        timer.start();
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     public void verarbeite(RoomCommandContentObject pCommandObject) {
@@ -851,7 +864,7 @@ public class FrmRoom extends javax.swing.JFrame {
                 } else {
                     jLabelInfo.setText("Sorry, try again");
                 }
-                timer.stop();
+//                timer.stop();
                 break;
         }
     }
@@ -954,7 +967,7 @@ public class FrmRoom extends javax.swing.JFrame {
         } else {
             jLabelInfo.setText("Schlecht gemacht ist Falsch");
         }
-        timer.stop();
+//        timer.stop();
     }
 
     private void createArr() {
@@ -1161,10 +1174,10 @@ public class FrmRoom extends javax.swing.JFrame {
             lGleichung.next();
         }
         jEaquals.setVisible(true);
-        timer.stop();
-        secondsPassed = 0;
-        jProgressBar1.setValue(jProgressBar1.getMaximum());
-        timer.restart();
+//        timer.stop();
+//        secondsPassed = 0;
+//        jProgressBar1.setValue(jProgressBar1.getMaximum());
+//        timer.restart();
     }
 
     private void initEvents() {
@@ -1235,7 +1248,9 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonTest;
     private javax.swing.JLabel jEaquals;
+    private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelInfo;
+    private javax.swing.JLabel jLabelScope;
     private javax.swing.JLabel jMatch1_1;
     private javax.swing.JLabel jMatch1_2;
     private javax.swing.JLabel jMatch1_3;
@@ -1304,7 +1319,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JLabel jPlus;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;
     private javax.swing.JLabel jSpace1_3;
@@ -1368,7 +1382,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jSpace7_7;
     private javax.swing.JLabel jSpace7_8;
     private javax.swing.JLabel jSpace7_9;
-    private javax.swing.JTextField jTextFieldTest;
     private javax.swing.JMenu mnuCon;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuBar mnuMain;
