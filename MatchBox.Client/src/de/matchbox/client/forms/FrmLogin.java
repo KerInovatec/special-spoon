@@ -8,7 +8,8 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Control;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.enumeration.MessageType;
-
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 /**
  *
  * @author Jakob
@@ -26,6 +27,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public FrmLogin(Control pControl) {
         this.control = pControl;
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 

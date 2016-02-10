@@ -12,6 +12,7 @@ import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.contentobjects.client.JoinRoomContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.shared.abiturklassen.List;
+import java.awt.Toolkit;
 import javax.swing.DefaultListModel;
 
 /**
@@ -29,6 +30,7 @@ public class FrmLobby extends javax.swing.JFrame {
 
     public FrmLobby(Control pControl) {
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         this.control = pControl;
         this.setResizable(false);
         this.setLocationRelativeTo(null);

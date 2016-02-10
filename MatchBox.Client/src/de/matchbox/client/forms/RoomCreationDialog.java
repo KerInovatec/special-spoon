@@ -10,6 +10,7 @@ import de.matchbox.client.Control;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.enumeration.MessageType;
+import java.awt.Toolkit;
 
 /**
  *
@@ -25,6 +26,7 @@ public class RoomCreationDialog extends javax.swing.JDialog {
     public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         jButtonCreate.setEnabled(false);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
