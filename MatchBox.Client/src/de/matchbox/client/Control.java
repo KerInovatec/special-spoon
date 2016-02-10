@@ -40,15 +40,13 @@ public class Control {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                
-                try{
+
+                try {
                     Thread.sleep(2600);
-                }catch(Exception e)
-                {
-                    
+                } catch (Exception e) {
+
                 }
-                
-                
+
                 Control lControl = new Control();
             }
         });
@@ -73,6 +71,12 @@ public class Control {
 
     public void login(String pUsername) {
         this.client.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LOGIN, new LoginContentObject(pUsername))));
+    }
+
+    public void setLobby() {
+        
+        this.lobby = new FrmLobby(this);
+        this.lobby.setVisible(true);
     }
 
     public void process(MessageObject pMessageObject) {

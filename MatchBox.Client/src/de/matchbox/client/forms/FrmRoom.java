@@ -50,6 +50,7 @@ public class FrmRoom extends javax.swing.JFrame {
         this.jLabelScope.setVisible(false);
         this.hasMatch = 0;
         this.gleichung = "";
+
 //        this.jProgressBar1.setMinimum(0);
 //        this.jProgressBar1.setMaximum(100);
 //        this.secondsPassed = 0;
@@ -61,7 +62,7 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         };
         this.timer = new Timer(delay, taskPerformer);
-        
+
 //        this.timer = new Timer(1000, (ActionEvent e)
 //                -> {
 //                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
@@ -71,6 +72,7 @@ public class FrmRoom extends javax.swing.JFrame {
 //                        JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
 //                    }
 //                });
+        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -219,6 +221,7 @@ public class FrmRoom extends javax.swing.JFrame {
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
         mnuCon = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -792,9 +795,9 @@ public class FrmRoom extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
 
-        mnuFile.setText("Datei");
+        mnuFile.setText("File");
 
-        mnuQuit.setText("Beenden");
+        mnuQuit.setText("Exit");
         mnuQuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuQuitActionPerformed(evt);
@@ -804,7 +807,16 @@ public class FrmRoom extends javax.swing.JFrame {
 
         mnuMain.add(mnuFile);
 
-        mnuCon.setText("Verbindung");
+        mnuCon.setText("Conection");
+
+        jMenuItem1.setText("Leave the Room");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mnuCon.add(jMenuItem1);
+
         mnuMain.add(mnuCon);
 
         setJMenuBar(mnuMain);
@@ -846,28 +858,11 @@ public class FrmRoom extends javax.swing.JFrame {
         timer.start();
     }//GEN-LAST:event_jButtonResetActionPerformed
 
-    public void verarbeite(RoomCommandContentObject pCommandObject) {
-        switch (pCommandObject.getCommand()) {
-            case LIST_PLAYER:
-                this.setPlayerList(pCommandObject.getContentObject());
-                break;
-            case REQUEST_EQUASION:
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-                gleichung = ((EquasionContentObject) (pCommandObject.getContentObject())).getEquasion();
-                this.setMatches(gleichung);
-                break;
-            case CHECK_EQUASION:
-                if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
-                    this.Rekt.updateUI();
-                    jLabelInfo.setText("Well Done! Correct");
 
-                } else {
-                    jLabelInfo.setText("Sorry, try again");
-                }
-//                timer.stop();
-                break;
-        }
-    }
 
     private List convertToList() {
         List ausgabe = new List();
@@ -962,10 +957,10 @@ public class FrmRoom extends javax.swing.JFrame {
 
     public void onCheckedEquasion(RoomCommandContentObject pCommandObject) {
         if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
-            jLabelInfo.setText("Gut Gemacht ist Richtig!");
+            jLabelInfo.setText("Well Done! Correct");
             this.Rekt.setVisible(true);
         } else {
-            jLabelInfo.setText("Schlecht gemacht ist Falsch");
+            jLabelInfo.setText("Sorry, try again");
         }
 //        timer.stop();
     }
@@ -1315,6 +1310,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jMatch7_8;
     private javax.swing.JLabel jMatch7_9;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel jMinus;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPlayer;

@@ -21,6 +21,12 @@ public class RoomFormModel {
         this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
         this.room.setVisible(true);
     }
+    public void closeRoom()
+    {
+        
+     control.setLobby();
+     this.room.setVisible(false);
+    }
 
     public void process(RoomCommandContentObject pCommandObject) {
         switch (pCommandObject.getCommand()) {
@@ -39,6 +45,10 @@ public class RoomFormModel {
             case CHECK_EQUASION:
                 this.room.onCheckedEquasion(pCommandObject);
                 break;
+            case LEAVE_ROOM:
+                this.closeRoom();
+                break;
+                
         }
     }
 

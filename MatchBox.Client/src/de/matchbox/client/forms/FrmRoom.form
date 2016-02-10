@@ -15,12 +15,12 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="mnuFile">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Datei"/>
+            <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuQuit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Beenden"/>
+                <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuQuitActionPerformed"/>
@@ -30,8 +30,18 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuCon">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Verbindung"/>
+            <Property name="text" type="java.lang.String" value="Conection"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Leave the Room"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
