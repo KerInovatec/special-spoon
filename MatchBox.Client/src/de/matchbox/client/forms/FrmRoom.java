@@ -45,7 +45,7 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
-        this.Rekt.setVisible(false);
+//        this.Rekt.setVisible(false);
         this.hasMatch = false;
         this.gleichung = "";
         this.jProgressBar1.setMinimum(0);
@@ -53,13 +53,13 @@ public class FrmRoom extends javax.swing.JFrame {
         this.secondsPassed = 0;
         this.timer = new Timer(1000, (ActionEvent e)
                 -> {
-            this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
-            this.secondsPassed++;
-            if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
-                this.timer.stop();
-                JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
+                    this.secondsPassed++;
+                    if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
+                        this.timer.stop();
+                        JOptionPane.showMessageDialog(null, "Du hast versagt.", "titel", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -775,11 +775,8 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanelPlayer.setBounds(1230, 330, 270, 280);
 
         Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
-        Rekt.setMaximumSize(new java.awt.Dimension(500, 200));
-        Rekt.setMinimumSize(new java.awt.Dimension(500, 200));
-        Rekt.setPreferredSize(new java.awt.Dimension(500, 200));
         jPanel1.add(Rekt);
-        Rekt.setBounds(730, 410, 500, 170);
+        Rekt.setBounds(710, 410, 500, 170);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -841,8 +838,9 @@ public class FrmRoom extends javax.swing.JFrame {
                 break;
             case CHECK_EQUASION:
                 if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
+                    this.Rekt.updateUI();                     
                     jLabelInfo.setText("Gut Gemacht ist Richtig!");
-                    this.Rekt.setVisible(true);
+
                 } else {
                     jLabelInfo.setText("Schlecht gemacht ist Falsch");
                 }
@@ -945,6 +943,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public void onCheckedEquasion(RoomCommandContentObject pCommandObject) {
         if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
             jLabelInfo.setText("Gut Gemacht ist Richtig!");
+            this.Rekt.setVisible(true);    
         } else {
             jLabelInfo.setText("Schlecht gemacht ist Falsch");
         }
@@ -1217,6 +1216,7 @@ public class FrmRoom extends javax.swing.JFrame {
         }
 
     }
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Rekt;
