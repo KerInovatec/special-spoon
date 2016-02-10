@@ -6,6 +6,7 @@ import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.enumeration.MessageType;
@@ -100,7 +101,7 @@ public class Room {
                 this.requestEquasion(pClient);
                 break;
             case LIST_PLAYER:
-                this.listPlayer(pClient, RoomCommand.LIST_PLAYER);
+                pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER, new ListPlayerContentObject(this.getPlayerModelList()))));
                 break;
             case LEAVE_ROOM:
                 this.logoutPlayer(pClient);
@@ -111,13 +112,17 @@ public class Room {
         }
     }
 
-    public void sendToAll(String pMessage) {
+    private void sendToAll(String pMessage) {
         this.playerList.toFirst();
         Object lCurObject;
         while (this.playerList.hasAccess() && (lCurObject = this.playerList.getObject()) instanceof Player) {
             ((Player) lCurObject).getClient().send(pMessage);
             this.playerList.next();
         }
+    }
+
+    private void sendToAll(MessageObject pMessageObject) {
+        this.sendToAll(new StandardGsonBuilder().create().toJson(pMessageObject));
     }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
@@ -181,15 +186,33 @@ public class Room {
             Player lPlayer = (Player) this.playerList.getObject();
             if (lPlayer.getClient().equals(pClient)) {
                 lPlayer.setPoints(lPlayer.getPoints() + 1);
+                if (lPlayer.getPoints() >= 10) {
+                    this.onPlayerWon(lPlayer);
+                }
             }
             this.playerList.next();
         }
         this.onEquasionSolved();
     }
 
-    private void listPlayer(Client pClient, RoomCommand pRoomCommand) {
-        List lPlayerList = new List();
+    private void onPlayerWon(Player pPlayer) {
+        this.resetPoints();
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.PLAYER_WON, new PlayerWonContentObject(pPlayer.getClient().getUsername(), this.getPlayerModelList()))));
+    }
 
+    private void resetPoints() {
+        this.playerList.toFirst();
+        while (this.playerList.hasAccess()) {
+            Object lObject = this.playerList.getObject();
+            if (lObject instanceof Player) {
+                ((Player) lObject).setPoints(0);
+            }
+            this.playerList.next();
+        }
+    }
+
+    private List getPlayerModelList() {
+        List lPlayerList = new List();
         this.playerList.toFirst();
         while (this.playerList.hasAccess()) {
             if (this.playerList.getObject() instanceof Player) {
@@ -197,8 +220,7 @@ public class Room {
             }
             this.playerList.next();
         }
-
-        pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(pRoomCommand, new ListPlayerContentObject(lPlayerList))));
+        return lPlayerList;
     }
 
     private void onEquasionSolved() {
@@ -229,12 +251,7 @@ public class Room {
     }
 
     private void sendPlayersToAll(RoomCommand pRoomCommand) {
-        List lPlayerList = ListUtility.copyList(this.playerList);
-        lPlayerList.toFirst();
-        while (lPlayerList.hasAccess()) {
-            this.listPlayer(((Player) lPlayerList.getObject()).getClient(), pRoomCommand);
-            lPlayerList.next();
-        }
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(pRoomCommand, new ListPlayerContentObject(this.getPlayerModelList()))));
     }
 
 }

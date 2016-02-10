@@ -9,6 +9,7 @@ public enum RoomCommand
     LIST_PLAYER,
     PLAYER_JOINED,
     PLAYER_LEFT,
+    PLAYER_WON,
     LEAVE_ROOM,
     UNKOWN
 }
