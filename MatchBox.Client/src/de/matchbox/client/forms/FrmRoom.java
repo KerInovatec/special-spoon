@@ -63,7 +63,7 @@ public class FrmRoom extends javax.swing.JFrame {
             timer.stop();
         }
     };
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
     public void initMLG() {
         if (Konami.isActivated) {
@@ -71,13 +71,7 @@ public class FrmRoom extends javax.swing.JFrame {
             this.Rekt.setVisible(Konami.isActivated);
             timer.start();
         }
-=======
-    //this.timer = new Timer(1420, taskPerformer);
 
-    private void initMLG() {
-        this.jPanelMLG1.setVisible(Konami.isActivated);
-        this.jPanelMLG2.setVisible(Konami.isActivated);
->>>>>>> origin/master
     }
 
     public void newEquasion() {
@@ -855,7 +849,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-<<<<<<< HEAD
+
     public void callTheSolver(String pPlayerName) {
         JOptionPane.showMessageDialog(null, "Equesion soleved by " + pPlayerName + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -867,8 +861,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public void callWellDone() {
         JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
     }
-=======
->>>>>>> origin/master
+
 
     private List convertToList() {
         List ausgabe = new List();

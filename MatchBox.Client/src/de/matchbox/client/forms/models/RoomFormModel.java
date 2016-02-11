@@ -4,6 +4,7 @@ import de.matchbox.client.Control;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 
@@ -36,7 +37,7 @@ public class RoomFormModel {
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 break;
             case EQUASION_SOLVED:
-<<<<<<< HEAD
+//<<<<<<< HEAD
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 if (!((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername())) {
                     this.room.callTheSolver(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername());
@@ -46,9 +47,9 @@ public class RoomFormModel {
                     this.room.initMLG();
                 }
                 room.newEquasion();
-=======
+//=======
                 this.room.onEquasionSolved(pCommandObject.getContentObject(), this.control.getUsername());
->>>>>>> origin/master
+//>>>>>>> origin/master
                 break;
             case REQUEST_EQUASION:
                 this.room.newEquasion();
