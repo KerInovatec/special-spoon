@@ -44,7 +44,6 @@ public class FrmRoom extends javax.swing.JFrame {
         this.createArr();
         this.resetView();
         this.setResizable(false);
-        this.setAlwaysOnTop (true);
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
