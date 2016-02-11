@@ -53,20 +53,20 @@ public class StreichholzServer extends Server {
         return false;
     }
 
-    public boolean createRoom(String pRoomName, Client pClient) {
+    public Room createRoom(String pRoomName, Client pClient) {
         if (pRoomName == null) {
-            return false;
+            return null;
         }
         this.log("Versuche Raum \"" + pRoomName + "\" zu erstellen.");
         if (this.containsRoom(pRoomName)) {
             this.log("Raum \"" + pRoomName + "\" bereits vorhanden.");
-            return false;
+            return null;
         }
         Room lRoom = new Room(this.getFirstFreeRoomId(), pRoomName, pClient, this);
         this.insertRoomSorted(lRoom);
         pClient.setCurRoom(lRoom);
         this.log("Raum \"" + pRoomName + "\" erfolgreich erstellt.");
-        return true;
+        return lRoom;
     }
 
     public void deleteRoom(Room pRoom) {

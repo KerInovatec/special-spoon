@@ -20,7 +20,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -82,7 +81,6 @@ public class FrmRoom extends javax.swing.JFrame {
     public void newEquasion()
     {
         this.hasMatch = 0;
-        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }
     
 
@@ -846,8 +844,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
 //        this.setMatches(jTextFieldTest.getText());
         this.hasMatch = 0;
-        
-        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION)));
     }//GEN-LAST:event_jButtonTestActionPerformed
 
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed

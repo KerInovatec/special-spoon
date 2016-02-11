@@ -64,9 +64,11 @@ public class Control {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
             return;
         }
-
-        if (pServer.createRoom(((CreateRoomContentObject) pMessageObject.getContentObject()).getName(), pClient)) {
+        
+        Room lRoom;
+        if ((lRoom = pServer.createRoom(((CreateRoomContentObject) pMessageObject.getContentObject()).getName(), pClient)) != null) {
             pClient.sendJson(new MessageObject(MessageType.CREATE_ROOM));
+            lRoom.onPlayerJoined(pClient);
         } else {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_EXISTS)));
         }
@@ -86,6 +88,7 @@ public class Control {
             lRoom.addClient(pClient);
             pClient.setCurRoom(lRoom);
             pClient.sendJson(new MessageObject(MessageType.JOIN_ROOM));
+            lRoom.onPlayerJoined(pClient);
         }
     }
 

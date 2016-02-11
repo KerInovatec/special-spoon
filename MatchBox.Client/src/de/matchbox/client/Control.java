@@ -75,7 +75,7 @@ public class Control {
     }
 
     public void setLobby() {
-        
+
         this.lobby = new FrmLobby(this);
         this.lobby.setVisible(true);
     }
@@ -94,28 +94,27 @@ public class Control {
                 this.lobby.setVisible(true);
                 break;
             case CREATE_ROOM:
+                this.roomFormModel = new RoomFormModel(this);
                 if (this.lobby != null) {
                     this.lobby.setVisible(false);
-                    this.roomFormModel = new RoomFormModel(this);
-                    this.roomFormModel.openRoom();
                 }
+                this.roomFormModel.openRoom();
                 break;
             case JOIN_ROOM:
+                this.roomFormModel = new RoomFormModel(this);
                 if (this.lobby != null) {
                     this.lobby.setVisible(false);
-                    this.roomFormModel = new RoomFormModel(this);
-                    this.roomFormModel.openRoom();
                 }
+                this.roomFormModel.openRoom();
                 break;
             case ROOM_CMD:
                 if (this.roomFormModel == null) {
                     this.roomFormModel = new RoomFormModel(this);
                 }
-
                 if (this.lobby != null) {
                     this.lobby.setVisible(false);
-                    this.roomFormModel.process((RoomCommandContentObject) pMessageObject.getContentObject());
                 }
+                this.roomFormModel.process((RoomCommandContentObject) pMessageObject.getContentObject());
                 break;
             case ERROR:
                 JOptionPane.showMessageDialog(this.login, "ERROR");

@@ -23,11 +23,10 @@ public class RoomFormModel {
         this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
         this.room.setVisible(true);
     }
-    public void closeRoom()
-    {
-        
-     control.setLobby();
-     this.room.setVisible(false);
+
+    public void closeRoom() {
+        control.setLobby();
+        this.room.setVisible(false);
     }
 
     public void process(RoomCommandContentObject pCommandObject) {
@@ -42,7 +41,6 @@ public class RoomFormModel {
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 JOptionPane.showMessageDialog(null, "Equesion soleved. Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
                 room.newEquasion();
-                
                 break;
             case REQUEST_EQUASION:
                 this.room.setEquasion(pCommandObject);
@@ -54,9 +52,9 @@ public class RoomFormModel {
                 this.closeRoom();
                 break;
             case PLAYER_WON:
-                this.room.callTheWinner(((PlayerWonContentObject)pCommandObject.getContentObject()).getUsername());
+                this.room.callTheWinner(((PlayerWonContentObject) pCommandObject.getContentObject()).getUsername());
                 break;
-                
+
         }
     }
 

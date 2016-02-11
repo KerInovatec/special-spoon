@@ -6,10 +6,7 @@
 package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
-import de.matchbox.communication.MessageObject;
-import de.matchbox.communication.enumeration.MessageType;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
  *
