@@ -96,8 +96,8 @@ public class MatchUtility {
             return false;
         }
         try {
-            int lNumber1 = Integer.parseInt(pEquasion.split(String.valueOf(lEquasionTypeChar))[0]);
-            int lNumber2 = Integer.parseInt(pEquasion.split(String.valueOf(lEquasionTypeChar))[1].split("=")[0]);
+            int lNumber1 = Integer.parseInt(pEquasion.split("\\" + String.valueOf(lEquasionTypeChar))[0]);
+            int lNumber2 = Integer.parseInt(pEquasion.split("\\" + String.valueOf(lEquasionTypeChar))[1].split("=")[0]);
             int lSum = Integer.parseInt(pEquasion.split("=")[1]);
             switch (lEquasionTypeChar) {
                 case '+':
