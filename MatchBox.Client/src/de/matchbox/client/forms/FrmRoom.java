@@ -11,7 +11,9 @@ import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
@@ -61,6 +63,7 @@ public class FrmRoom extends javax.swing.JFrame {
             timer.stop();
         }
     };
+<<<<<<< HEAD
 
     public void initMLG() {
         if (Konami.isActivated) {
@@ -68,6 +71,13 @@ public class FrmRoom extends javax.swing.JFrame {
             this.Rekt.setVisible(Konami.isActivated);
             timer.start();
         }
+=======
+    //this.timer = new Timer(1420, taskPerformer);
+
+    private void initMLG() {
+        this.jPanelMLG1.setVisible(Konami.isActivated);
+        this.jPanelMLG2.setVisible(Konami.isActivated);
+>>>>>>> origin/master
     }
 
     public void newEquasion() {
@@ -845,6 +855,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+<<<<<<< HEAD
     public void callTheSolver(String pPlayerName) {
         JOptionPane.showMessageDialog(null, "Equesion soleved by " + pPlayerName + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -856,6 +867,8 @@ public class FrmRoom extends javax.swing.JFrame {
     public void callWellDone() {
         JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
     }
+=======
+>>>>>>> origin/master
 
     private List convertToList() {
         List ausgabe = new List();
@@ -919,27 +932,46 @@ public class FrmRoom extends javax.swing.JFrame {
         return true;
     }
 
-    public void setPlayerList(IRoomCommandContentObject pRoomCommandContentObject) {
-        if (!(pRoomCommandContentObject instanceof ListPlayerContentObject)) {
-            return;
-        }
-
-        List lList = ((ListPlayerContentObject) pRoomCommandContentObject).getPlayer();
+    private void setPlayerList(List pList) {
         Box lPlayerBox = Box.createVerticalBox();
 
-        lList.toFirst();
-        while (lList.hasAccess()) {
-            PlayerControl lPlayerControl = new PlayerControl((PlayerModel) lList.getObject());
+        pList.toFirst();
+        while (pList.hasAccess()) {
+            PlayerControl lPlayerControl = new PlayerControl((PlayerModel) pList.getObject());
             lPlayerControl.setAlignmentX(0.5F);
             lPlayerControl.setMaximumSize(new Dimension(210, 35));
             lPlayerBox.add(lPlayerControl);
-            lList.next();
+            pList.next();
         }
 
         this.jPanelPlayer.removeAll();
         this.jPanelPlayer.setLayout(new GridLayout(1, 1));
         this.jPanelPlayer.add(lPlayerBox);
         this.jPanelPlayer.updateUI();
+    }
+
+    public void setPlayerList(IRoomCommandContentObject pCommandObject) {
+        if (!(pCommandObject instanceof ListPlayerContentObject)) {
+            return;
+        }
+
+        this.setPlayerList(((ListPlayerContentObject) pCommandObject).getPlayer());
+    }
+
+    public void onEquasionSolved(IRoomCommandContentObject pCommandObject, String pMyUsername) {
+        if (!(pCommandObject instanceof EquasionSolvedContentObject)) {
+            return;
+        }
+
+        EquasionSolvedContentObject lContentObject = (EquasionSolvedContentObject) pCommandObject;
+
+        if (!lContentObject.getUsername().equals(pMyUsername)) {
+            JOptionPane.showMessageDialog(null, "Equasion solved by " + lContentObject.getUsername() + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+        } else if (lContentObject.getUsername().equals(pMyUsername)) {
+            JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        this.setPlayerList(lContentObject.getPlayerList());
     }
 
     public void setEquasion(RoomCommandContentObject pCommandObject) {
@@ -957,6 +989,13 @@ public class FrmRoom extends javax.swing.JFrame {
         } else {
             jLabelInfo.setText("Sorry, try again");
         }
+    }
+    
+    public void onPlayerWon(IRoomCommandContentObject pCommandObject){
+        if(!(pCommandObject instanceof PlayerWonContentObject)){
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Player " + ((PlayerWonContentObject) pCommandObject).getUsername() + " Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void createArr() {
