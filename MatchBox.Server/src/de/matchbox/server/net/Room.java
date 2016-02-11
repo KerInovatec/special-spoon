@@ -5,6 +5,7 @@ import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
@@ -199,11 +200,11 @@ public class Room {
             }
             this.playerList.next();
         }
-        this.onEquasionSolved();
+        this.onEquasionSolved(pClient);
     }
 
-    private void onEquasionSolved() {
-        this.sendPlayersToAll(RoomCommand.EQUASION_SOLVED);
+    private void onEquasionSolved(Client pClient) {
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.EQUASION_SOLVED, new EquasionSolvedContentObject(pClient.getUsername(), this.getPlayerModelList()))));
         this.sendNewEquasionToAll();
     }
 

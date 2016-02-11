@@ -1,7 +1,6 @@
 package de.matchbox.communication.enumeration;
 
-public enum RoomCommand
-{
+public enum RoomCommand {
     CHECK_EQUASION,
     REQUEST_EQUASION,
     HOST_CHANGED,
@@ -12,5 +11,5 @@ public enum RoomCommand
     PLAYER_WON,
     LEAVE_ROOM,
     UNKOWN,
-    
+
 }
