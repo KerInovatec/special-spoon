@@ -87,11 +87,26 @@ public class MatchUtility {
 
     public static boolean isEquasionCorrect(String pEquasion) {
         pEquasion = pEquasion.replace("*", "");
+        char lEquasionTypeChar;
+        if (pEquasion.contains("+")) {
+            lEquasionTypeChar = '+';
+        } else if (pEquasion.contains("-")) {
+            lEquasionTypeChar = '-';
+        } else {
+            return false;
+        }
         try {
-            int lNumber1 = Integer.parseInt(pEquasion.split("\\+")[0]);
-            int lNumber2 = Integer.parseInt(pEquasion.split("\\+")[1].split("=")[0]);
+            int lNumber1 = Integer.parseInt(pEquasion.split(String.valueOf(lEquasionTypeChar))[0]);
+            int lNumber2 = Integer.parseInt(pEquasion.split(String.valueOf(lEquasionTypeChar))[1].split("=")[0]);
             int lSum = Integer.parseInt(pEquasion.split("=")[1]);
-            return lNumber1 + lNumber2 == lSum;
+            switch (lEquasionTypeChar) {
+                case '+':
+                    return lNumber1 + lNumber2 == lSum;
+                case '-':
+                    return lNumber1 - lNumber2 == lSum;
+                default:
+                    return false;
+            }
         } catch (Exception ex) {
             return false;
         }

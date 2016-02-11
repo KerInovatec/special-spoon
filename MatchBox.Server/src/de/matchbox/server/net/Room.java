@@ -19,7 +19,7 @@ import java.util.Random;
 public class Room {
 
     private String correctEquasion = "**7+**0=**7";
-    private boolean equasionSolved = false;
+    private boolean equasionSolved = true;
 
     private final int id;
     private final String name;
@@ -33,6 +33,8 @@ public class Room {
         this.playerList = new List();
         this.playerList.append(new Player(pHost, 0, true));
         this.server = pServer;
+        
+        this.sendNewEquasionToAll();
     }
 
     public void addClient(Client pClient) {
@@ -62,12 +64,17 @@ public class Room {
         return name;
     }
 
-    public void getNewEquasion() {
+    private void getNewEquasion() {
         do {
             int lNumber1 = new Random().nextInt(100);
             int lNumber2 = new Random().nextInt(100);
             int lSum = lNumber1 + lNumber2;
-            this.correctEquasion = this.fillStringUp(String.valueOf(lNumber1), 3, '*', true) + "+" + this.fillStringUp(String.valueOf(lNumber2), 3, '*', true) + "=" + this.fillStringUp(String.valueOf(lSum), 3, '*', true);
+            char lEquasionTypeChar = '+';
+            if (new Random().nextBoolean()) {
+                lSum = lNumber1 - lNumber2;
+                lEquasionTypeChar = '-';
+            }
+            this.correctEquasion = this.fillStringUp(String.valueOf(lNumber1), 3, '*', true) + lEquasionTypeChar + this.fillStringUp(String.valueOf(lNumber2), 3, '*', true) + "=" + this.fillStringUp(String.valueOf(lSum), 3, '*', true);
             this.wrongEquasion = MatchUtility.getWrongEquasion(this.correctEquasion);
         } while (this.wrongEquasion.isEmpty());
     }
@@ -97,9 +104,6 @@ public class Room {
             case CHECK_EQUASION:
                 this.checkEquasion(pMessageObject, pClient);
                 break;
-            case REQUEST_EQUASION:
-                this.requestEquasion(pClient);
-                break;
             case LIST_PLAYER:
                 pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER, new ListPlayerContentObject(this.getPlayerModelList()))));
                 break;
@@ -111,7 +115,10 @@ public class Room {
                 break;
         }
     }
-
+    
+    public void onPlayerJoined(Client pClient){
+        pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
+    }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
         if (this.equasionSolved) {
@@ -168,7 +175,6 @@ public class Room {
         return pString;
     }
 
-
     private List getPlayerModelList() {
         List lPlayerList = new List();
         this.playerList.toFirst();
@@ -180,6 +186,7 @@ public class Room {
         }
         return lPlayerList;
     }
+
     private void givePlayerPoint(Client pClient) {
         this.playerList.toFirst();
         while (this.playerList.hasAccess() && this.playerList.getObject() instanceof Player) {
@@ -197,6 +204,7 @@ public class Room {
 
     private void onEquasionSolved() {
         this.sendPlayersToAll(RoomCommand.EQUASION_SOLVED);
+        this.sendNewEquasionToAll();
     }
 
     private void onPlayerLeft(boolean pIsHost) {
@@ -211,20 +219,18 @@ public class Room {
             this.sendPlayersToAll(RoomCommand.PLAYER_LEFT);
         }
     }
+
     private void onPlayerWon(Player pPlayer) {
         this.resetPoints();
         this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.PLAYER_WON, new PlayerWonContentObject(pPlayer.getClient().getUsername(), this.getPlayerModelList()))));
+        this.sendNewEquasionToAll();
+    }
+    
+    private void sendNewEquasionToAll(){
+        this.getNewEquasion();
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
     }
 
-    private void requestEquasion(Client pClient) {
-        if (this.isClientHost(pClient)) {
-            this.getNewEquasion();
-            this.equasionSolved = false;
-            this.sendToAll(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion)))));
-        } else {
-            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
-        }
-    }
     private void resetPoints() {
         this.playerList.toFirst();
         while (this.playerList.hasAccess()) {
@@ -239,6 +245,7 @@ public class Room {
     private void sendPlayersToAll(RoomCommand pRoomCommand) {
         this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(pRoomCommand, new ListPlayerContentObject(this.getPlayerModelList()))));
     }
+
     private void sendToAll(String pMessage) {
         this.playerList.toFirst();
         Object lCurObject;
@@ -247,6 +254,7 @@ public class Room {
             this.playerList.next();
         }
     }
+
     private void sendToAll(MessageObject pMessageObject) {
         this.sendToAll(new StandardGsonBuilder().create().toJson(pMessageObject));
     }
