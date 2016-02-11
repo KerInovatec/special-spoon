@@ -39,19 +39,6 @@ public class MatchUtility {
                             lCharArray[i] = lChange.getResult();
                             lChangedIndexes.add(i);
                             lChangesCount++;
-                        } else {
-                            for (MatchInfoContainer lCurInfoContainer : lPossibleChanges) {
-                                if (lMatchesCount + lCurInfoContainer.getMatchCount() > 0) {
-                                    lNewPossibleChanges.add(lCurInfoContainer);
-                                }
-                            }
-                            if (lNewPossibleChanges.size() > 0) {
-                                MatchInfoContainer lChange = lNewPossibleChanges.get(new Random().nextInt(lNewPossibleChanges.size()));
-                                lMatchesCount += lChange.getMatchCount();
-                                lCharArray[i] = lChange.getResult();
-                                lChangedIndexes.add(i);
-                                lChangesCount++;
-                            }
                         }
                     }
                 }
