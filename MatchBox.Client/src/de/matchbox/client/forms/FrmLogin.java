@@ -6,6 +6,7 @@
 package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
+import de.matchbox.client.utility.Konami;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 /**
@@ -25,6 +26,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public FrmLogin(Control pControl) {
         this.control = pControl;
         initComponents();
+        MLG.setVisible(false);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         this.setResizable(false);
         this.setAlwaysOnTop (true);
@@ -76,6 +78,9 @@ public class FrmLogin extends javax.swing.JFrame {
         jTextFieldIp.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldIpKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldIpKeyTyped(evt);
             }
         });
         getContentPane().add(jTextFieldIp);
@@ -143,6 +148,12 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
     {//GEN-HEADEREND:event_jTextFieldIpKeyPressed
+        Konami.checkKonami(evt.getKeyCode());
+        if(Konami.isActivated){
+            JOptionPane.showMessageDialog(this, "Activated!");
+            MLG.setVisible(true);
+        }
+        
         if (!jTextFieldIp.getText().isEmpty() && !jTextFieldPort.getText().isEmpty()
                 && !jTextFieldUsername.getText().isEmpty() && evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             this.jButton1ActionPerformed(null);
@@ -158,6 +169,10 @@ public class FrmLogin extends javax.swing.JFrame {
     {//GEN-HEADEREND:event_jTextFieldPortKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPortKeyPressed
+
+    private void jTextFieldIpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIpKeyTyped
+        
+    }//GEN-LAST:event_jTextFieldIpKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MLG;

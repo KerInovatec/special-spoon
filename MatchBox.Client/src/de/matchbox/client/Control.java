@@ -4,6 +4,7 @@ import de.matchbox.client.forms.FrmLobby;
 import de.matchbox.client.forms.FrmLogin;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.client.forms.models.RoomFormModel;
+import de.matchbox.client.utility.Konami;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 public class Control {
 
     public static void main(String args[]) {
+        Konami.generateSequenceMap();
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
