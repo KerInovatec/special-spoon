@@ -4,6 +4,7 @@ import de.matchbox.client.Control;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
@@ -39,7 +40,7 @@ public class RoomFormModel {
                 break;
             case EQUASION_SOLVED:
                 this.room.setPlayerList(pCommandObject.getContentObject());
-                JOptionPane.showMessageDialog(null, "Equesion soleved. Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+                this.room.callTheSolver(((EquasionSolvedContentObject)pCommandObject.getContentObject()).getUsername());
                 room.newEquasion();
                 break;
             case REQUEST_EQUASION:

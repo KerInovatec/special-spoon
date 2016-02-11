@@ -870,7 +870,10 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    public void callTheSolver(String pPlayerName)
+    {
+        JOptionPane.showMessageDialog(null, "Equesion soleved by "+pPlayerName+". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+    }
     public void callTheWinner(String pWinner)
     {
         JOptionPane.showMessageDialog(null, "Player "+pWinner+" Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
