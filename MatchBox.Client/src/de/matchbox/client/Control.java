@@ -58,6 +58,12 @@ public class Control {
     private FrmLobby lobby;
     private FrmLogin login;
     private RoomFormModel roomFormModel;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+    
 
     public Control() {
         this.login = new FrmLogin(this);
@@ -74,6 +80,7 @@ public class Control {
     }
 
     public void login(String pUsername) {
+        this.username = pUsername;
         this.client.send(new StandardGsonBuilder().create().toJson(new MessageObject(MessageType.LOGIN, new LoginContentObject(pUsername))));
     }
 

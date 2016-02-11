@@ -40,7 +40,12 @@ public class RoomFormModel {
                 break;
             case EQUASION_SOLVED:
                 this.room.setPlayerList(pCommandObject.getContentObject());
-                this.room.callTheSolver(((EquasionSolvedContentObject)pCommandObject.getContentObject()).getUsername());
+                if (!((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername())) {
+                    this.room.callTheSolver(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername());
+                }else if(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername()))
+                {
+                    this.room.callWellDone();
+                }
                 room.newEquasion();
                 break;
             case REQUEST_EQUASION:

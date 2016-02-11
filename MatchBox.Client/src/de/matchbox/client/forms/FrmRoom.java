@@ -18,6 +18,8 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -53,6 +55,14 @@ public class FrmRoom extends javax.swing.JFrame {
         this.newEquasion();
         this.initMLG();
     }
+    ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jLabelScope.setVisible(false);
+                Rekt.setVisible(false);
+                timer.stop();
+            }
+        };
+        this.timer = new Timer(1420, taskPerformer);
     
     private void initMLG(){
         this.jPanelMLG1.setVisible(Konami.isActivated);
@@ -783,7 +793,7 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanelMLG1.add(jLabelScope);
 
         jPanel1.add(jPanelMLG1);
-        jPanelMLG1.setBounds(380, 320, 350, 300);
+        jPanelMLG1.setBounds(350, 310, 350, 300);
 
         jPanelMLG2.setOpaque(false);
 
@@ -863,6 +873,10 @@ public class FrmRoom extends javax.swing.JFrame {
 
     public void callTheWinner(String pWinner) {
         JOptionPane.showMessageDialog(null, "Player " + pWinner + " Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void callWellDone()
+    {
+        JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private List convertToList() {
