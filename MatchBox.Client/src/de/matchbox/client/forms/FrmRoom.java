@@ -241,7 +241,7 @@ public class FrmRoom extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 650));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(null);
 
         jSpace1_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Empty_H.png"))); // NOI18N
@@ -800,6 +800,8 @@ public class FrmRoom extends javax.swing.JFrame {
         Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
         jPanel1.add(Rekt);
         Rekt.setBounds(730, 420, 500, 170);
+
+        jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.add(jLabelBackground);
         jLabelBackground.setBounds(0, -6, 1500, 620);
 

@@ -10,6 +10,7 @@ import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.enumeration.MessageType;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Jakob
@@ -133,8 +134,13 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
+        try{
         this.control.connect(ip, port);
         this.control.login(username);
+        }catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Can not connect o the server", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
