@@ -34,7 +34,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private int hasMatch;
     private String gleichung;
     private Timer timer;
-//    private int secondsPassed;
 
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
@@ -53,20 +52,22 @@ public class FrmRoom extends javax.swing.JFrame {
         this.hasMatch = 0;
         this.gleichung = "";
         this.newEquasion();
-        this.initMLG();
+        this.timer = new Timer(1420, taskPerformer);
     }
     ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jLabelScope.setVisible(false);
-                Rekt.setVisible(false);
-                timer.stop();
-            }
-        };
-        this.timer = new Timer(1420, taskPerformer);
-    
-    private void initMLG(){
-        this.jPanelMLG1.setVisible(Konami.isActivated);
-        this.jPanelMLG2.setVisible(Konami.isActivated);
+        public void actionPerformed(ActionEvent evt) {
+            jLabelScope.setVisible(false);
+            Rekt.setVisible(false);
+            timer.stop();
+        }
+    };
+
+    public void initMLG() {
+        if (Konami.isActivated) {
+            this.jLabelScope.setVisible(Konami.isActivated);
+            this.Rekt.setVisible(Konami.isActivated);
+            timer.start();
+        }
     }
 
     public void newEquasion() {
@@ -208,16 +209,13 @@ public class FrmRoom extends javax.swing.JFrame {
         jEaquals = new javax.swing.JLabel();
         jPlus = new javax.swing.JLabel();
         jMinus = new javax.swing.JLabel();
-        jButtonTest = new javax.swing.JButton();
+        jLabelScope = new javax.swing.JLabel();
         jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
         jPanelPlayer = new javax.swing.JPanel();
-        jPanelMLG1 = new javax.swing.JPanel();
-        jLabelBackground = new javax.swing.JLabel();
-        jLabelScope = new javax.swing.JLabel();
-        jPanelMLG2 = new javax.swing.JPanel();
         Rekt = new javax.swing.JLabel();
+        jLabelBackground = new javax.swing.JLabel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -751,14 +749,9 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jMinus);
         jMinus.setBounds(400, 150, 100, 30);
 
-        jButtonTest.setText("Test");
-        jButtonTest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTestActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonTest);
-        jButtonTest.setBounds(30, 480, 53, 23);
+        jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
+        jPanel1.add(jLabelScope);
+        jLabelScope.setBounds(390, 310, 282, 281);
 
         jLabelInfo.setText("HasMatch");
         jPanel1.add(jLabelInfo);
@@ -784,24 +777,13 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1230, 330, 270, 280);
 
-        jPanelMLG1.setOpaque(false);
+        Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
+        jPanel1.add(Rekt);
+        Rekt.setBounds(680, 390, 500, 200);
 
         jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
-        jPanelMLG1.add(jLabelBackground);
-
-        jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
-        jPanelMLG1.add(jLabelScope);
-
-        jPanel1.add(jPanelMLG1);
-        jPanelMLG1.setBounds(350, 310, 350, 300);
-
-        jPanelMLG2.setOpaque(false);
-
-        Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
-        jPanelMLG2.add(Rekt);
-
-        jPanel1.add(jPanelMLG2);
-        jPanelMLG2.setBounds(690, 400, 540, 210);
+        jPanel1.add(jLabelBackground);
+        jLabelBackground.setBounds(0, 0, 0, 0);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -840,10 +822,6 @@ public class FrmRoom extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_mnuQuitActionPerformed
 
-    private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
-        this.hasMatch = 0;
-    }//GEN-LAST:event_jButtonTestActionPerformed
-
     private void jButtonCheckActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCheckActionPerformed
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
         if (hasMatch == 1) {
@@ -874,8 +852,8 @@ public class FrmRoom extends javax.swing.JFrame {
     public void callTheWinner(String pWinner) {
         JOptionPane.showMessageDialog(null, "Player " + pWinner + " Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
-    public void callWellDone()
-    {
+
+    public void callWellDone() {
         JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -1252,7 +1230,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel Rekt;
     private javax.swing.JButton jButtonCheck;
     private javax.swing.JButton jButtonReset;
-    private javax.swing.JButton jButtonTest;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelInfo;
@@ -1324,8 +1301,6 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel jMinus;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanelMLG1;
-    private javax.swing.JPanel jPanelMLG2;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JLabel jPlus;
     private javax.swing.JLabel jSpace1_1;

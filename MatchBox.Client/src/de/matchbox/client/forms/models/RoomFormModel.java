@@ -45,6 +45,7 @@ public class RoomFormModel {
                 }else if(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername()))
                 {
                     this.room.callWellDone();
+                    this.room.initMLG();
                 }
                 room.newEquasion();
                 break;
