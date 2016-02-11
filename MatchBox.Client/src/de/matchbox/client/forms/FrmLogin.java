@@ -30,6 +30,7 @@ public class FrmLogin extends javax.swing.JFrame {
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         this.setResizable(false);
+        this.setAlwaysOnTop (true);
         this.setLocationRelativeTo(null);
 
     }

@@ -7,6 +7,7 @@ import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
+import javax.swing.JOptionPane;
 
 public class RoomFormModel {
 
@@ -39,6 +40,7 @@ public class RoomFormModel {
                 break;
             case EQUASION_SOLVED:
                 this.room.setPlayerList(pCommandObject.getContentObject());
+                JOptionPane.showMessageDialog(null, "Equesion soleved. Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
                 room.newEquasion();
                 
                 break;

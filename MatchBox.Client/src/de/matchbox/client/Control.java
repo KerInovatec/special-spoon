@@ -62,6 +62,7 @@ public class Control {
     }
 
     public void connect(String ip, int port) {
+        
         this.client = new MatchBoxClient(this, ip, port);
     }
 
