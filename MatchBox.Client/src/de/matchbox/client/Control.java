@@ -8,6 +8,7 @@ import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.client.LoginContentObject;
+import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.contentobjects.server.ListRoomsContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import javax.swing.JOptionPane;
@@ -117,7 +118,7 @@ public class Control {
                 this.roomFormModel.process((RoomCommandContentObject) pMessageObject.getContentObject());
                 break;
             case ERROR:
-                JOptionPane.showMessageDialog(this.login, "ERROR");
+                JOptionPane.showMessageDialog(this.login, ((ErrorContentObject)pMessageObject.getContentObject()).getErrorText());
                 break;
 
             default:
