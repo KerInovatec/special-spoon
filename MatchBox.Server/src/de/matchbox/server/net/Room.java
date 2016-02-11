@@ -71,7 +71,7 @@ public class Room {
             int lNumber2 = new Random().nextInt(100);
             int lSum = lNumber1 + lNumber2;
             char lEquasionTypeChar = '+';
-            if (new Random().nextBoolean()) {
+            if (lNumber1 > lNumber2 && new Random().nextBoolean()) {
                 lSum = lNumber1 - lNumber2;
                 lEquasionTypeChar = '-';
             }

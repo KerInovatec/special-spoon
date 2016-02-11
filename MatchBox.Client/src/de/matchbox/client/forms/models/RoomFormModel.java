@@ -4,11 +4,8 @@ import de.matchbox.client.Control;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
-import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
-import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
-import javax.swing.JOptionPane;
 
 public class RoomFormModel {
 
@@ -39,16 +36,10 @@ public class RoomFormModel {
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 break;
             case EQUASION_SOLVED:
-                this.room.setPlayerList(pCommandObject.getContentObject());
-                if (!((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername())) {
-                    this.room.callTheSolver(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername());
-                }else if(((EquasionSolvedContentObject) pCommandObject.getContentObject()).getUsername().equals(control.getUsername()))
-                {
-                    this.room.callWellDone();
-                }
-                room.newEquasion();
+                this.room.onEquasionSolved(pCommandObject.getContentObject(), this.control.getUsername());
                 break;
             case REQUEST_EQUASION:
+                this.room.newEquasion();
                 this.room.setEquasion(pCommandObject);
                 break;
             case CHECK_EQUASION:
@@ -58,7 +49,7 @@ public class RoomFormModel {
                 this.closeRoom();
                 break;
             case PLAYER_WON:
-                this.room.callTheWinner(((PlayerWonContentObject) pCommandObject.getContentObject()).getUsername());
+                this.room.onPlayerWon(pCommandObject.getContentObject());
                 break;
 
         }
