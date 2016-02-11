@@ -17,8 +17,6 @@ import de.matchbox.communication.shared.abiturklassen.List;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -52,36 +50,12 @@ public class FrmRoom extends javax.swing.JFrame {
         this.hasMatch = 0;
         this.gleichung = "";
         this.newEquasion();
-//        this.jProgressBar1.setMinimum(0);
-//        this.jProgressBar1.setMaximum(100);
-//        this.secondsPassed = 0;
-        
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jLabelScope.setVisible(false);
-                Rekt.setVisible(false);
-                timer.stop();
-            }
-        };
-        this.timer = new Timer(1420, taskPerformer);
-        
-        
-//        this.timer = new Timer(1000, (ActionEvent e)
-//                -> {
-//                    this.jProgressBar1.setValue(this.jProgressBar1.getMaximum() - this.secondsPassed);
-//                    this.secondsPassed++;
-//                    if (this.secondsPassed == this.jProgressBar1.getMaximum()) {
-//                        this.timer.stop();
-                        
-//                    }
-//                });
-        
     }
-    public void newEquasion()
-    {
+
+    public void newEquasion() {
         this.hasMatch = 0;
     }
-    
+
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -841,7 +815,6 @@ public class FrmRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuQuitActionPerformed
 
     private void jButtonTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTestActionPerformed
-//        this.setMatches(jTextFieldTest.getText());
         this.hasMatch = 0;
     }//GEN-LAST:event_jButtonTestActionPerformed
 
@@ -849,12 +822,10 @@ public class FrmRoom extends javax.swing.JFrame {
     {//GEN-HEADEREND:event_jButtonCheckActionPerformed
         if (hasMatch == 1) {
             jLabelInfo.setText("Place you Match before Checking");
+        } else if (this.areNummbers()) {
+            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
         } else {
-            if (this.areNummbers()) {
-                roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
-            } else {
-                jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
-            }
+            jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
         }
 
     }//GEN-LAST:event_jButtonCheckActionPerformed
@@ -863,20 +834,19 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setMatches(gleichung);
         hasMatch = 0;
         jLabelInfo.setText("Has Match false");
-        
-       
+
+
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-    public void callTheSolver(String pPlayerName)
-    {
-        JOptionPane.showMessageDialog(null, "Equesion soleved by "+pPlayerName+". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+    public void callTheSolver(String pPlayerName) {
+        JOptionPane.showMessageDialog(null, "Equesion soleved by " + pPlayerName + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
-    public void callTheWinner(String pWinner)
-    {
-        JOptionPane.showMessageDialog(null, "Player "+pWinner+" Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+
+    public void callTheWinner(String pWinner) {
+        JOptionPane.showMessageDialog(null, "Player " + pWinner + " Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private List convertToList() {
@@ -979,7 +949,6 @@ public class FrmRoom extends javax.swing.JFrame {
         } else {
             jLabelInfo.setText("Sorry, try again");
         }
-//        timer.stop();
     }
 
     private void createArr() {
@@ -1169,7 +1138,6 @@ public class FrmRoom extends javax.swing.JFrame {
         int ZahlIndex = 1;
         lGleichung.toFirst();
         while (lGleichung.hasAccess()) {
-
             if ((lGleichung.getObject() instanceof Zahl)) {
                 lCode = ((Zahl) lGleichung.getObject()).getZahlCode();
                 for (int i = 1; i <= 7; i++) {
@@ -1186,10 +1154,6 @@ public class FrmRoom extends javax.swing.JFrame {
             lGleichung.next();
         }
         jEaquals.setVisible(true);
-//        timer.stop();
-//        secondsPassed = 0;
-//        jProgressBar1.setValue(jProgressBar1.getMaximum());
-//        timer.restart();
     }
 
     private void initEvents() {
