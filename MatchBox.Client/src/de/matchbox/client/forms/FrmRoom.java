@@ -903,9 +903,8 @@ public class FrmRoom extends javax.swing.JFrame {
         }
         return ausgabe;
     }
-    
-    private boolean isEmpty(int index)
-    {
+
+    private boolean isEmpty(int index) {
         for (int i = 1; i < 8; i++) {
             if (jMatchArr[i][index].isVisible()) {
                 return false;
@@ -913,6 +912,7 @@ public class FrmRoom extends javax.swing.JFrame {
         }
         return true;
     }
+
     private boolean isBlank(int index) {
         for (int i = 1; i < 8; i++) {
             if (jSpaceArr[i][index].isVisible()) {
@@ -975,12 +975,11 @@ public class FrmRoom extends javax.swing.JFrame {
         }
 
         EquasionSolvedContentObject lContentObject = (EquasionSolvedContentObject) pCommandObject;
-
-        if (!lContentObject.getUsername().equals(pMyUsername)) {
-            JOptionPane.showMessageDialog(null, "Equasion solved by " + lContentObject.getUsername() + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
-        } else if (lContentObject.getUsername().equals(pMyUsername)) {
+        if (lContentObject.getUsername().equals(pMyUsername)) {
             JOptionPane.showMessageDialog(null, "Well done, You Solved it!", "Good Job!", JOptionPane.INFORMATION_MESSAGE);
             jLabelInfo.setText("Solve It!");
+        } else if (!lContentObject.getUsername().equals(pMyUsername)) {
+            JOptionPane.showMessageDialog(null, "Equasion solved by " + lContentObject.getUsername() + ". Try the next one", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
         }
 
         this.setPlayerList(lContentObject.getPlayerList());
@@ -1005,7 +1004,7 @@ public class FrmRoom extends javax.swing.JFrame {
         if (!(pCommandObject instanceof PlayerWonContentObject)) {
             return;
         }
-        JOptionPane.showMessageDialog(null, "Player " + ((PlayerWonContentObject) pCommandObject).getUsername() + " Won the Game", "Too Slow", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Player " + ((PlayerWonContentObject) pCommandObject).getUsername() + " Won the Game", "Game Over!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void createArr() {
