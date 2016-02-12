@@ -885,7 +885,7 @@ public class FrmRoom extends javax.swing.JFrame {
             pZahl = new Zahl();
             pZahl.setZahlCode(zahlCode);
 
-            if (this.isBlank(i)) {
+            if (this.isEmpty(i)) {
                 ausgabe.append('*');
             } else {
                 ausgabe.append(pZahl);
@@ -903,7 +903,16 @@ public class FrmRoom extends javax.swing.JFrame {
         }
         return ausgabe;
     }
-
+    
+    private boolean isEmpty(int index)
+    {
+        for (int i = 1; i < 8; i++) {
+            if (jMatchArr[i][index].isVisible()) {
+                return false;
+            }
+        }
+        return true;
+    }
     private boolean isBlank(int index) {
         for (int i = 1; i < 8; i++) {
             if (jSpaceArr[i][index].isVisible()) {
