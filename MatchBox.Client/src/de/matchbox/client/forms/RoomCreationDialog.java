@@ -26,7 +26,7 @@ public class RoomCreationDialog extends javax.swing.JDialog {
     public RoomCreationDialog(java.awt.Frame parent, boolean modal, Control pControl) {
         super(parent, modal);
         initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
         jButtonCreate.setEnabled(false);
         this.setResizable(false);
         this.setLocationRelativeTo(null);

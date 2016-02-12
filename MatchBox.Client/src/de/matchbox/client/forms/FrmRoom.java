@@ -40,7 +40,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
         this.initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
         this.jMatchArr = new JLabel[8][10];
         this.jSpaceArr = new JLabel[8][10];
         this.createArr();
@@ -240,7 +240,7 @@ public class FrmRoom extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(1413, 650));
+        setMinimumSize(new java.awt.Dimension(1413, 620));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
@@ -764,7 +764,7 @@ public class FrmRoom extends javax.swing.JFrame {
 
         jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
         jPanel1.add(jLabelScope);
-        jLabelScope.setBounds(350, 280, 282, 281);
+        jLabelScope.setBounds(360, 280, 282, 281);
 
         jButtonCheck.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCheck.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -803,7 +803,7 @@ public class FrmRoom extends javax.swing.JFrame {
         jLabelMatchStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelMatchStatus.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jLabelMatchStatus);
-        jLabelMatchStatus.setBounds(40, 440, 380, 80);
+        jLabelMatchStatus.setBounds(40, 440, 500, 80);
 
         jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
         jLabelBackground.setMinimumSize(new java.awt.Dimension(1500, 610));
@@ -1261,10 +1261,8 @@ public class FrmRoom extends javax.swing.JFrame {
 
             jLabelMatchStatus.setText("You have " + hasMatch + " matches");
         } else if (hasMatch == 2) {
-            this.setMatches(gleichung);
-            jSpaceArr[y][x].setVisible(true);
-            hasMatch = 1;
-            jLabelMatchStatus.setText("You have " + hasMatch + " matches");
+            
+            jLabelMatchStatus.setText("<html>You have already moved your match.<br>Press \"reset\" to be able to make changes</html>");
         } else {
             jLabelInfo.setText("You are only allowed to move 1 Match. Click reset to restart");
         }
