@@ -65,20 +65,20 @@ public class FrmLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
-        setMinimumSize(new java.awt.Dimension(360, 267));
+        setMinimumSize(new java.awt.Dimension(450, 300));
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("IP");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(72, 56, 9, 15);
+        jLabel1.setBounds(140, 110, 9, 15);
 
         jLabel3.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Port");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(182, 56, 19, 15);
+        jLabel3.setBounds(290, 110, 19, 15);
 
         jTextFieldIp.setText("localhost");
         jTextFieldIp.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -90,7 +90,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextFieldIp);
-        jTextFieldIp.setBounds(92, 53, 80, 20);
+        jTextFieldIp.setBounds(150, 110, 80, 20);
 
         jTextFieldPort.setText("1234");
         jTextFieldPort.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -99,7 +99,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextFieldPort);
-        jTextFieldPort.setBounds(206, 53, 30, 20);
+        jTextFieldPort.setBounds(320, 110, 30, 20);
 
         jButtonLogIn.setBackground(new java.awt.Color(0, 102, 51));
         jButtonLogIn.setText("Log In");
@@ -110,7 +110,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButtonLogIn);
-        jButtonLogIn.setBounds(40, 160, 100, 30);
+        jButtonLogIn.setBounds(290, 210, 100, 30);
 
         jTextFieldUsername.setText("Hans3");
         jTextFieldUsername.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -119,37 +119,37 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextFieldUsername);
-        jTextFieldUsername.setBounds(93, 79, 225, 20);
+        jTextFieldUsername.setBounds(150, 140, 225, 20);
 
         jLabel4.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Username");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(35, 82, 47, 15);
+        jLabel4.setBounds(100, 140, 47, 15);
 
         MLG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/MLG.gif"))); // NOI18N
         getContentPane().add(MLG);
-        MLG.setBounds(168, 117, 150, 150);
+        MLG.setBounds(60, 180, 150, 80);
 
-        jLabel5.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Welcome to Matchbox !");
         jLabel5.setToolTipText("");
         jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(90, 10, 160, 16);
+        jLabel5.setBounds(100, 30, 220, 30);
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Please Log in to start The Game");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(90, 30, 160, 16);
+        jLabel6.setBounds(100, 50, 250, 40);
 
         jLabelBackGround.setBackground(new java.awt.Color(255, 0, 0));
         jLabelBackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/BurningMatch.gif"))); // NOI18N
         getContentPane().add(jLabelBackGround);
-        jLabelBackGround.setBounds(0, -6, 360, 280);
+        jLabelBackGround.setBounds(0, -6, 450, 300);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -171,7 +171,7 @@ public class FrmLogin extends javax.swing.JFrame {
     {//GEN-HEADEREND:event_jTextFieldIpKeyPressed
         Konami.checkKonami(evt.getKeyCode());
         if (Konami.isActivated) {
-            JOptionPane.showMessageDialog(this, "Activated!");
+            JOptionPane.showMessageDialog(this, "MLG mode Activated!");
             MLG.setVisible(true);
             control.setKonamiisAk(Konami.isActivated);
         }
