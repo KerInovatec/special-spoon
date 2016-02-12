@@ -7,8 +7,10 @@ package de.matchbox.client.forms;
 
 import de.matchbox.client.Control;
 import de.matchbox.client.utility.Konami;
+import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jakob
@@ -27,9 +29,12 @@ public class FrmLogin extends javax.swing.JFrame {
         this.control = pControl;
         initComponents();
         MLG.setVisible(false);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        
+        jButtonLogIn.setOpaque(false);
+        
 
     }
 
@@ -48,10 +53,12 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldIp = new javax.swing.JTextField();
         jTextFieldPort = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonLogIn = new javax.swing.JButton();
         jTextFieldUsername = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         MLG = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabelBackGround = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
@@ -94,15 +101,16 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().add(jTextFieldPort);
         jTextFieldPort.setBounds(206, 53, 30, 20);
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLogIn.setBackground(new java.awt.Color(0, 102, 51));
+        jButtonLogIn.setText("Log In");
+        jButtonLogIn.setBorder(null);
+        jButtonLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonLogInActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(93, 138, 57, 23);
+        getContentPane().add(jButtonLogIn);
+        jButtonLogIn.setBounds(40, 160, 100, 30);
 
         jTextFieldUsername.setText("Hans3");
         jTextFieldUsername.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -123,6 +131,21 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().add(MLG);
         MLG.setBounds(168, 117, 150, 150);
 
+        jLabel5.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Welcome to Matchbox !");
+        jLabel5.setToolTipText("");
+        jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(90, 10, 160, 16);
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Please Log in to start The Game");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(90, 30, 160, 16);
+
         jLabelBackGround.setBackground(new java.awt.Color(255, 0, 0));
         jLabelBackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/BurningMatch.gif"))); // NOI18N
         getContentPane().add(jLabelBackGround);
@@ -131,31 +154,31 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogInActionPerformed
         // TODO add your handling code here:
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
-        try{
-        this.control.connect(ip, port);
-        this.control.login(username);
-        }catch(Exception ex)
-        {
+        try {
+            this.control.connect(ip, port);
+            this.control.login(username);
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Can not connect o the server", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonLogInActionPerformed
 
     private void jTextFieldIpKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldIpKeyPressed
     {//GEN-HEADEREND:event_jTextFieldIpKeyPressed
         Konami.checkKonami(evt.getKeyCode());
-        if(Konami.isActivated){
+        if (Konami.isActivated) {
             JOptionPane.showMessageDialog(this, "Activated!");
             MLG.setVisible(true);
+            control.setKonamiisAk(Konami.isActivated);
         }
-        
+
         if (!jTextFieldIp.getText().isEmpty() && !jTextFieldPort.getText().isEmpty()
                 && !jTextFieldUsername.getText().isEmpty() && evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            this.jButton1ActionPerformed(null);
+            this.jButtonLogInActionPerformed(null);
         }
     }//GEN-LAST:event_jTextFieldIpKeyPressed
 
@@ -170,16 +193,18 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPortKeyPressed
 
     private void jTextFieldIpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldIpKeyTyped
-        
+
     }//GEN-LAST:event_jTextFieldIpKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MLG;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonLogIn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelBackGround;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextFieldIp;

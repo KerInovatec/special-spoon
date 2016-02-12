@@ -55,9 +55,14 @@ public class FrmRoom extends javax.swing.JFrame {
         this.gleichung = "";
         this.newEquasion();
         this.timer = new Timer(1420, taskPerformer);
+        this.jButtonCheck.setOpaque(false);
+        this.jButtonReset.setOpaque(false);
+        this.jLabelMatchStatus.setText("You have "+hasMatch+" matches");
+        
     }
     ActionListener taskPerformer = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
+            jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Burning Match 3D Wallpaper.jpg")));
             jLabelScope.setVisible(false);
             Rekt.setVisible(false);
             timer.stop();
@@ -65,9 +70,11 @@ public class FrmRoom extends javax.swing.JFrame {
     };
 
     public void initMLG() {
-        if (Konami.isActivated) {
-            this.jLabelScope.setVisible(Konami.isActivated);
-            this.Rekt.setVisible(Konami.isActivated);
+        if (this.roomFormModel.konamiisak()) {
+           
+            this.jLabelScope.setVisible(this.roomFormModel.konamiisak());
+            this.Rekt.setVisible(this.roomFormModel.konamiisak());
+            jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/MLGBackground.jpg")));
             timer.start();
         }
 
@@ -75,6 +82,8 @@ public class FrmRoom extends javax.swing.JFrame {
 
     public void newEquasion() {
         this.hasMatch = 0;
+        jLabelInfo.setText("Solve it!");
+        this.jLabelMatchStatus.setText("You have "+hasMatch+" matches");
     }
 
 
@@ -213,11 +222,12 @@ public class FrmRoom extends javax.swing.JFrame {
         jPlus = new javax.swing.JLabel();
         jMinus = new javax.swing.JLabel();
         jLabelScope = new javax.swing.JLabel();
-        jLabelInfo = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
+        jLabelInfo = new javax.swing.JLabel();
         jButtonReset = new javax.swing.JButton();
         jPanelPlayer = new javax.swing.JPanel();
         Rekt = new javax.swing.JLabel();
+        jLabelMatchStatus = new javax.swing.JLabel();
         jLabelBackground = new javax.swing.JLabel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
@@ -754,12 +764,10 @@ public class FrmRoom extends javax.swing.JFrame {
 
         jLabelScope.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/photo.jpg.gif"))); // NOI18N
         jPanel1.add(jLabelScope);
-        jLabelScope.setBounds(390, 310, 282, 281);
+        jLabelScope.setBounds(350, 280, 282, 281);
 
-        jLabelInfo.setText("HasMatch");
-        jPanel1.add(jLabelInfo);
-        jLabelInfo.setBounds(60, 330, 290, 70);
-
+        jButtonCheck.setBackground(new java.awt.Color(0, 0, 0));
+        jButtonCheck.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonCheck.setText("Check");
         jButtonCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -767,8 +775,16 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonCheck);
-        jButtonCheck.setBounds(450, 450, 61, 23);
+        jButtonCheck.setBounds(420, 390, 80, 60);
 
+        jLabelInfo.setFont(new java.awt.Font("Meiryo", 0, 18)); // NOI18N
+        jLabelInfo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInfo.setText("HasMatch");
+        jPanel1.add(jLabelInfo);
+        jLabelInfo.setBounds(60, 330, 430, 70);
+
+        jButtonReset.setBackground(new java.awt.Color(0, 0, 0));
+        jButtonReset.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonReset.setText("Reset");
         jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -776,7 +792,7 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonReset);
-        jButtonReset.setBounds(370, 450, 61, 23);
+        jButtonReset.setBounds(330, 390, 80, 60);
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1230, 330, 270, 280);
 
@@ -784,9 +800,16 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(Rekt);
         Rekt.setBounds(680, 390, 500, 200);
 
+        jLabelMatchStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelMatchStatus.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jLabelMatchStatus);
+        jLabelMatchStatus.setBounds(40, 440, 380, 80);
+
         jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/Burning Match 3D Wallpaper.jpg"))); // NOI18N
+        jLabelBackground.setMinimumSize(new java.awt.Dimension(1500, 610));
         jPanel1.add(jLabelBackground);
-        jLabelBackground.setBounds(0, 0, 0, 0);
+        jLabelBackground.setBounds(0, 310, 1500, 300);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -832,7 +855,7 @@ public class FrmRoom extends javax.swing.JFrame {
         } else if (this.areNummbers()) {
             roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new EquasionContentObject(MatchUtility.matchToEquation(this.convertToList())))));
         } else {
-            jLabelInfo.setText("Nicht alle Zeichen sind Zahlen");
+            jLabelInfo.setText("Some matches are not Nummbers");
         }
 
     }//GEN-LAST:event_jButtonCheckActionPerformed
@@ -840,7 +863,8 @@ public class FrmRoom extends javax.swing.JFrame {
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         this.setMatches(gleichung);
         hasMatch = 0;
-        jLabelInfo.setText("Has Match false");
+        jLabelInfo.setText("Solve it!");
+        jLabelMatchStatus.setText("You have "+hasMatch+" matches");
 
 
     }//GEN-LAST:event_jButtonResetActionPerformed
@@ -962,11 +986,9 @@ public class FrmRoom extends javax.swing.JFrame {
     public void onCheckedEquasion(RoomCommandContentObject pCommandObject) {
         if (((CheckEquasionResultContentObject) pCommandObject.getContentObject()).isEquasionCorrect()) {
             jLabelInfo.setText("Well Done! Correct");
-            this.Rekt.setVisible(true);
-            this.jLabelScope.setVisible(true);
-            timer.start();
+            this.initMLG();
         } else {
-            jLabelInfo.setText("Sorry, try again");
+            jLabelInfo.setText("Equasion is Wrong, try again");
         }
     }
 
@@ -1224,8 +1246,10 @@ public class FrmRoom extends javax.swing.JFrame {
 
             hasMatch = 1;
 
-            jLabelInfo.setText("HasMatch true");
-        } else {
+            jLabelMatchStatus.setText("You have "+hasMatch+" matches");
+        } else if(hasMatch == 2){
+            jLabelMatchStatus.setText("You made your move. Click reset to move the match somewhere else");
+        }else{
             jLabelInfo.setText("You are only allowed to move 1 Match. Click reset to restart");
         }
     }
@@ -1236,7 +1260,7 @@ public class FrmRoom extends javax.swing.JFrame {
 
             hasMatch = 2;
 
-            jLabelInfo.setText("HasMatch false");
+            jLabelMatchStatus.setText("You moved the Match");
         } else {
             jLabelInfo.setText("You have no Matches");
         }
@@ -1251,6 +1275,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelInfo;
+    private javax.swing.JLabel jLabelMatchStatus;
     private javax.swing.JLabel jLabelScope;
     private javax.swing.JLabel jMatch1_1;
     private javax.swing.JLabel jMatch1_2;

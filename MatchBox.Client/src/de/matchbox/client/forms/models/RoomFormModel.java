@@ -16,8 +16,15 @@ public class RoomFormModel {
     public RoomFormModel(Control pControl) {
         this.control = pControl;
         this.room = new FrmRoom(this);
+        this.room.setTitle(this.control.getUsername());
+    }
+    public boolean konamiisak()
+    {
+        return control.isKonamiisAk();
     }
 
+   
+    
     public void openRoom() {
         this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
         this.room.setVisible(true);
@@ -37,9 +44,6 @@ public class RoomFormModel {
                 this.room.setPlayerList(pCommandObject.getContentObject());
                 break;
             case EQUASION_SOLVED:
-                //Wohin?
-                //this.room.callWellDone();
-                //this.room.initMLG();
                 this.room.onEquasionSolved(pCommandObject.getContentObject(), this.control.getUsername());
                 break;
             case REQUEST_EQUASION:

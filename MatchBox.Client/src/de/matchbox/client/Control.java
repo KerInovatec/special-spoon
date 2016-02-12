@@ -54,24 +54,36 @@ public class Control {
             }
         });
     }
+
     private MatchBoxClient client = null;
     private FrmLobby lobby;
     private FrmLogin login;
     private RoomFormModel roomFormModel;
     private String username;
+    private boolean KonamiisAk;
 
+    public boolean isKonamiisAk() {
+        return KonamiisAk;
+    }
+
+    public void setKonamiisAk(boolean KonamiisAk) {
+        this.KonamiisAk = KonamiisAk;
+    }
+
+    
+    
     public String getUsername() {
         return username;
     }
-    
 
     public Control() {
+
         this.login = new FrmLogin(this);
         this.login.setVisible(true);
     }
 
     public void connect(String ip, int port) {
-        
+
         this.client = new MatchBoxClient(this, ip, port);
     }
 
@@ -127,7 +139,7 @@ public class Control {
                 this.roomFormModel.process((RoomCommandContentObject) pMessageObject.getContentObject());
                 break;
             case ERROR:
-                JOptionPane.showMessageDialog(this.login, ((ErrorContentObject)pMessageObject.getContentObject()).getErrorText());
+                JOptionPane.showMessageDialog(this.login, ((ErrorContentObject) pMessageObject.getContentObject()).getErrorText());
                 break;
 
             default:

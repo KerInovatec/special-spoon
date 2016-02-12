@@ -39,6 +39,16 @@ public class FrmLobby extends javax.swing.JFrame {
         this.roomCreationDialog = new RoomCreationDialog(this, true, this.control);
 
         this.control.send(new MessageObject(MessageType.LIST_ROOMS));
+
+        jConectRoom.setOpaque(false);
+        jConectRoom.setBorderPainted(false);
+        
+        jCreateRoom.setOpaque(false);
+        jCreateRoom.setBorderPainted(false);
+        
+        jButtonAktulisieren.setOpaque(false);
+        jButtonAktulisieren.setBorderPainted(false);
+
     }
 
     /**
@@ -48,8 +58,7 @@ public class FrmLobby extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jDialog1 = new javax.swing.JDialog();
@@ -58,6 +67,7 @@ public class FrmLobby extends javax.swing.JFrame {
         jConectRoom = new javax.swing.JButton();
         jCreateRoom = new javax.swing.JButton();
         jButtonAktulisieren = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -72,72 +82,53 @@ public class FrmLobby extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
+        setMinimumSize(new java.awt.Dimension(545, 650));
+        setPreferredSize(new java.awt.Dimension(545, 650));
+        getContentPane().setLayout(null);
 
-        jRoomList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jRoomListMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jRoomList);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 10, 514, 545);
+
         jConectRoom.setText("Connect");
-        jConectRoom.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jConectRoom.setToolTipText("");
+        jConectRoom.setBorderPainted(false);
+        jConectRoom.setInheritsPopupMenu(true);
+        jConectRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jConectRoomActionPerformed(evt);
             }
         });
+        getContentPane().add(jConectRoom);
+        jConectRoom.setBounds(10, 570, 73, 23);
 
         jCreateRoom.setText("Create Room");
-        jCreateRoom.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jCreateRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCreateRoomActionPerformed(evt);
             }
         });
+        getContentPane().add(jCreateRoom);
+        jCreateRoom.setBounds(100, 570, 95, 23);
 
         jButtonAktulisieren.setText("Refresh");
-        jButtonAktulisieren.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonAktulisieren.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAktulisierenActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonAktulisieren);
+        jButtonAktulisieren.setBounds(220, 570, 71, 23);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jConectRoom)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCreateRoom)
-                .addGap(26, 26, 26)
-                .addComponent(jButtonAktulisieren)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jConectRoom)
-                    .addComponent(jCreateRoom)
-                    .addComponent(jButtonAktulisieren))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/hd-wallpapers-grey-background.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 550, 670);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -184,6 +175,7 @@ public class FrmLobby extends javax.swing.JFrame {
     private javax.swing.JButton jConectRoom;
     private javax.swing.JButton jCreateRoom;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JList jRoomList;
     private javax.swing.JScrollPane jScrollPane1;
