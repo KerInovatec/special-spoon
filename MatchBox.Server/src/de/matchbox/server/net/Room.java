@@ -124,6 +124,7 @@ public class Room {
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
         if (this.equasionSolved) {
             pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.EQUASION_ALREADY_SOLVED)));
+            return;
         }
 
         if (pMessageObject.getContentObject() instanceof EquasionContentObject) {
@@ -131,8 +132,8 @@ public class Room {
             boolean lIsEquasionCorrect = false;
             if (MatchUtility.canBeCreatedFromEquasion(this.wrongEquasion, lEquasion)
                     && (lIsEquasionCorrect = MatchUtility.isEquasionCorrect(lEquasion))) {
-                this.givePlayerPoint(pClient);
                 this.equasionSolved = true;
+                this.givePlayerPoint(pClient);
             }
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.CHECK_EQUASION, new CheckEquasionResultContentObject(lIsEquasionCorrect))));
         } else {
