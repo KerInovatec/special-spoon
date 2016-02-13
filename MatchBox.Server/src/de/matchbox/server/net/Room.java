@@ -17,6 +17,7 @@ import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
 import de.matchbox.server.StreichholzServer;
+import de.matchbox.server.utility.ChatUtility;
 import de.matchbox.server.utility.MatchUtility;
 import java.util.Random;
 
@@ -24,9 +25,10 @@ public class Room {
 
     private String correctEquasion = "**7+**0=**7";
     private boolean equasionSolved = true;
+    private int winningPoints = 10;
 
     private final int id;
-    private final String name;
+    private String name;
     private final List playerList;
     private final StreichholzServer server;
     private String wrongEquasion = "**7+**8=**1";
@@ -135,7 +137,7 @@ public class Room {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Nachricht nicht erkannt!"))));
             return;
         }
-        
+
         this.sendMessageToAll((MessageContentObject) pContentObject.getContentObject(), pClient);
     }
 
@@ -144,50 +146,83 @@ public class Room {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
             return;
         }
-        
+
         CommandContentObject lCommandObject = (CommandContentObject) pCommandContentObject.getContentObject();
-        if(lCommandObject.getMessageParts().length == 0){
+        if (lCommandObject.getMessageParts().length == 0) {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
             return;
         }
-        
-        switch(lCommandObject.getMessageParts()[0]){
+
+        switch (lCommandObject.getMessageParts()[0]) {
             case "kick":
                 this.kickPlayer(lCommandObject, pClient);
                 break;
             case "help":
+                pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject("Server", ChatUtility.getHelpText(this.isClientHost(pClient))))));
                 break;
             case "set":
+                this.setCommand(lCommandObject, pClient);
                 break;
             case "start":
                 break;
             case "takeHost":
+                break;
+            case "info":
+                pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject("Server", "Room Information:\n" + "Roomname: " + this.name + "\nCurrent Host: " + this.getHost().getClient().getUsername() + "\nWinning Points: " + this.winningPoints))));
                 break;
             default:
                 pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
                 break;
         }
     }
-    
-    private void kickPlayer(CommandContentObject pCommandContentObject, Client pClient){
-        if(pCommandContentObject.getMessageParts().length < 2 || pCommandContentObject.getMessageParts().length > 3){
-            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Usage: !kick USERNAME [REASON]"))));
+
+    private void kickPlayer(CommandContentObject pCommandContentObject, Client pClient) {
+        if (pCommandContentObject.getMessageParts().length < 2 || pCommandContentObject.getMessageParts().length > 3) {
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Usage: " + ChatUtility.KickUsageText))));
             return;
         }
-        
-        if(!this.isClientHost(pClient)){
+
+        if (!this.isClientHost(pClient)) {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! You need to be Host to perform this command!"))));
             return;
         }
-        
+
         Player lPlayer = this.getPlayer(pCommandContentObject.getMessageParts()[1]);
-        if(lPlayer == null){
+        if (lPlayer == null) {
             pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Player '" + pCommandContentObject.getMessageParts()[1] + "' not found!"))));
             return;
         }
         lPlayer.getClient().setCurRoom(null);
         lPlayer.getClient().sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.SERVER_MESSAGE, new ServerMessageContentObject("Server", "You were kicked!" + (pCommandContentObject.getMessageParts().length == 3 ? " Reason: " + pCommandContentObject.getMessageParts()[2] : "")))));
         this.deleteClient(lPlayer.getClient());
+    }
+
+    private void setCommand(CommandContentObject pCommandContentObject, Client pClient) {
+        if (pCommandContentObject.getMessageParts().length < 3 || pCommandContentObject.getMessageParts().length > 3) {
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Usage: " + ChatUtility.SetUsageText))));
+            return;
+        }
+
+        if (!this.isClientHost(pClient)) {
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! You need to be Host to perform this command!"))));
+            return;
+        }
+
+        switch (pCommandContentObject.getMessageParts()[1]) {
+            case "winningPoints":
+                try {
+                    this.winningPoints = Integer.parseInt(pCommandContentObject.getMessageParts()[2]);
+                } catch (NumberFormatException ex) {
+                    pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Must specify Number!"))));
+                }
+                break;
+            case "roomName":
+                this.name = pCommandContentObject.getMessageParts()[2];
+                break;
+            default:
+                pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Usage: " + ChatUtility.SetUsageText))));
+                break;
+        }
     }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
@@ -245,12 +280,24 @@ public class Room {
         }
         return pString;
     }
-    
-    private Player getPlayer(String pUsername){
+
+    private Player getPlayer(String pUsername) {
         this.playerList.toFirst();
         while (this.playerList.hasAccess() && this.playerList.getObject() instanceof Player) {
             Player lPlayer = (Player) this.playerList.getObject();
             if (lPlayer.getClient().getUsername().equals(pUsername)) {
+                return lPlayer;
+            }
+            this.playerList.next();
+        }
+        return null;
+    }
+
+    private Player getHost() {
+        this.playerList.toFirst();
+        while (this.playerList.hasAccess() && this.playerList.getObject() instanceof Player) {
+            Player lPlayer = (Player) this.playerList.getObject();
+            if (lPlayer.isHost()) {
                 return lPlayer;
             }
             this.playerList.next();
@@ -276,7 +323,7 @@ public class Room {
             Player lPlayer = (Player) this.playerList.getObject();
             if (lPlayer.getClient().equals(pClient)) {
                 lPlayer.setPoints(lPlayer.getPoints() + 1);
-                if (lPlayer.getPoints() >= 10) {
+                if (lPlayer.getPoints() >= this.winningPoints) {
                     this.onPlayerWon(lPlayer);
                 }
             }
@@ -332,7 +379,7 @@ public class Room {
     private void sendMessageToAll(String pMessage, Client pClient) {
         this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject(pClient.getUsername(), pMessage))));
     }
-    
+
     private void sendPlayersToAll(RoomCommand pRoomCommand) {
         this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(pRoomCommand, new ListPlayerContentObject(this.getPlayerModelList()))));
     }
