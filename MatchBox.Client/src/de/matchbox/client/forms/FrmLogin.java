@@ -59,6 +59,7 @@ public class FrmLogin extends javax.swing.JFrame {
         MLG = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabelUsernamecheck = new javax.swing.JLabel();
         jLabelBackGround = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
@@ -119,7 +120,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextFieldUsername);
-        jTextFieldUsername.setBounds(150, 140, 225, 20);
+        jTextFieldUsername.setBounds(150, 140, 130, 20);
 
         jLabel4.setFont(new java.awt.Font("Impact", 0, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -146,6 +147,10 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().add(jLabel6);
         jLabel6.setBounds(100, 50, 250, 40);
 
+        jLabelUsernamecheck.setForeground(new java.awt.Color(255, 51, 51));
+        getContentPane().add(jLabelUsernamecheck);
+        jLabelUsernamecheck.setBounds(290, 140, 90, 20);
+
         jLabelBackGround.setBackground(new java.awt.Color(255, 0, 0));
         jLabelBackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/BurningMatch.gif"))); // NOI18N
         getContentPane().add(jLabelBackGround);
@@ -159,6 +164,7 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
+        
         try {
             this.control.connect(ip, port);
             this.control.login(username);
@@ -184,7 +190,14 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void jTextFieldUsernameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldUsernameKeyPressed
     {//GEN-HEADEREND:event_jTextFieldUsernameKeyPressed
-        // TODO add your handling code here:
+        if(jTextFieldUsername.getText().length() >= 19 )
+        {
+            jLabelUsernamecheck.setForeground(Color.red);
+            jLabelUsernamecheck.setText("Too Long. max: 18");
+        }else{
+             jLabelUsernamecheck.setForeground(Color.green);
+             jLabelUsernamecheck.setText("OK");
+        }
     }//GEN-LAST:event_jTextFieldUsernameKeyPressed
 
     private void jTextFieldPortKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldPortKeyPressed
@@ -206,6 +219,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelBackGround;
+    private javax.swing.JLabel jLabelUsernamecheck;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextFieldIp;
     private javax.swing.JTextField jTextFieldPort;

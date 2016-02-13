@@ -10,23 +10,33 @@ import de.matchbox.communication.classmodels.PlayerModel;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.MessageContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.ServerMessageContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 import de.matchbox.communication.shared.abiturklassen.List;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 public class FrmRoom extends javax.swing.JFrame {
 
@@ -37,6 +47,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private int hasMatch;
     private String gleichung;
     private Timer timer;
+    private StyledDocument ChatStyledDocument;
 
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
@@ -58,8 +69,10 @@ public class FrmRoom extends javax.swing.JFrame {
         this.timer = new Timer(1420, taskPerformer);
         this.jButtonCheck.setOpaque(false);
         this.jButtonReset.setOpaque(false);
+        this.jButtonSend.setOpaque(false);
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
-        this.jTextAreaChat.setEditable(false);
+        this.ChatStyledDocument = (StyledDocument) jTextPaneChat.getDocument();
+        this.jTextPaneChat.setEditable(false);
 
     }
     ActionListener taskPerformer = new ActionListener() {
@@ -226,16 +239,16 @@ public class FrmRoom extends javax.swing.JFrame {
         jLabelScope = new javax.swing.JLabel();
         jButtonCheck = new javax.swing.JButton();
         jLabelInfo = new javax.swing.JLabel();
+        Rekt = new javax.swing.JLabel();
         jButtonReset = new javax.swing.JButton();
         jPanelPlayer = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaChat = new javax.swing.JTextArea();
+        jLabelBackground = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextFieldSend = new javax.swing.JTextField();
         jButtonSend = new javax.swing.JButton();
-        Rekt = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextPaneChat = new javax.swing.JTextPane();
         jLabelMatchStatus = new javax.swing.JLabel();
-        jLabelBackground = new javax.swing.JLabel();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
@@ -790,6 +803,10 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jLabelInfo);
         jLabelInfo.setBounds(60, 330, 430, 70);
 
+        Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
+        jPanel1.add(Rekt);
+        Rekt.setBounds(580, 360, 500, 200);
+
         jButtonReset.setBackground(new java.awt.Color(0, 0, 0));
         jButtonReset.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonReset.setText("Reset");
@@ -803,22 +820,20 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1110, 290, 270, 280);
 
-        jTextAreaChat.setColumns(20);
-        jTextAreaChat.setRows(5);
-        jScrollPane1.setViewportView(jTextAreaChat);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(630, 290, 470, 230);
+        jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelBackground.setMinimumSize(new java.awt.Dimension(1500, 610));
+        jPanel1.add(jLabelBackground);
+        jLabelBackground.setBounds(0, 0, 1410, 610);
 
         jTextFieldSend.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldSendKeyTyped(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldSendKeyPressed(evt);
             }
         });
         jScrollPane2.setViewportView(jTextFieldSend);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(630, 530, 410, 30);
+        jScrollPane2.setBounds(550, 520, 490, 40);
 
         jButtonSend.setText("Send");
         jButtonSend.addActionListener(new java.awt.event.ActionListener() {
@@ -827,21 +842,17 @@ public class FrmRoom extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonSend);
-        jButtonSend.setBounds(1040, 530, 60, 30);
+        jButtonSend.setBounds(1040, 520, 60, 40);
 
-        Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
-        jPanel1.add(Rekt);
-        Rekt.setBounds(580, 360, 500, 200);
+        jScrollPane3.setViewportView(jTextPaneChat);
+
+        jPanel1.add(jScrollPane3);
+        jScrollPane3.setBounds(550, 290, 550, 230);
 
         jLabelMatchStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelMatchStatus.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jLabelMatchStatus);
         jLabelMatchStatus.setBounds(40, 440, 500, 80);
-
-        jLabelBackground.setBackground(new java.awt.Color(204, 204, 204));
-        jLabelBackground.setMinimumSize(new java.awt.Dimension(1500, 610));
-        jPanel1.add(jLabelBackground);
-        jLabelBackground.setBounds(0, 0, 1410, 610);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1500, 620);
@@ -906,19 +917,58 @@ public class FrmRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
-       //sende Nachricht an den server
+        //sende Nachricht an den server
+        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+        jTextFieldSend.setText("");
     }//GEN-LAST:event_jButtonSendActionPerformed
 
-    private void jTextFieldSendKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSendKeyTyped
-       if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-           //sende Nachricht an den server
-       }
-    }//GEN-LAST:event_jTextFieldSendKeyTyped
+    private void jTextFieldSendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSendKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+            jTextFieldSend.setText("");
+        }
+    }//GEN-LAST:event_jTextFieldSendKeyPressed
 
-    public void reciveMassage(/* Massage Object */)
-    {
-        
+    public void reciveMassage(IRoomCommandContentObject pCommandObject) {
+        StyleContext context = new StyleContext();
+        Style style = context.addStyle("test", null);
+        try {
+            if (!(pCommandObject instanceof ServerMessageContentObject)) {
+                return;
+            }
+
+            String chatVerlauf = ChatStyledDocument.getText(0, ChatStyledDocument.getLength());
+            if (chatVerlauf.indexOf(':') != -1) {
+
+                if (((chatVerlauf.substring(chatVerlauf.lastIndexOf(">") + 1, chatVerlauf.lastIndexOf(":"))).equals(((ServerMessageContentObject) pCommandObject).getUsername()))) {
+
+                    StyleConstants.setForeground(style, Color.BLACK);
+                    this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), "\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
+
+                } else {
+                    StyleConstants.setForeground(style, Color.BLACK);
+                    this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
+                    StyleConstants.setForeground(style, Color.ORANGE);
+                    this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
+                    StyleConstants.setForeground(style, Color.BLACK);
+                    this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
+                }
+            } else {
+                StyleConstants.setForeground(style, Color.BLACK);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
+                StyleConstants.setForeground(style, Color.ORANGE);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
+                StyleConstants.setForeground(style, Color.BLACK);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
+            }
+        } catch (BadLocationException ex) {
+            StyleConstants.setForeground(style, Color.RED);
+            jTextPaneChat.setText("An Error Occurred while inserting Message");
+
+        }
+
     }
+
     private List convertToList() {
         List ausgabe = new List();
         boolean[] zahlCode;
@@ -1308,7 +1358,7 @@ public class FrmRoom extends javax.swing.JFrame {
 
             jLabelMatchStatus.setText("You have " + hasMatch + " matches");
         } else if (hasMatch == 2) {
-            
+
             jLabelMatchStatus.setText("<html>You have already moved your match.<br>Press \"reset\" to be able to make changes</html>");
         } else {
             jLabelInfo.setText("You are only allowed to move 1 Match. Click reset to restart");
@@ -1408,8 +1458,8 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JLabel jPlus;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;
     private javax.swing.JLabel jSpace1_3;
@@ -1473,8 +1523,8 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jSpace7_7;
     private javax.swing.JLabel jSpace7_8;
     private javax.swing.JLabel jSpace7_9;
-    private javax.swing.JTextArea jTextAreaChat;
     private javax.swing.JTextField jTextFieldSend;
+    private javax.swing.JTextPane jTextPaneChat;
     private javax.swing.JMenu mnuCon;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuBar mnuMain;

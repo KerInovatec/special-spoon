@@ -59,6 +59,9 @@ public class RoomFormModel {
             case PLAYER_WON:
                 this.room.onPlayerWon(pCommandObject.getContentObject());
                 break;
+            case MESSAGE:
+                this.room.reciveMassage(pCommandObject.getContentObject());
+                break;
 
         }
     }
