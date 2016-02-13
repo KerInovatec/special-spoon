@@ -4,10 +4,12 @@ import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.MessageContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.ListPlayerContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.PlayerWonContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.server.ServerMessageContentObject;
 import de.matchbox.communication.contentobjects.server.ErrorContentObject;
 import de.matchbox.communication.enumeration.ErrorType;
 import de.matchbox.communication.enumeration.MessageType;
@@ -111,6 +113,12 @@ public class Room {
             case LEAVE_ROOM:
                 this.logoutPlayer(pClient);
                 break;
+            case MESSAGE:
+                this.processMessage(pMessageObject, pClient);
+                break;
+            case COMMAND:
+                this.processCommand(pMessageObject, pClient);
+                break;
             default:
                 pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.UNKOWN_COMMAND)));
                 break;
@@ -119,6 +127,19 @@ public class Room {
 
     public void onPlayerJoined(Client pClient) {
         pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.REQUEST_EQUASION, new EquasionContentObject(this.wrongEquasion))));
+    }
+
+    private void processMessage(RoomCommandContentObject pContentObject, Client pClient) {
+        if (!(pContentObject.getContentObject() instanceof MessageContentObject)) {
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Nachricht nicht erkannt!"))));
+            return;
+        }
+        
+        this.sendMessageToAll((MessageContentObject) pContentObject.getContentObject(), pClient);
+    }
+
+    private void processCommand(RoomCommandContentObject pCommandContentObject, Client pClient) {
+
     }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
@@ -242,6 +263,10 @@ public class Room {
             }
             this.playerList.next();
         }
+    }
+
+    private void sendMessageToAll(MessageContentObject pMessageContentObject, Client pClient) {
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject(pClient.getUsername(), pMessageContentObject.getMessage()))));
     }
 
     private void sendPlayersToAll(RoomCommand pRoomCommand) {

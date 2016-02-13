@@ -11,5 +11,8 @@ public enum RoomCommand {
     PLAYER_WON,
     LEAVE_ROOM,
     UNKOWN,
-
+    MESSAGE,
+    COMMAND,
+    SERVER_MESSAGE,
+    ERROR_MESSAGE
 }
