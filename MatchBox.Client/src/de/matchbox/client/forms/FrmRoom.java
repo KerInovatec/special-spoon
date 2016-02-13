@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -58,6 +59,7 @@ public class FrmRoom extends javax.swing.JFrame {
         this.jButtonCheck.setOpaque(false);
         this.jButtonReset.setOpaque(false);
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
+        this.jTextAreaChat.setEditable(false);
 
     }
     ActionListener taskPerformer = new ActionListener() {
@@ -226,6 +228,11 @@ public class FrmRoom extends javax.swing.JFrame {
         jLabelInfo = new javax.swing.JLabel();
         jButtonReset = new javax.swing.JButton();
         jPanelPlayer = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaChat = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextFieldSend = new javax.swing.JTextField();
+        jButtonSend = new javax.swing.JButton();
         Rekt = new javax.swing.JLabel();
         jLabelMatchStatus = new javax.swing.JLabel();
         jLabelBackground = new javax.swing.JLabel();
@@ -796,6 +803,32 @@ public class FrmRoom extends javax.swing.JFrame {
         jPanel1.add(jPanelPlayer);
         jPanelPlayer.setBounds(1110, 290, 270, 280);
 
+        jTextAreaChat.setColumns(20);
+        jTextAreaChat.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaChat);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(630, 290, 470, 230);
+
+        jTextFieldSend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldSendKeyTyped(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTextFieldSend);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(630, 530, 410, 30);
+
+        jButtonSend.setText("Send");
+        jButtonSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSendActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonSend);
+        jButtonSend.setBounds(1040, 530, 60, 30);
+
         Rekt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/R3KT.gif"))); // NOI18N
         jPanel1.add(Rekt);
         Rekt.setBounds(580, 360, 500, 200);
@@ -872,6 +905,20 @@ public class FrmRoom extends javax.swing.JFrame {
         roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LEAVE_ROOM)));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
+       //sende Nachricht an den server
+    }//GEN-LAST:event_jButtonSendActionPerformed
+
+    private void jTextFieldSendKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSendKeyTyped
+       if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+           //sende Nachricht an den server
+       }
+    }//GEN-LAST:event_jTextFieldSendKeyTyped
+
+    public void reciveMassage(/* Massage Object */)
+    {
+        
+    }
     private List convertToList() {
         List ausgabe = new List();
         boolean[] zahlCode;
@@ -1286,6 +1333,7 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel Rekt;
     private javax.swing.JButton jButtonCheck;
     private javax.swing.JButton jButtonReset;
+    private javax.swing.JButton jButtonSend;
     private javax.swing.JLabel jEaquals;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelInfo;
@@ -1360,6 +1408,8 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JLabel jPlus;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel jSpace1_1;
     private javax.swing.JLabel jSpace1_2;
     private javax.swing.JLabel jSpace1_3;
@@ -1423,6 +1473,8 @@ public class FrmRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jSpace7_7;
     private javax.swing.JLabel jSpace7_8;
     private javax.swing.JLabel jSpace7_9;
+    private javax.swing.JTextArea jTextAreaChat;
+    private javax.swing.JTextField jTextFieldSend;
     private javax.swing.JMenu mnuCon;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuBar mnuMain;
