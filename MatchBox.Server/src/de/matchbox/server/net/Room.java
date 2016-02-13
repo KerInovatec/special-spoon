@@ -3,6 +3,7 @@ package de.matchbox.server.net;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.StandardGsonBuilder;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.CommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.MessageContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.server.CheckEquasionResultContentObject;
@@ -139,7 +140,54 @@ public class Room {
     }
 
     private void processCommand(RoomCommandContentObject pCommandContentObject, Client pClient) {
-
+        if (!(pCommandContentObject.getContentObject() instanceof CommandContentObject)) {
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
+            return;
+        }
+        
+        CommandContentObject lCommandObject = (CommandContentObject) pCommandContentObject.getContentObject();
+        if(lCommandObject.getMessageParts().length == 0){
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
+            return;
+        }
+        
+        switch(lCommandObject.getMessageParts()[0]){
+            case "kick":
+                this.kickPlayer(lCommandObject, pClient);
+                break;
+            case "help":
+                break;
+            case "set":
+                break;
+            case "start":
+                break;
+            case "takeHost":
+                break;
+            default:
+                pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Befehl nicht erkannt!"))));
+                break;
+        }
+    }
+    
+    private void kickPlayer(CommandContentObject pCommandContentObject, Client pClient){
+        if(pCommandContentObject.getMessageParts().length < 2 || pCommandContentObject.getMessageParts().length > 3){
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Usage: !kick USERNAME [REASON]"))));
+            return;
+        }
+        
+        if(!this.isClientHost(pClient)){
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! You need to be Host to perform this command!"))));
+            return;
+        }
+        
+        Player lPlayer = this.getPlayer(pCommandContentObject.getMessageParts()[1]);
+        if(lPlayer == null){
+            pClient.sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.ERROR_MESSAGE, new ServerMessageContentObject("Server", "Error! Player '" + pCommandContentObject.getMessageParts()[1] + "' not found!"))));
+            return;
+        }
+        lPlayer.getClient().setCurRoom(null);
+        lPlayer.getClient().sendJson(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.SERVER_MESSAGE, new ServerMessageContentObject("Server", "You were kicked!" + (pCommandContentObject.getMessageParts().length == 3 ? " Reason: " + pCommandContentObject.getMessageParts()[2] : "")))));
+        this.deleteClient(lPlayer.getClient());
     }
 
     private void checkEquasion(RoomCommandContentObject pMessageObject, Client pClient) {
@@ -196,6 +244,18 @@ public class Room {
             }
         }
         return pString;
+    }
+    
+    private Player getPlayer(String pUsername){
+        this.playerList.toFirst();
+        while (this.playerList.hasAccess() && this.playerList.getObject() instanceof Player) {
+            Player lPlayer = (Player) this.playerList.getObject();
+            if (lPlayer.getClient().getUsername().equals(pUsername)) {
+                return lPlayer;
+            }
+            this.playerList.next();
+        }
+        return null;
     }
 
     private List getPlayerModelList() {
@@ -266,9 +326,13 @@ public class Room {
     }
 
     private void sendMessageToAll(MessageContentObject pMessageContentObject, Client pClient) {
-        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject(pClient.getUsername(), pMessageContentObject.getMessage()))));
+        this.sendMessageToAll(pMessageContentObject.getMessage(), pClient);
     }
 
+    private void sendMessageToAll(String pMessage, Client pClient) {
+        this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new ServerMessageContentObject(pClient.getUsername(), pMessage))));
+    }
+    
     private void sendPlayersToAll(RoomCommand pRoomCommand) {
         this.sendToAll(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(pRoomCommand, new ListPlayerContentObject(this.getPlayerModelList()))));
     }
