@@ -76,14 +76,14 @@ public class Control {
 
     private void joinRoom(MessageObject pMessageObject, Client pClient, StreichholzServer pServer) {
         if (!(pMessageObject.getContentObject() instanceof JoinRoomContentObject)) {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR)));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.PARSE_ERROR,"Parse Error")));
             return;
         }
 
         int lRoomId = ((JoinRoomContentObject) pMessageObject.getContentObject()).getRoomId();
         Room lRoom = pServer.getRoom(lRoomId);
         if (lRoom == null) {
-            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_NOT_FOUND)));
+            pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.ROOM_NOT_FOUND,"Room not found")));
         } else {
             lRoom.addClient(pClient);
             pClient.setCurRoom(lRoom);

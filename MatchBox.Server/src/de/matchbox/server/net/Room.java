@@ -364,6 +364,7 @@ public class Room {
             if (lPlayer.getClient().equals(pClient)) {
                 lPlayer.setPoints(lPlayer.getPoints() + 1);
                 if (lPlayer.getPoints() >= this.winningPoints) {
+                    this.gameRunning = false;
                     this.onPlayerWon(lPlayer);
                     return;
                 }
