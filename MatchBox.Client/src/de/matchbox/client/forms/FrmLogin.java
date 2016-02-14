@@ -94,7 +94,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextFieldIp);
-        jTextFieldIp.setBounds(150, 110, 80, 20);
+        jTextFieldIp.setBounds(150, 110, 130, 20);
 
         jTextFieldPort.setText("1234");
         jTextFieldPort.addKeyListener(new java.awt.event.KeyAdapter() {
