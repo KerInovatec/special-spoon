@@ -67,7 +67,7 @@ public class MatchUtility {
         lReturn.put('6', new MatchInfoContainer[]{new MatchInfoContainer('5', 1), new MatchInfoContainer('8', -1), new MatchInfoContainer('0', 0)});
         lReturn.put('7', new MatchInfoContainer[]{new MatchInfoContainer('1', 1)});
         lReturn.put('8', new MatchInfoContainer[]{new MatchInfoContainer('6', 1), new MatchInfoContainer('9', 1), new MatchInfoContainer('0', 1)});
-        lReturn.put('9', new MatchInfoContainer[]{new MatchInfoContainer('3', 1), new MatchInfoContainer('5', 1), new MatchInfoContainer('8', -1), new MatchInfoContainer('0', 0)});
+        lReturn.put('9', new MatchInfoContainer[]{new MatchInfoContainer('3', 1), new MatchInfoContainer('5', 1), new MatchInfoContainer('6', 0), new MatchInfoContainer('8', -1), new MatchInfoContainer('0', 0)});
         lReturn.put('0', new MatchInfoContainer[]{new MatchInfoContainer('6', 0), new MatchInfoContainer('8', -1), new MatchInfoContainer('9', 0)});
         return lReturn;
     }
