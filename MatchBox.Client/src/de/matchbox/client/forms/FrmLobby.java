@@ -30,7 +30,7 @@ public class FrmLobby extends javax.swing.JFrame {
 
     public FrmLobby(Control pControl) {
         initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/Icon.png")));
         this.control = pControl;
         this.setResizable(false);
         this.setLocationRelativeTo(null);

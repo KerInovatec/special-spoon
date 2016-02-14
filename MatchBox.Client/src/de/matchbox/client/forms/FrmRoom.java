@@ -54,7 +54,7 @@ public class FrmRoom extends javax.swing.JFrame {
     public FrmRoom(RoomFormModel pRoomFormModel) {
         this.roomFormModel = pRoomFormModel;
         this.initComponents();
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/Icon.png")));
         this.jMatchArr = new JLabel[8][10];
         this.jSpaceArr = new JLabel[8][10];
         this.createArr();

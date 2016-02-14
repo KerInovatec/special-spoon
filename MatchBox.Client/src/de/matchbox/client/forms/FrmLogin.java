@@ -31,7 +31,7 @@ public class FrmLogin extends javax.swing.JFrame {
         this.control = pControl;
         initComponents();
         MLG.setVisible(false);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/Icon.png")));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.initEvent();
