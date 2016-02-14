@@ -961,7 +961,7 @@ public class FrmRoom extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextFieldSendKeyPressed
 
-    public void reciveMassage(IRoomCommandContentObject pCommandObject) {
+    public void receiveMassage(IRoomCommandContentObject pCommandObject) {
         if (!(pCommandObject instanceof ServerMessageContentObject)) {
             return;
         }

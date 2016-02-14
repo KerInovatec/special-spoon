@@ -4,7 +4,6 @@ import de.matchbox.client.Control;
 import de.matchbox.client.forms.FrmRoom;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
-import de.matchbox.communication.contentobjects.roomcommands.server.EquasionSolvedContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import de.matchbox.communication.enumeration.RoomCommand;
 
@@ -58,16 +57,19 @@ public class RoomFormModel {
                 this.room.onPlayerWon(pCommandObject.getContentObject());
                 break;
             case MESSAGE:
-                this.room.reciveMassage(pCommandObject.getContentObject());
+                this.room.receiveMassage(pCommandObject.getContentObject());
                 break;
             case SERVER_MESSAGE:
-                this.room.reciveMassage(pCommandObject.getContentObject());
+                this.room.receiveMassage(pCommandObject.getContentObject());
                 break;
             case ERROR_MESSAGE:
-                this.room.reciveMassage(pCommandObject.getContentObject());
+                this.room.receiveMassage(pCommandObject.getContentObject());
                 break;
             case PLAYER_LEFT:
-                 this.room.setPlayerList(pCommandObject.getContentObject());
+                this.room.setPlayerList(pCommandObject.getContentObject());
+                break;
+            case HOST_CHANGED:
+                this.room.setPlayerList(pCommandObject.getContentObject());
                 break;
 
         }
