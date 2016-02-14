@@ -57,7 +57,6 @@ public class FrmRoom extends javax.swing.JFrame {
         this.jMatchArr = new JLabel[8][10];
         this.jSpaceArr = new JLabel[8][10];
         this.createArr();
-        this.resetView();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.initEvents();
@@ -78,6 +77,7 @@ public class FrmRoom extends javax.swing.JFrame {
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
         this.ChatStyledDocument = (StyledDocument) jTextPaneChat.getDocument();
         this.jTextPaneChat.setEditable(false);
+        this.resetView();
         try {
             StyleContext context = new StyleContext();
             Style style = context.addStyle("test", null);
@@ -1153,6 +1153,9 @@ public class FrmRoom extends javax.swing.JFrame {
             return;
         }
         JOptionPane.showMessageDialog(null, "Player " + ((PlayerWonContentObject) pCommandObject).getUsername() + " Won the Game", "Game Over!", JOptionPane.INFORMATION_MESSAGE);
+        this.resetView();
+        jLabelInfo.setText("Player " + ((PlayerWonContentObject) pCommandObject).getUsername() + " Won the Game");
+        jLabelMatchStatus.setText("");
     }
 
     private void createArr() {
@@ -1334,6 +1337,7 @@ public class FrmRoom extends javax.swing.JFrame {
                 jMatchArr[y][i].setVisible(true);
             }
         }
+
     }
 
     private void setMatches(String pEaquasion) {

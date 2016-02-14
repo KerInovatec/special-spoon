@@ -11,6 +11,8 @@ import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.contentobjects.client.CreateRoomContentObject;
 import de.matchbox.communication.enumeration.MessageType;
 import java.awt.Toolkit;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -31,9 +33,34 @@ public class RoomCreationDialog extends javax.swing.JDialog {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.control = pControl;
+        this.initEvent();
 
     }
+    private void initEvent() {
+        jTextFieldRoomName.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                checkName();
+            }
 
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkName();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkName();
+            }
+        });
+    }
+    private void checkName()
+    {
+        if (!jTextFieldRoomName.getText().isEmpty()) {
+            jButtonCreate.setEnabled(true);
+        } else {
+            jButtonCreate.setEnabled(false);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,8 +68,7 @@ public class RoomCreationDialog extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jButtonCreate = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
@@ -52,32 +78,22 @@ public class RoomCreationDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButtonCreate.setText("Create");
-        jButtonCreate.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCreateActionPerformed(evt);
             }
         });
 
         jButtonCancel.setText("Cancel");
-        jButtonCancel.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelActionPerformed(evt);
             }
         });
 
-        jTextFieldRoomName.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyPressed(java.awt.event.KeyEvent evt)
-            {
+        jTextFieldRoomName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldRoomNameKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt)
-            {
-                jTextFieldRoomNameKeyTyped(evt);
             }
         });
 
@@ -115,14 +131,6 @@ public class RoomCreationDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextFieldRoomNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRoomNameKeyTyped
-        if (!jTextFieldRoomName.getText().isEmpty()) {
-            jButtonCreate.setEnabled(true);
-        } else {
-            jButtonCreate.setEnabled(false);
-        }
-    }//GEN-LAST:event_jTextFieldRoomNameKeyTyped
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
 
