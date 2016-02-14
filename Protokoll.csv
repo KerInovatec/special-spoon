@@ -1,28 +1,37 @@
-{'nachrichtenTyp':'LOGIN', 'contentObject':{'username':USERNAME}};{'nachrichtenTyp':'LOGIN', 'contentObject':{}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'UNKOWN', 'errorText':'Name vergeben'}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'UNKOWN', 'errorText':'Schon eingeloggt'}}
+LOGIN, LoginContentObject(USERNAME);LOGIN
+;ERROR, ErrorContentObject(USERNAME_TAKEN, „The Username is taken“)
+;ERROR, ErrorContentObject(PARSE_ERROR)
 ;
-{'nachrichtenTyp':'LOGOUT', 'contentObject':''};{'nachrichtenTyp':'LOGOUT', 'contentObject':''}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_LOGGED_IN', 'errorText':''}}
+LOGOUT;LOGOUT
+;ERROR, ErrorContentObject(UNKOWN)
+;ERROR, ErrorContentObject(PARSE_ERROR)
 ;
-{'nachrichtenTyp':'LIST_ROOMS', 'contentObject':''};{'nachrichtenTyp':'LIST_ROOMS', 'contentObject':{'rooms':[{'id':1, 'name':'Raum1'}, {'id':2, 'name':'RaumName'}]}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_LOGGED_IN', 'errorText':''}}
+CREATE_ROOM, CreateRoomContentObject(ROOM_NAME);CREATE_ROOM
+;ERROR, ErrorContentObject(ROOM_EXISTS)
+;ERROR, ErrorContentObject(PARSE_ERROR)
 ;
-{'nachrichtenTyp':'CREATE_ROOM', 'contentObject':{'room_name':RAUMNAME}};{'nachrichtenTyp':'CREATE_ROOM', 'contentObject':''}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_LOGGED_IN', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'ROOM_EXISTS', 'errorText':''}}
+JOIN_ROOM, JoinRoomContentObject(ROOM_ID);JOIN_ROOM
+;ERROR, ErrorContentObject(ROOM_NOT_FOUND)
+;ERROR, ErrorContentObject(PARSE_ERROR)
 ;
-{'nachrichtenTyp':'LEAVE_ROOM', 'contentObject':''};{'nachrichtenTyp':'LEAVE_ROOM', 'contentObject':''}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_LOGGED_IN', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_IN_ROOM', 'errorText':''}}
+LIST_ROOMS;LIST_ROOMS, ListRoomContentObject(ROOM_LIST)
+;ERROR, ErrorContentObject(PARSE_ERROR)
 ;
-{'nachrichtenTyp':'JOIN_ROOM', 'contentObject':{'room_id':RAUMNUMMER}};{'nachrichtenTyp':'JOIN_ROOM', 'contentObject':''}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'PARSE_ERROR', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'NOT_LOGGED_IN', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'ALREADY_IN_ROOM', 'errorText':''}}
-;{'nachrichtenTyp':'ERROR', 'contentObject':{'errorType':'ROOM_NOT_FOUND', 'errorText':''}}
+;
+;
+ROOM_CMD, RoomCommandContentObject(CHECK_EQUASION, EquasionContentObject(EQUASION));ROOM_CMD, RoomCommandContentObject(CHECK_EQUASION, CheckEquasionResultContentObject(lS_EQUASION_CORRECT)
+;ERROR, ErrorContentObject(EQUASION_ALREADY_SOLVED)
+;ERROR, ErrorContentObject(NOT_IN_ROOM)
+;ERROR, ErrorContentObject(PARSE_ERROR)
+;
+ROOM_CMD, RoomCommandContentObject(LIST_PLAYER);ROOM_CMD, RoomCommandContentObject(LIST_PLAYER, ListPlayerContentObject(LIST_OF_PLAYER))
+;ERROR, ErrorContentObject(NOT_IN_ROOM)
+;ERROR, ErrorContentObject(PARSE_ERROR)
+;
+ROOM_CMD, RoomCommandContentObject(MESSAGE, MessageContentObject(MESSAGE));ROOM_CMD, RoomCommandContentObject(MESSAGE, ServerMessageContentObject(SENDER, MESSAGE))
+;ERROR, ErrorContentObject(NOT_IN_ROOM)
+;ERROR, ErrorContentObject(PARSE_ERROR)
+;
+ROOM_CMD, RoomCommandContentObject(COMMAND, CommandContentObject(MESSAGE));ROOM_CMD, RoomCommandContentObject(MESSAGE, MessageContentObject(MESSAGE))
+;ERROR, ErrorContentObject(NOT_IN_ROOM)
+;ERROR, ErrorContentObject(PARSE_ERROR)

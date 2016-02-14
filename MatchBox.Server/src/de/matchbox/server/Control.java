@@ -98,7 +98,7 @@ public class Control {
             String lUsername = ((LoginContentObject) pMessageObject.getContentObject()).getUsername();
             if (pServer.containsName(lUsername)) {
                 log(pClient.toString() + "abgelehnt: Name bereits vorhanden.");
-                pClient.sendJson(new MessageObject(MessageType.ERROR, new ErrorContentObject(ErrorType.USERNAME_TAKEN,"The Username is taken")));
+                pClient.sendJson(new MessageObject(new ErrorContentObject(ErrorType.USERNAME_TAKEN,"The Username is taken")));
             } else {
                 log(pClient.toString() + "wurde akzeptiert.");
                 pClient.setUsername(lUsername);
