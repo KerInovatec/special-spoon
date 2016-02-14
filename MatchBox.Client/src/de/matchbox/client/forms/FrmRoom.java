@@ -8,6 +8,7 @@ import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.PlayerModel;
 import de.matchbox.communication.contentobjects.RoomCommandContentObject;
+import de.matchbox.communication.contentobjects.roomcommands.CommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.EquasionContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.IRoomCommandContentObject;
 import de.matchbox.communication.contentobjects.roomcommands.MessageContentObject;
@@ -61,20 +62,33 @@ public class FrmRoom extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.initEvents();
         this.initEvents2();
+        this.jPlus.setVisible(false);
         this.Rekt.setVisible(false);
+        this.jMinus.setVisible(false);
+        this.jEaquals.setVisible(false);
         this.jLabelScope.setVisible(false);
         this.hasMatch = 0;
         this.gleichung = "";
-        this.newEquasion();
         this.timer = new Timer(1420, taskPerformer);
         this.jButtonCheck.setOpaque(false);
+        this.jButtonCheck.setEnabled(false);
         this.jButtonReset.setOpaque(false);
+        this.jButtonReset.setEnabled(false);
         this.jButtonSend.setOpaque(false);
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
         this.ChatStyledDocument = (StyledDocument) jTextPaneChat.getDocument();
         this.jTextPaneChat.setEditable(false);
+        try {
+            StyleContext context = new StyleContext();
+            Style style = context.addStyle("test", null);
+            StyleConstants.setForeground(style, Color.PINK);
+            this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), "System : Welcome to MatchBox Chat. Type \"!help\" to see chat comands \n", style);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(FrmRoom.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
+
     ActionListener taskPerformer = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
             jLabelBackground.setIcon(null);
@@ -96,6 +110,8 @@ public class FrmRoom extends javax.swing.JFrame {
     }
 
     public void newEquasion() {
+        this.jButtonCheck.setEnabled(true);
+        this.jButtonReset.setEnabled(true);
         this.hasMatch = 0;
         jLabelInfo.setText("Solve it!");
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
@@ -904,6 +920,7 @@ public class FrmRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCheckActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+
         this.setMatches(gleichung);
         hasMatch = 0;
         jLabelInfo.setText("Solve it!");
@@ -918,48 +935,82 @@ public class FrmRoom extends javax.swing.JFrame {
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
         //sende Nachricht an den server
-        roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+        if (jTextFieldSend.getText().startsWith("!")) {
+            String[] comand = jTextFieldSend.getText().substring(1).split(" ");
+
+            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.COMMAND, new CommandContentObject(comand))));
+        } else {
+            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+        }
+
         jTextFieldSend.setText("");
     }//GEN-LAST:event_jButtonSendActionPerformed
 
     private void jTextFieldSendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSendKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+            if (jTextFieldSend.getText().startsWith("!")) {
+                String[] comand = jTextFieldSend.getText().substring(1).split(" ");
+
+                roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.COMMAND, new CommandContentObject(comand))));
+            } else {
+                roomFormModel.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.MESSAGE, new MessageContentObject(this.jTextFieldSend.getText()))));
+            }
+
             jTextFieldSend.setText("");
+
         }
     }//GEN-LAST:event_jTextFieldSendKeyPressed
 
     public void reciveMassage(IRoomCommandContentObject pCommandObject) {
+        if (!(pCommandObject instanceof ServerMessageContentObject)) {
+            return;
+        }
+
         StyleContext context = new StyleContext();
         Style style = context.addStyle("test", null);
+        Color Massage = Color.BLACK;
+        Color ServerMassage = Color.GRAY;
+        Color ServerColor = Color.RED;
+        Color ServerSplits = Color.RED;
+        Color Player = Color.BLUE;
+        Color Splits = Color.BLACK;
         try {
-            if (!(pCommandObject instanceof ServerMessageContentObject)) {
-                return;
-            }
+            if (((ServerMessageContentObject) pCommandObject).getUsername().equals("Server")) {
+                if (((ServerMessageContentObject) pCommandObject).getMessage().startsWith("You were kicked!")) {
+                    JOptionPane.showMessageDialog(null, ((ServerMessageContentObject) pCommandObject).getMessage(), "Kicked", JOptionPane.INFORMATION_MESSAGE);
+                    roomFormModel.closeRoom();
+                }
+                StyleConstants.setForeground(style, ServerSplits);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
+                StyleConstants.setForeground(style, ServerColor);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
+                StyleConstants.setForeground(style, ServerMassage);
+                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
+            } else {
+                String chatVerlauf = ChatStyledDocument.getText(0, ChatStyledDocument.getLength());
+                if (chatVerlauf.indexOf(':') != -1) {
 
-            String chatVerlauf = ChatStyledDocument.getText(0, ChatStyledDocument.getLength());
-            if (chatVerlauf.indexOf(':') != -1) {
+                    if (((chatVerlauf.substring(chatVerlauf.lastIndexOf(">") + 1, chatVerlauf.lastIndexOf(":"))).equals(((ServerMessageContentObject) pCommandObject).getUsername()))) {
 
-                if (((chatVerlauf.substring(chatVerlauf.lastIndexOf(">") + 1, chatVerlauf.lastIndexOf(":"))).equals(((ServerMessageContentObject) pCommandObject).getUsername()))) {
+                        StyleConstants.setForeground(style, Massage);
+                        this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), "\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
 
-                    StyleConstants.setForeground(style, Color.BLACK);
-                    this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), "\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
-
+                    } else {
+                        StyleConstants.setForeground(style, Splits);
+                        this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
+                        StyleConstants.setForeground(style, Player);
+                        this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
+                        StyleConstants.setForeground(style, Massage);
+                        this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
+                    }
                 } else {
-                    StyleConstants.setForeground(style, Color.BLACK);
+                    StyleConstants.setForeground(style, Splits);
                     this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
-                    StyleConstants.setForeground(style, Color.ORANGE);
+                    StyleConstants.setForeground(style, Player);
                     this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
-                    StyleConstants.setForeground(style, Color.BLACK);
+                    StyleConstants.setForeground(style, Massage);
                     this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
                 }
-            } else {
-                StyleConstants.setForeground(style, Color.BLACK);
-                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ">", style);
-                StyleConstants.setForeground(style, Color.ORANGE);
-                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ((ServerMessageContentObject) pCommandObject).getUsername(), style);
-                StyleConstants.setForeground(style, Color.BLACK);
-                this.ChatStyledDocument.insertString(ChatStyledDocument.getLength(), ":\t" + ((ServerMessageContentObject) pCommandObject).getMessage() + "\n", style);
             }
         } catch (BadLocationException ex) {
             StyleConstants.setForeground(style, Color.RED);

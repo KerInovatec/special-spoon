@@ -18,13 +18,11 @@ public class RoomFormModel {
         this.room = new FrmRoom(this);
         this.room.setTitle(this.control.getUsername());
     }
-    public boolean konamiisak()
-    {
+
+    public boolean konamiisak() {
         return control.isKonamiisAk();
     }
 
-   
-    
     public void openRoom() {
         this.send(new MessageObject(MessageType.ROOM_CMD, new RoomCommandContentObject(RoomCommand.LIST_PLAYER)));
         this.room.setVisible(true);
@@ -60,6 +58,12 @@ public class RoomFormModel {
                 this.room.onPlayerWon(pCommandObject.getContentObject());
                 break;
             case MESSAGE:
+                this.room.reciveMassage(pCommandObject.getContentObject());
+                break;
+            case SERVER_MESSAGE:
+                this.room.reciveMassage(pCommandObject.getContentObject());
+                break;
+            case ERROR_MESSAGE:
                 this.room.reciveMassage(pCommandObject.getContentObject());
                 break;
 

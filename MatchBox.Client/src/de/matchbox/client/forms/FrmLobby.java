@@ -83,12 +83,11 @@ public class FrmLobby extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchBox");
         setMinimumSize(new java.awt.Dimension(545, 650));
-        setPreferredSize(new java.awt.Dimension(545, 650));
         getContentPane().setLayout(null);
 
         jRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jRoomListMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jRoomListMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(jRoomList);
@@ -143,15 +142,15 @@ public class FrmLobby extends javax.swing.JFrame {
         roomCreationDialog.setVisible(true);
     }//GEN-LAST:event_jCreateRoomActionPerformed
 
-    private void jRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMouseClicked
-        if (!jRoomList.isSelectionEmpty()) {
-            jConectRoom.setEnabled(true);
-        }
-    }//GEN-LAST:event_jRoomListMouseClicked
-
     private void jButtonAktulisierenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAktulisierenActionPerformed
         this.control.send(new MessageObject(MessageType.LIST_ROOMS));
     }//GEN-LAST:event_jButtonAktulisierenActionPerformed
+
+    private void jRoomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRoomListMousePressed
+      if (!jRoomList.isSelectionEmpty()) {
+            jConectRoom.setEnabled(true);
+        }
+    }//GEN-LAST:event_jRoomListMousePressed
 
     public void setRooms(List rooms) {
         this.lobby = new DefaultListModel();

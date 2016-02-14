@@ -10,6 +10,8 @@ import de.matchbox.client.utility.Konami;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -32,9 +34,10 @@ public class FrmLogin extends javax.swing.JFrame {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/de/matchbox/client/Resources/icon.png")));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        
+        this.initEvent();
         jButtonLogIn.setOpaque(false);
-        
+        jLabelUsernamecheck.setForeground(Color.green);
+        jLabelUsernamecheck.setText("OK");
 
     }
 
@@ -113,12 +116,7 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().add(jButtonLogIn);
         jButtonLogIn.setBounds(290, 210, 100, 30);
 
-        jTextFieldUsername.setText("Hans3");
-        jTextFieldUsername.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldUsernameKeyPressed(evt);
-            }
-        });
+        jTextFieldUsername.setText("Player");
         getContentPane().add(jTextFieldUsername);
         jTextFieldUsername.setBounds(150, 140, 130, 20);
 
@@ -149,7 +147,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jLabelUsernamecheck.setForeground(new java.awt.Color(255, 51, 51));
         getContentPane().add(jLabelUsernamecheck);
-        jLabelUsernamecheck.setBounds(290, 140, 90, 20);
+        jLabelUsernamecheck.setBounds(290, 140, 150, 20);
 
         jLabelBackGround.setBackground(new java.awt.Color(255, 0, 0));
         jLabelBackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/matchbox/client/Resources/BurningMatch.gif"))); // NOI18N
@@ -164,7 +162,7 @@ public class FrmLogin extends javax.swing.JFrame {
         String ip = this.jTextFieldIp.getText();
         int port = Integer.parseInt(this.jTextFieldPort.getText());
         String username = this.jTextFieldUsername.getText();
-        
+
         try {
             this.control.connect(ip, port);
             this.control.login(username);
@@ -187,19 +185,45 @@ public class FrmLogin extends javax.swing.JFrame {
             this.jButtonLogInActionPerformed(null);
         }
     }//GEN-LAST:event_jTextFieldIpKeyPressed
+    // Listen for changes in the text
 
-    private void jTextFieldUsernameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldUsernameKeyPressed
-    {//GEN-HEADEREND:event_jTextFieldUsernameKeyPressed
-        if(jTextFieldUsername.getText().length() >= 19 )
-        {
-            jLabelUsernamecheck.setForeground(Color.red);
-            jLabelUsernamecheck.setText("Too Long. max: 18");
-        }else{
-             jLabelUsernamecheck.setForeground(Color.green);
-             jLabelUsernamecheck.setText("OK");
+    private void initEvent() {
+        jTextFieldUsername.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                checkUsername();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkUsername();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkUsername();
+            }
+        });
+    }
+
+    public void checkUsername() {
+        if (!jTextFieldUsername.getText().equals("")) {
+            if (jTextFieldUsername.getText().length() >= 16) {
+                jLabelUsernamecheck.setForeground(Color.red);
+                jLabelUsernamecheck.setText("Too Long. max: 15");
+            } else if (jTextFieldUsername.getText().indexOf(" ") != -1) {
+                jLabelUsernamecheck.setForeground(Color.red);
+                jLabelUsernamecheck.setText("No Spacing allowed");
+
+            } else {
+
+                jLabelUsernamecheck.setForeground(Color.green);
+                jLabelUsernamecheck.setText("OK");
+
+            }
+        } else {
+            jLabelUsernamecheck.setText("");
         }
-    }//GEN-LAST:event_jTextFieldUsernameKeyPressed
-
+    }
     private void jTextFieldPortKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldPortKeyPressed
     {//GEN-HEADEREND:event_jTextFieldPortKeyPressed
         // TODO add your handling code here:
