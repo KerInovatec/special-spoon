@@ -66,6 +66,9 @@ public class RoomFormModel {
             case ERROR_MESSAGE:
                 this.room.reciveMassage(pCommandObject.getContentObject());
                 break;
+            case PLAYER_LEFT:
+                 this.room.setPlayerList(pCommandObject.getContentObject());
+                break;
 
         }
     }
