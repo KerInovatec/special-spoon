@@ -3,7 +3,6 @@ package de.matchbox.client.forms;
 import de.matchbox.client.Zahl;
 import de.matchbox.client.forms.models.RoomFormModel;
 import de.matchbox.client.forms.usercontrols.PlayerControl;
-import de.matchbox.client.utility.Konami;
 import de.matchbox.client.utility.MatchUtility;
 import de.matchbox.communication.MessageObject;
 import de.matchbox.communication.classmodels.PlayerModel;
@@ -34,6 +33,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -77,6 +78,8 @@ public class FrmRoom extends javax.swing.JFrame {
         this.jLabelMatchStatus.setText("You have " + hasMatch + " matches");
         this.ChatStyledDocument = (StyledDocument) jTextPaneChat.getDocument();
         this.jTextPaneChat.setEditable(false);
+        DefaultCaret caret = (DefaultCaret) this.jTextPaneChat.getCaret();
+        caret.setUpdatePolicy(ALWAYS_UPDATE);
         this.resetView();
         try {
             StyleContext context = new StyleContext();
